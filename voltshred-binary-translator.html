@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltshred Binary Translator — Конвертер текста в двоичный код</title>
+
+    <!-- SEO и Метатеги -->
+    <meta name="description" content="Voltshred Binary Translator — мгновенное преобразование текста в двоичный код и обратно. Работает полностью в браузере, без телеметрии и отправки данных на сервер.">
+    <meta name="keywords" content="Voltshred, binary translator, текст в двоичный код, двоичный код в текст, ASCII, конвертер, без телеметрии">
+    <meta name="author" content="Voltshred Dev">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ctext x='50' y='62' font-size='40' font-family='Arial' fill='%23ffffff' text-anchor='middle'%3E01%3C/text%3E%3C/svg%3E">
+    <link rel="canonical" href="https://voltshred.github.io/binary-translator">
+
+    <!-- Open Graph (Социальные сети) -->
+    <meta property="og:title" content="Voltshred Binary Translator">
+    <meta property="og:description" content="Мгновенное преобразование текста в двоичный код и обратно. Полная автономия, без телеметрии.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://voltshred.github.io/binary-translator">
+    <meta name="theme-color" content="#1a73e8">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Voltshred Binary Translator",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "Free online tool to convert text to binary code and binary code back to text."
+    }
+    </script>
+
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #202124;
+                --bg-card: #292a2d;
+                --bg-surface: #303134;
+                --text-primary: #e8eaed;
+                --text-secondary: #9aa0a6;
+                --google-blue: #8ab4f8;
+                --google-blue-hover: #1a73e8;
+                --border-color: #3c4043;
+                --btn-primary-bg: #8ab4f8;
+                --btn-primary-text: #202124;
+                --tag-bg: #3c4043;
+                --table-header-bg: #303134;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-page: #ffffff;
+                --bg-card: #ffffff;
+                --bg-surface: #f8f9fa;
+                --text-primary: #202124;
+                --text-secondary: #5f6368;
+                --google-blue: #1a73e8;
+                --google-blue-hover: #e8f0fe;
+                --border-color: #dadce0;
+                --btn-primary-bg: #1a73e8;
+                --btn-primary-text: #ffffff;
+                --tag-bg: #f1f3f4;
+                --table-header-bg: #f8f9fa;
+            }
+        }
+
+        :root {
+            --bg-page: #ffffff;
+            --bg-card: #ffffff;
+            --bg-surface: #f8f9fa;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --google-blue: #1a73e8;
+            --google-blue-hover: #e8f0fe;
+            --border-color: #dadce0;
+            --btn-primary-bg: #1a73e8;
+            --btn-primary-text: #ffffff;
+            --tag-bg: #f1f3f4;
+            --table-header-bg: #f8f9fa;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        html { scroll-behavior: smooth; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Google Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-page);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .brand:hover { opacity: 0.85; }
+        .brand span { font-weight: 500; color: var(--google-blue); }
+
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+
+        .nav-links a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover { color: var(--google-blue); }
+
+        .nav-home-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-home-btn:hover { background-color: var(--tag-bg); color: var(--google-blue); }
+
+        .hero {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 64px 24px 40px 24px;
+            text-align: center;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 400;
+            line-height: 46px;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .hero p { font-size: 17px; line-height: 26px; color: var(--text-secondary); }
+
+        .main-content {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px 80px 24px;
+            width: 100%;
+        }
+
+        section {
+            padding: 48px 0;
+            border-top: 1px solid var(--border-color);
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        section:first-of-type { border-top: none; padding-top: 20px; }
+
+        .section-header { margin-bottom: 32px; }
+
+        .section-header h2 {
+            font-size: 26px;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .section-header p { font-size: 15px; color: var(--text-secondary); }
+
+        .translator-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .translator-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .panel {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .panel-header label {
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        .icon-btn {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--google-blue);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.15s ease;
+        }
+
+        .icon-btn:hover { background-color: var(--google-blue-hover); }
+
+        @media (prefers-color-scheme: dark) {
+            .icon-btn:hover { background-color: rgba(138, 180, 248, 0.1); }
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: "Roboto Mono", "Courier New", monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        textarea::placeholder { color: var(--text-secondary); opacity: 0.6; }
+
+        .char-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .swap-wrapper { display: flex; justify-content: center; padding: 4px 0; }
+
+        .swap-btn {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--google-blue);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .swap-btn:hover { background-color: var(--google-blue-hover); transform: rotate(180deg); }
+
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+        .info-panel {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+        }
+
+        .info-panel:hover { transform: translateY(-2px); box-shadow: 0 6px 20px 0 rgba(60,64,67,0.15); }
+
+        .info-panel h3 {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .info-panel p { font-size: 14px; line-height: 22px; color: var(--text-secondary); }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            font-family: "Roboto Mono", "Courier New", monospace;
+            margin-top: 4px;
+        }
+
+        .ref-table th {
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-family: "Google Sans", sans-serif;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.3px;
+        }
+
+        .ref-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transition: color 0.15s ease;
+        }
+
+        .ref-table tr:last-child td { border-bottom: none; }
+        .ref-table tr:hover td { color: var(--google-blue); }
+
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-item { transition: transform 0.2s ease; }
+        .feature-item:hover { transform: translateX(4px); }
+
+        .feature-item h3 {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .feature-item p { font-size: 14px; line-height: 22px; color: var(--text-secondary); }
+
+        footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+            padding: 48px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            background-color: var(--bg-surface);
+        }
+
+        .footer-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 2fr repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .footer-brand { font-size: 18px; color: var(--text-primary); margin-bottom: 12px; }
+
+        .footer-email {
+            display: inline-block;
+            margin-top: 8px;
+            color: var(--google-blue);
+            text-decoration: none;
+            font-size: 13px;
+            transition: opacity 0.15s ease;
+        }
+
+        .footer-email:hover { text-decoration: underline; opacity: 0.85; }
+
+        .footer-links h4 { color: var(--text-primary); font-size: 14px; font-weight: 500; margin-bottom: 16px; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s ease; }
+        .footer-links a:hover { color: var(--google-blue); }
+
+        .footer-bottom {
+            max-width: 1140px;
+            margin: 32px auto 0 auto;
+            padding: 20px 24px 0 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #34a853;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .translator-layout { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 30px; line-height: 38px; }
+            .footer-container { grid-template-columns: 1fr; gap: 24px; }
+            .nav-links a:not(.nav-home-btn) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a class="brand" href="#">Voltshred<span>.</span></a>
+            <div class="nav-links">
+                <a href="#translator" id="nav-translator">Переводчик</a>
+                <a href="#capabilities" id="nav-capabilities">Характеристики</a>
+                <a href="ex.html" class="nav-home-btn" id="ui-home" aria-label="Домой">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1 id="hero-title">Мгновенный перевод текста в двоичный код.</h1>
+        <p id="hero-desc">Онлайн-инструмент для конвертации текста в двоичный код и обратно. Работает полностью в браузере, без телеметрии и передачи данных на сервер.</p>
+    </section>
+
+    <main class="main-content">
+
+        <section id="translator">
+            <div class="translator-layout">
+                <div class="translator-card">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <label for="input-area" id="ui-label-in">Текст</label>
+                            <button class="icon-btn" id="clear-btn">Очистить</button>
+                        </div>
+                        <textarea id="input-area" placeholder="Введите текст..." spellcheck="false"></textarea>
+                        <div class="char-count" id="input-count"></div>
+                    </div>
+
+                    <div class="swap-wrapper">
+                        <button class="swap-btn" id="swap-btn" aria-label="Сменить направление перевода">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <label for="output-area" id="ui-label-out">Двоичный код</label>
+                            <button class="icon-btn" id="copy-btn">Копировать</button>
+                        </div>
+                        <textarea id="output-area" readonly placeholder="Перевод появится здесь..." spellcheck="false"></textarea>
+                        <div class="char-count" id="output-count"></div>
+                    </div>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="info-panel">
+                        <h3 id="ui-sidebar-about">О переводчике</h3>
+                        <p id="ui-sidebar-about-text">Каждый символ преобразуется в 8-битный двоичный код по таблице ASCII/Unicode. Инструмент работает полностью в браузере — данные никуда не отправляются.</p>
+                    </div>
+                    <div class="info-panel">
+                        <h3 id="ui-sidebar-table">Примеры</h3>
+                        <table class="ref-table">
+                            <tr><th id="ui-th-char">Символ</th><th id="ui-th-bin">Двоичный код</th></tr>
+                            <tr><td>A</td><td>01000001</td></tr>
+                            <tr><td>a</td><td>01100001</td></tr>
+                            <tr><td>0</td><td>00110000</td></tr>
+                            <tr><td>!</td><td>00100001</td></tr>
+                            <tr><td>Space</td><td>00100000</td></tr>
+                        </table>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="capabilities">
+            <div class="section-header">
+                <h2 id="t-cap">Особенности</h2>
+                <p id="d-cap">Базовые принципы, заложенные при проектировании этого инструмента.</p>
+            </div>
+            <div class="grid-features">
+                <div class="feature-item">
+                    <h3 id="fh1">Абсолютная приватность</h3>
+                    <p id="fb1">Вся обработка данных происходит локально в браузере. Ни один символ введённого текста не покидает устройство.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="fh2">Мгновенный результат</h3>
+                    <p id="fb2">Перевод происходит в реальном времени при вводе, без задержек и дополнительных запросов.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="fh3">Двустороннее направление</h3>
+                    <p id="fb3">Переключение между режимами «Текст → Двоичный код» и «Двоичный код → Текст» в один клик.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="fh4">Полная поддержка Unicode</h3>
+                    <p id="fb4">Корректная обработка кириллицы, эмодзи и других символов за пределами базовой таблицы ASCII.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <div class="footer-brand">Voltshred<span style="color: var(--google-blue);">.</span></div>
+                <p id="f-desc" style="max-width: 320px; line-height: 20px;">Разработка системного программного обеспечения. Минимальный размер, скорость и приватность данных.</p>
+                <a href="mailto:voltshred@gmail.com" class="footer-email">voltshred@gmail.com</a>
+            </div>
+            <div class="footer-links">
+                <h4 id="ui-foot-apps">Программы</h4>
+                <ul>
+                    <li><a href="#" id="ui-app-browser">Voltshred Browser</a></li>
+                    <li><a href="#" id="ui-app-krvatox">Krvatox</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 id="ui-foot-dev">Разработка</h4>
+                <ul>
+                    <li><a href="#" id="ui-dev-github">Главный сайт</a></li>
+                    <li><a href="#" id="ui-dev-docs">Лицензия</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>&copy; Voltshred Dev 2026</div>
+            <div>
+                <span class="status-dot"></span>
+                <span id="ui-foot-status">Все системы работают нормально</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let isTextToBinary = true;
+
+        const dict = {
+            ru: {
+                home: "Домой",
+                navTranslator: "Переводчик",
+                navCapabilities: "Характеристики",
+                heroTitle: "Мгновенный перевод текста в двоичный код.",
+                heroDesc: "Онлайн-инструмент для конвертации текста в двоичный код и обратно. Работает полностью в браузере, без телеметрии и передачи данных на сервер.",
+                text: "Текст",
+                binary: "Двоичный код",
+                placeholderText: "Введите текст...",
+                placeholderBinary: "Введите двоичный код...",
+                placeholderOutput: "Перевод появится здесь...",
+                footApps: "Программы",
+                appBrowser: "Скачать Voltshred Browser",
+                appKrvatox: "Скачать Krvatox",
+                footDev: "Разработка",
+                devGithub: "Главный сайт",
+                devDocs: "Лицензия",
+                footContact: "Контакты",
+                footStatus: "Все системы работают нормально",
+                copy: "Копировать",
+                copied: "Скопировано!",
+                clear: "Очистить",
+                chars: "симв.",
+                sidebarAbout: "О переводчике",
+                sidebarAboutText: "Каждый символ преобразуется в 8-битный двоичный код по таблице ASCII/Unicode. Инструмент работает полностью в браузере — данные никуда не отправляются.",
+                sidebarTable: "Примеры",
+                thChar: "Символ",
+                thBin: "Двоичный код",
+                tCap: "Особенности",
+                dCap: "Базовые принципы, заложенные при проектировании этого инструмента.",
+                fh1: "Абсолютная приватность",
+                fb1: "Вся обработка данных происходит локально в браузере. Ни один символ введённого текста не покидает устройство.",
+                fh2: "Мгновенный результат",
+                fb2: "Перевод происходит в реальном времени при вводе, без задержек и дополнительных запросов.",
+                fh3: "Двустороннее направление",
+                fb3: "Переключение между режимами «Текст → Двоичный код» и «Двоичный код → Текст» в один клик.",
+                fh4: "Полная поддержка Unicode",
+                fb4: "Корректная обработка кириллицы, эмодзи и других символов за пределами базовой таблицы ASCII.",
+                fDesc: "Разработка системного программного обеспечения. Минимальный размер, скорость и приватность данных."
+            },
+            en: {
+                home: "Home",
+                navTranslator: "Translator",
+                navCapabilities: "Capabilities",
+                heroTitle: "Instant text-to-binary translation.",
+                heroDesc: "An online tool for converting text to binary code and back. Runs entirely in your browser, with zero telemetry and zero data sent to a server.",
+                text: "Text",
+                binary: "Binary Code",
+                placeholderText: "Type text here...",
+                placeholderBinary: "Type binary code here...",
+                placeholderOutput: "Translation will appear here...",
+                footApps: "Software",
+                appBrowser: "Install Voltshred Browser",
+                appKrvatox: "Install Krvatox",
+                footDev: "Development",
+                devGithub: "Main Website",
+                devDocs: "License",
+                footContact: "Contact",
+                footStatus: "All systems operational",
+                copy: "Copy",
+                copied: "Copied!",
+                clear: "Clear",
+                chars: "chars",
+                sidebarAbout: "About the translator",
+                sidebarAboutText: "Each character is converted to an 8-bit binary code using the ASCII/Unicode table. This tool runs entirely in your browser — no data is ever sent anywhere.",
+                sidebarTable: "Examples",
+                thChar: "Character",
+                thBin: "Binary code",
+                tCap: "Capabilities",
+                dCap: "Core principles behind this tool's design.",
+                fh1: "Absolute Privacy",
+                fb1: "All processing happens locally in your browser. Not a single character of your input ever leaves the device.",
+                fh2: "Instant Results",
+                fb2: "Translation happens in real time as you type, with no delays or extra network requests.",
+                fh3: "Two-Way Conversion",
+                fb3: "Switch between 'Text → Binary' and 'Binary → Text' modes with a single click.",
+                fh4: "Full Unicode Support",
+                fb4: "Correctly handles Cyrillic, emoji, and other characters beyond the base ASCII table.",
+                fDesc: "Systems software engineering. Minimal footprint, speed, and data privacy."
+            }
+        };
+
+        const userLang = navigator.language || navigator.userLanguage;
+        const lang = userLang.toLowerCase().includes('ru') ? 'ru' : 'en';
+
+        document.documentElement.lang = lang;
+
+        const homeBtn = document.getElementById('ui-home');
+        homeBtn.title = dict[lang].home;
+        homeBtn.setAttribute('aria-label', dict[lang].home);
+
+        document.getElementById('nav-translator').textContent = dict[lang].navTranslator;
+        document.getElementById('nav-capabilities').textContent = dict[lang].navCapabilities;
+        document.getElementById('hero-title').textContent = dict[lang].heroTitle;
+        document.getElementById('hero-desc').textContent = dict[lang].heroDesc;
+
+        document.getElementById('ui-foot-apps').textContent = dict[lang].footApps;
+        document.getElementById('ui-app-browser').textContent = dict[lang].appBrowser;
+        document.getElementById('ui-app-krvatox').textContent = dict[lang].appKrvatox;
+        document.getElementById('ui-foot-dev').textContent = dict[lang].footDev;
+        document.getElementById('ui-dev-github').textContent = dict[lang].devGithub;
+        document.getElementById('ui-dev-docs').textContent = dict[lang].devDocs;
+        document.getElementById('ui-foot-status').textContent = dict[lang].footStatus;
+        document.getElementById('f-desc').textContent = dict[lang].fDesc;
+
+        document.getElementById('t-cap').textContent = dict[lang].tCap;
+        document.getElementById('d-cap').textContent = dict[lang].dCap;
+        document.getElementById('fh1').textContent = dict[lang].fh1;
+        document.getElementById('fb1').textContent = dict[lang].fb1;
+        document.getElementById('fh2').textContent = dict[lang].fh2;
+        document.getElementById('fb2').textContent = dict[lang].fb2;
+        document.getElementById('fh3').textContent = dict[lang].fh3;
+        document.getElementById('fb3').textContent = dict[lang].fb3;
+        document.getElementById('fh4').textContent = dict[lang].fh4;
+        document.getElementById('fb4').textContent = dict[lang].fb4;
+
+        const labelIn = document.getElementById('ui-label-in');
+        const labelOut = document.getElementById('ui-label-out');
+        const inputArea = document.getElementById('input-area');
+        const outputArea = document.getElementById('output-area');
+        const swapBtn = document.getElementById('swap-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const inputCount = document.getElementById('input-count');
+        const outputCount = document.getElementById('output-count');
+
+        copyBtn.textContent = dict[lang].copy;
+        clearBtn.textContent = dict[lang].clear;
+        document.getElementById('ui-sidebar-about').textContent = dict[lang].sidebarAbout;
+        document.getElementById('ui-sidebar-about-text').textContent = dict[lang].sidebarAboutText;
+        document.getElementById('ui-sidebar-table').textContent = dict[lang].sidebarTable;
+        document.getElementById('ui-th-char').textContent = dict[lang].thChar;
+        document.getElementById('ui-th-bin').textContent = dict[lang].thBin;
+
+        function textToBin(str) {
+            return Array.from(str).map(char => {
+                const bin = char.charCodeAt(0).toString(2);
+                return bin.padStart(bin.length <= 8 ? 8 : 16, '0');
+            }).join(' ');
+        }
+
+        function binToText(str) {
+            return str.split(' ').map(bin => {
+                if (!bin) return '';
+                return String.fromCharCode(parseInt(bin, 2));
+            }).join('');
+        }
+
+        function updateUI() {
+            if (isTextToBinary) {
+                labelIn.textContent = dict[lang].text;
+                labelOut.textContent = dict[lang].binary;
+                inputArea.placeholder = dict[lang].placeholderText;
+            } else {
+                labelIn.textContent = dict[lang].binary;
+                labelOut.textContent = dict[lang].text;
+                inputArea.placeholder = dict[lang].placeholderBinary;
+            }
+            outputArea.placeholder = dict[lang].placeholderOutput;
+            processInput();
+        }
+
+        function processInput() {
+            let val = inputArea.value;
+
+            if (!val) {
+                outputArea.value = '';
+                updateCounts();
+                return;
+            }
+
+            if (isTextToBinary) {
+                outputArea.value = textToBin(val);
+            } else {
+                let cleanVal = val.replace(/[^01\s]/g, '');
+                if (cleanVal !== val) {
+                    inputArea.value = cleanVal;
+                    val = cleanVal;
+                }
+                outputArea.value = binToText(val);
+            }
+            updateCounts();
+        }
+
+        function updateCounts() {
+            inputCount.textContent = `${inputArea.value.length} ${dict[lang].chars}`;
+            outputCount.textContent = `${outputArea.value.length} ${dict[lang].chars}`;
+        }
+
+        inputArea.addEventListener('input', processInput);
+
+        swapBtn.addEventListener('click', () => {
+            isTextToBinary = !isTextToBinary;
+            inputArea.value = outputArea.value;
+            updateUI();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            inputArea.value = '';
+            outputArea.value = '';
+            updateCounts();
+            inputArea.focus();
+        });
+
+        copyBtn.addEventListener('click', async () => {
+            if (!outputArea.value) return;
+            try {
+                await navigator.clipboard.writeText(outputArea.value);
+                const original = copyBtn.textContent;
+                copyBtn.textContent = dict[lang].copied;
+                setTimeout(() => { copyBtn.textContent = original; }, 1500);
+            } catch (err) {
+                outputArea.select();
+                document.execCommand('copy');
+            }
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
