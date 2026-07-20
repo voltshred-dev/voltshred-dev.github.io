@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /browser/unacceptable/
+Disallow: /browser/downloads/
+
+Sitemap: https://voltshred-dev.github.io/sitemap.xml
