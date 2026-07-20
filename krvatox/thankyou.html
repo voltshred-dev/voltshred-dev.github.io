@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krvatox - Thank You</title>
+    <style>
+        /* Переменные для автоматических тем */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #070707, #121212, #1c1c1c, #121212, #070707);
+            --text-main: #ffffff;
+            --text-muted: #777777;
+            --btn-bg: #ffffff;
+            --btn-text: #000000;
+            --btn-border: #ffffff;
+            --tech-text: rgba(255, 255, 255, 0.03); /* Едва заметный текст на фоне */
+            --grid-color: rgba(255, 255, 255, 0.02);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #e8e8e8, #f4f4f4, #ffffff, #f4f4f4, #e8e8e8);
+                --text-main: #000000;
+                --text-muted: #666666;
+                --btn-bg: #000000;
+                --btn-text: #ffffff;
+                --btn-border: #000000;
+                --tech-text: rgba(0, 0, 0, 0.03);
+                --grid-color: rgba(0, 0, 0, 0.03);
+            }
+        }
+
+        /* Жесткий брутализм: без скруглений */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border-radius: 0 !important;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradient-flow 12s ease infinite;
+            
+            color: var(--text-main);
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px;
+            overflow: hidden;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Фоновая техническая разметка справа */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            border-left: 1px solid var(--grid-color);
+            mask-image: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Огромный вертикальный фоновый текст справа */
+        .bg-watermark {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14vw;
+            font-weight: 900;
+            letter-spacing: 20px;
+            text-transform: uppercase;
+            color: var(--tech-text);
+            user-select: none;
+            pointer-events: none;
+            z-index: 0;
+            line-height: 1;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            align-self: flex-start;
+            z-index: 1;
+        }
+
+        .main-content {
+            max-width: 700px;
+            margin-top: auto;
+            margin-bottom: auto;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        p {
+            font-size: 20px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 600px;
+            transition: color 0.3s ease;
+        }
+
+        .action-area {
+            align-self: flex-start;
+            z-index: 1;
+        }
+
+        .btn-home {
+            display: inline-block;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            text-decoration: none;
+            padding: 18px 50px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 2px solid var(--btn-border);
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-home:hover {
+            background-color: transparent;
+            color: var(--text-main);
+            border-color: var(--btn-border);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 40px 30px;
+            }
+            body::before, .bg-watermark {
+                display: none; /* Убираем декор на мобилках, чтобы не мешал тексту */
+            }
+            h1 {
+                font-size: 38px;
+            }
+            p {
+                font-size: 16px;
+            }
+            .main-content {
+                margin-top: 60px;
+                margin-bottom: 60px;
+            }
+            .btn-home {
+                width: 100%;
+                text-align: center;
+            }
+            .action-area {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">Krvatox</div>
+
+    <div class="bg-watermark">Krvatox</div>
+
+    <div class="main-content">
+        <h1 id="thank-you-title">Thank you</h1>
+        <p id="thank-you-text">Thank you for installing Krvatox. The application is ready to use.</p>
+    </div>
+
+    <div class="action-area">
+        <a href="index.html" class="btn-home" id="btn-text">Back to Home</a>
+    </div>
+
+    <script>
+        // Словарь перевода на 8 языков[cite: 1]
+        const translations = {
+            ru: {
+                title: "Благодарим за установку",
+                text: "Спасибо за установку программного обеспечения Krvatox. Программа успешно настроена и готова к работе.",
+                btn: "Вернуться на главную"
+            },
+            en: {
+                title: "Thank you for installing",
+                text: "Thank you for installing the Krvatox software. The application has been successfully configured and is ready for use.",
+                btn: "Back to home page"
+            },
+            zh: {
+                title: "感谢您的安装",
+                text: "感谢您安装 Krvatox 软件。应用程序已成功配置，准备就绪。",
+                btn: "返回首页"
+            },
+            ja: {
+                title: "インストールありがとうございます",
+                text: "Krvatox ソフトウェアをインストールいただきありがとうございます。アプリケーションの設定が完了し、使用準備が整いました。",
+                btn: "トップページに戻る"
+            },
+            ko: {
+                title: "설치해 주셔서 감사합니다",
+                text: "Krvatox 소프트웨어를 설치해 주셔서 감사합니다. 애플리케이션이 성공적으로 구성되었으며 사용 준비가 완료되었습니다.",
+                btn: "메йн 페이지로 돌아가기"
+            },
+            fr: {
+                title: "Merci pour l'installation",
+                text: "Merci d'avoir installé le logiciel Krvatox. L'application a été configurée avec succès et est prête à être utilisée.",
+                btn: "Retour à l'accueil"
+            },
+            de: {
+                title: "Vielen Dank für die Installation",
+                text: "Vielen Dank, dass Sie die Krvatox-Software installiert haben. Die Anwendung wurde успешно конфигурирована и готова к работе.",
+                btn: "Zurück zur Startseite"
+            },
+            es: {
+                title: "Gracias por la instalación",
+                text: "Gracias por instalar el software Krvatox. La aplicación se ha configurado correctamente y está lista para usar.",
+                btn: "Volver al inicio"
+            }
+        };
+
+        function initLanguage() {
+            const userLang = navigator.language || navigator.userLanguage;
+            const langCode = userLang.toLowerCase().split('-')[0];
+            const selectedLang = translations[langCode] ? langCode : 'en';
+
+            document.getElementById('thank-you-title').textContent = translations[selectedLang].title;
+            document.getElementById('thank-you-text').textContent = translations[selectedLang].text;
+            document.getElementById('btn-text').textContent = translations[selectedLang].btn;
+            
+            document.documentElement.lang = selectedLang;
+        }
+
+        window.addEventListener('DOMContentLoaded', initLanguage);
+    </script>
+</body>
+</html>

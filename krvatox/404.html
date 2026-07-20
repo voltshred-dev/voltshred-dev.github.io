@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found / Страница не найдена</title>
+    
+    <meta name="robots" content="noindex, follow">
+    
+    <style>
+        :root {
+            --border-color: #262626;
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --bg-dark: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            border-radius: 0 !important; /* Строгие острые углы */
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Интерактивный строго монохромный фон */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #1c1c1c 0%, #000000 75%);
+            z-index: -1;
+            transition: background 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 650px;
+            z-index: 10;
+        }
+
+        .error-code {
+            font-size: 130px;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1;
+            margin-bottom: 15px;
+            letter-spacing: -3px;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* Промышленный стиль для кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 12px 32px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: var(--text-main);
+            color: #000000;
+            border-color: var(--text-main);
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover svg {
+            transform: translateX(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-gradient" id="ambient-bg"></div>
+
+    <div class="container">
+        <div class="error-code">404</div>
+        <h1 id="error-title">Page Not Found</h1>
+        <p id="error-desc">It seems this page doesn't exist or it has been moved to a different address.</p>
+        
+        <a href="index.html" class="btn" id="btn-back">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            <span>Back to Home</span>
+        </a>
+    </div>
+
+    <script>
+        // Интерактивный фон в строго темно-серой палитре
+        const bg = document.getElementById('ambient-bg');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            bg.style.background = `radial-gradient(circle at ${x}% ${y}%, #2c2c2c 0%, #000000 75%)`;
+        });
+
+        // База данных переводов на 8 языков
+        const translations = {
+            ru: {
+                title: "Страница не найдена",
+                desc: "Похоже, этой страницы не существует, или она была перенесена по другому адресу.",
+                btn: "Вернуться на главную"
+            },
+            en: {
+                title: "Page Not Found",
+                desc: "It seems this page doesn't exist or it has been moved to a different address.",
+                btn: "Back to Home"
+            },
+            fr: {
+                title: "Page Introuvable",
+                desc: "Il semble que cette page n'existe pas ou qu'elle ait été déplacée vers une autre adresse.",
+                btn: "Retour à l'accueil"
+            },
+            de: {
+                title: "Seite nicht gefunden",
+                desc: "Es scheint, dass diese Seite nicht existiert oder an eine andere Adresse verschoben wurde.",
+                btn: "Zurück zur Startseite"
+            },
+            zh: {
+                title: "页面未找到",
+                desc: "该页面似乎不存在，或者已被移动到其他地址。",
+                btn: "返回首页"
+            },
+            es: {
+                title: "Página no encontrada",
+                desc: "Parece que esta página no existe o ha sido movida a una dirección diferente.",
+                btn: "Volver al inicio"
+            },
+            ko: {
+                title: "페이지를 찾을 수 없습니다",
+                desc: "이 페이지는 존재하지 않거나 다른 주소로 이동된 것 같습니다.",
+                btn: "메인으로 돌아가기"
+            },
+            ja: {
+                title: "ページが見つかりません",
+                desc: "このページは存在しないか、別の見出しに移動された可能性があります。",
+                btn: "ホームに戻る"
+            }
+        };
+
+        const supportedLangs = ['ru', 'en', 'fr', 'de', 'zh', 'es', 'ko', 'ja'];
+
+        // Определение языка браузера и применение локализации
+        window.addEventListener('DOMContentLoaded', () => {
+            let userLang = navigator.language || navigator.userLanguage;
+            userLang = userLang.toLowerCase().split('-')[0];
+
+            // Задаем язык: если поддерживается — берем его, если нет — используем en
+            const lang = supportedLangs.includes(userLang) ? userLang : 'en';
+
+            // Применяем локализацию к контенту
+            document.documentElement.lang = lang;
+            document.getElementById('error-title').innerText = translations[lang].title;
+            document.getElementById('error-desc').innerText = translations[lang].desc;
+            document.querySelector('#btn-back span').innerText = translations[lang].btn;
+        });
+    </script>
+</body>
+</html>

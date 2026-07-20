@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>End-User License Agreement (EULA) - Krvatox Monitoring Program</title>
+    <meta name="description" content="Лицензионное соглашение с конечным пользователем (EULA) для программы мониторинга ПК Krvatox Monitoring Program. Автоматический выбор языка.">
+    <meta name="keywords" content="Krvatox, EULA, лицензионное соглашение, лизензия программы, мониторинг ПК, hardware monitor license">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="alternate" hreflang="x-default" href="license.html" />
+    <link rel="alternate" hreflang="ru" href="license.html" />
+    <link rel="alternate" hreflang="en" href="license.html" />
+    <link rel="alternate" hreflang="fr" href="license.html" />
+    <link rel="alternate" hreflang="de" href="license.html" />
+    <link rel="alternate" hreflang="zh" href="license.html" />
+    <link rel="alternate" hreflang="es" href="license.html" />
+    <link rel="alternate" hreflang="ko" href="license.html" />
+    <link rel="alternate" hreflang="ja" href="license.html" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://krvatox.github.io/license.html">
+    <meta property="og:title" content="Krvatox Monitoring Program - End-User License Agreement">
+    <meta property="og:description" content="Лицензионное соглашение программного обеспечения Krvatox. Автоматическое определение языка браузера.">
+    <meta property="og:image" content="https://krvatox.github.io/img/og_image.png">
+
+    <style>
+        /* Благородная платиново-серая палитра основного интерфейса */
+        :root {
+            --bg-1: #ffffff;
+            --bg-2: #f5f5f7;
+            --bg-3: #e5e5ea;
+            --bg-4: #fafafa;
+            --text: #000000;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-strong: #000000;
+            --muted: #6e6e73;
+            --block-bg: rgba(0, 0, 0, 0.01);
+        }
+
+        /* Автоматическая адаптация под глубокие графитовые оттенки */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-1: #09090b;
+                --bg-2: #121216;
+                --bg-3: #1a1a22;
+                --bg-4: #141419;
+                --text: #ffffff;
+                --border: rgba(255, 255, 255, 0.08);
+                --border-strong: #ffffff;
+                --muted: #86868b;
+                --block-bg: rgba(255, 255, 255, 0.02);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            border-radius: 0 !important; /* Строгие острые грани */
+        }
+
+        /* Полноэкранный плавный перелив фона */
+        body {
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4), var(--bg-1));
+            background-size: 400% 400%;
+            animation: fullscreenGradient 16s ease infinite;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 25px 50px; /* Сжатые внешние отступы страницы */
+            transition: color 0.3s;
+        }
+
+        @keyframes fullscreenGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Ультра-компактная верхняя навигационная панель */
+        header {
+            width: 100%;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+
+        .header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px; /* Предельно аккуратная кнопка */
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            background: var(--block-bg);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background: var(--text);
+            color: var(--bg-1);
+            border-color: var(--text);
+        }
+
+        .header-title {
+            font-size: 0.75rem;
+            color: var(--muted);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Контейнер с текстом соглашения */
+        .license-content {
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px 50px;
+            height: 68vh; /* Увеличено полезное пространство для чтения */
+            overflow-y: auto;
+            text-align: justify;
+        }
+
+        /* Стилизация скроллбара под минимализм */
+        .license-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .license-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .license-content::-webkit-scrollbar-thumb {
+            background: var(--border);
+        }
+        .license-content::-webkit-scrollbar-thumb:hover {
+            background: var(--muted);
+        }
+
+        .lang-section {
+            display: none;
+        }
+
+        .lang-section.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        h2 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text);
+        }
+
+        p {
+            color: var(--muted);
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Компактный подвал, жестко привязанный к структуре сайта */
+        footer {
+            width: 100%;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-email {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .footer-email:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Экраны мобильных устройств */
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+            header { margin-bottom: 15px; }
+            .license-content { padding: 30px 20px; height: 70vh; }
+            h1 { font-size: 1.4rem; }
+            .footer-box { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-box">
+                <a href="index.html" class="btn-back" id="backBtn">← Back</a>
+                <div class="header-title" id="headerTitle">License Agreement</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="license-content">
+
+                <article id="lang-ru" class="lang-section" lang="ru">
+                    <h1>Лицензионное соглашение с конечным пользователем</h1>
+                    <p>Настоящее Лицензионное соглашение является юридически обязательным соглашением между вами (физическим или юридическим лицом) и Krvatox Projects в отношении программного обеспечения Krvatox Monitoring Program.</p>
+                    <h2>1. Предоставление лицензии</h2>
+                    <p>Вам предоставляется неисключительная, непередаваемая лицензия на использование данного программного обеспечения исключительно для личного некоммерческого мониторинга параметров вашего персонального компьютера.</p>
+                    <h2>2. Ограничения использования</h2>
+                    <p>Вы не имеете права декомпилировать, изменять, реконструировать или пытаться извлечь исходный код утилиты, а также использовать ее компоненты отдельно от основного исполняемого файла.</p>
+                    <h2>3. Отказ от гарантий</h2>
+                    <p>Программное обеспечение предоставляется по принципу "как есть" (AS IS). Разработчик не несет ответственности за любые потенциальные аппаратные сбои, вызванные некорректным разгоном или интерпретацией показаний датчиков.</p>
+                    <h2>4. Конфиденциальность</h2>
+                    <p>Программа обрабатывает все телеметрические метрики исключительно локально и не осуществляет сбор, хранение или передачу конфиденциальных данных пользователя внешним сетевым серверам.</p>
+                </article>
+
+                <article id="lang-en" class="lang-section" lang="en">
+                    <h1>End-User License Agreement</h1>
+                    <p>This End-User License Agreement ("EULA") is a legal agreement between you (either an individual or a single entity) and Krvatox Projects for the Krvatox Monitoring Program software.</p>
+                    <h2>1. License Grant</h2>
+                    <p>You are granted a non-exclusive, non-transferable license to use this software solely for personal, non-commercial monitoring of your personal computer configuration metrics.</p>
+                    <h2>2. Restrictions</h2>
+                    <p>You may not decompile, modify, reverse engineer, or attempt to extract the source code of the utility, or use its components separately from the main binary file.</p>
+                    <h2>3. Disclaimer of Warranties</h2>
+                    <p>The software is provided "AS IS" without warranty of any kind. The developer shall not be held liable for any hardware failures caused by system overclocking or sensor data misinterpretation.</p>
+                    <h2>4. Data Privacy</h2>
+                    <p>The application processes all telemetry metrics locally on the host machine and does not collect, store, or transmit any sensitive user statistics to any remote network servers.</p>
+                </article>
+
+                <article id="lang-fr" class="lang-section" lang="fr">
+                    <h1>Contrat de Licence Utilisateur Final</h1>
+                    <p>Ce contrat de licence de l'utilisateur final ("CLUF") est un accord juridique entre vous (un particulier ou une entité) et Krvatox Projects concernant le logiciel Krvatox Monitoring Program.</p>
+                    <h2>1. Octroi de licence</h2>
+                    <p>Il vous est accordé une licence non exclusive et non transférable d'utilisation de ce logiciel uniquement pour la surveillance personnelle et non commerciale des métriques de votre ordinateur.</p>
+                    <h2>2. Restrictions</h2>
+                    <p>Vous ne pouvez pas décompiler, modifier, désosser ou tenter d'extraire le code source de l'utilitaire, ni utiliser ses composants séparément du fichier exécutable principal.</p>
+                    <h2>3. Exclusion de garanties</h2>
+                    <p>Le logiciel est fourni "EN L'ÉTAT" (AS IS). Le développeur ne peut être tenu responsable des pannes matérielles potentielles causées par un surcadençage incorrect ou une mauvaise interprétation des capteurs.</p>
+                    <h2>4. Confidentialité des données</h2>
+                    <p>L'application traite toutes les mesures de télémétrie localement et ne collecte, ne stocke ni ne transmet de données sensibles de l'utilisateur vers des serveurs réseau externes.</p>
+                </article>
+
+                <article id="lang-de" class="lang-section" lang="de">
+                    <h1>Endbenutzer-Lizenzvereinbarung</h1>
+                    <p>Diese Endbenutzer-Lizenzvereinbarung (EULA) is eine rechtliche Vereinbarung zwischen Ihnen (einer natürlichen oder juristischen Person) und Krvatox Projects für die Software Krvatox Monitoring Program.</p>
+                    <h2>1. Lizenzierung</h2>
+                    <p>Ihnen wird eine nicht-exklusive, nicht-übertragbare Lizenz zur Nutzung dieser Software ausschließlich für die persönliche, nicht-kommerzielle Überwachung Ihrer Computer-Hardwaremetriken gewährt.</p>
+                    <h2>2. Einschränkungen</h2>
+                    <p>Es ist Ihnen nicht gestattet, den Quellcode des Dienstprogramms zu dekompilieren, zu modifizieren, zurückzuentwickeln (Reverse Engineering) oder zu versuchen, ihn zu extrahieren.</p>
+                    <h2>3. Gewährleistungsausschluss</h2>
+                    <p>Die Software wird ohne Mängelgewähr ("AS IS") bereitgestellt. Der Entwickler haftet nicht für Hardwarefehler, die durch fehlerhafte Übertaktung oder Fehlinterpretation von Sensordaten entstehen.</p>
+                    <h2>4. Datenschutz</h2>
+                    <p>Das Programm verarbeitet alle Telemetriedaten ausschließlich lokal auf dem Host-Rechner und sammelt, speichert oder überträgt keine sensiblen Benutzerstatistiken an externe Netzwerkserver.</p>
+                </article>
+
+                <article id="lang-zh" class="lang-section" lang="zh-CN">
+                    <h1>最终用户许可协议</h1>
+                    <p>本最终用户许可协议（"EULA"）是您（个人或单一实体）与 Krvatox Projects 之间就 Krvatox Monitoring Program 软件达成的法律协议。</p>
+                    <h2>1. 许可授予</h2>
+                    <p>您获得一项非排他性、不可转让的许可，允许您仅出于个人、非商业目的使用本软件来监控个人计算机的硬件配置指标。</p>
+                    <h2>2. 使用限制</h2>
+                    <p>您不得对本工具进行反编译、修改、反向工程或试图提取源代码，亦不得将其组件脱离主二进制文件单独使用。</p>
+                    <h2>3. 免责声明</h2>
+                    <p>本软件按“原样”（"AS IS"）提供，不包含任何形式的保证。由于超频系统或对传感器数据的错误解读而导致的任何硬件故障，开发者概不承担任何责任。</p>
+                    <h2>4. 隐私保护</h2>
+                    <p>本程序仅在宿主机器本地处理所有遥测指标，绝不收集、存储或向任何远程网络服务器传输任何敏感的用户统计数据。</p>
+                </article>
+
+                <article id="lang-es" class="lang-section" lang="es">
+                    <h1>Acuerdo de Licencia de Usuario Final</h1>
+                    <p>Este Acuerdo de Licencia de Usuario Final ("EULA") es un acuerdo legal entre usted (ya sea una persona física o jurídica) y Krvatox Projects para el software Krvatox Monitoring Program.</p>
+                    <h2>1. Concesión de Licencia</h2>
+                    <p>Se le concede una licencia no exclusiva y no transferible para utilizar este software únicamente para el monitoreo personal y no comercial de las métricas de su computadora personal.</p>
+                    <h2>2. Restricciones</h2>
+                    <p>No puede descompilar, modificar, realizar ingeniería inversa ni intentar extraer el código fuente de la utilidad, ni utilizar sus componentes por separado del archivo binario principal.</p>
+                    <h2>3. Exclusión de Garantías</h2>
+                    <p>El software se proporciona "TAL CUAL" (AS IS). El desarrollador no será responsable de ningún fallo de hardware causado por un overclocking del sistema o una mala interpretación de los sensores.</p>
+                    <h2>4. Privacidad de Datos</h2>
+                    <p>La aplicación procesa todas las métricas de telemetría localmente en la máquina host y no recopila, almacena ni transmite estadísticas de usuario confidenciales a servidores de red remotos.</p>
+                </article>
+
+                <article id="lang-ko" class="lang-section" lang="ko">
+                    <h1>최종 사용자 라이선스 계약</h1>
+                    <p>본 최종 사용자 라이선스 계약(EULA)은 귀하(개인 또는 단일 법인)와 Krvatox Projects 간에 Krvatox Monitoring Program 소프트웨어 사용에 대해 체결하는 법적 계약입니다.</p>
+                    <h2>1. 라이선스 부여</h2>
+                    <p>귀하는 개인 컴퓨터 하드웨어의 메트릭을 개인적이고 비상업적인 목적으로 모니터링하기 위해서만 본 소프트웨어를 사용할 수 있는 비독점적이고 양도 불가능한 라이선스를 부여받습니다.</p>
+                    <h2>2. 이용 제한</h2>
+                    <p>귀하는 본 유틸리티를 역컴파일, 수정, 역공학하거나 소스 코드를 추출하려고 시도할 수 없으며, 주 이진 파일과 별도로 구성 요소를 사용할 수 없습니다.</p>
+                    <h2>3. 보증의 부인</h2>
+                    <p>본 소프트웨어는 "있는 그대로"(AS IS) 제공됩니다. 개발자는 시스템 오버클러킹 또는 센서 데이터의 잘못된 해석으로 인해 발생하는 하드웨어 오류에 대해 어떠한 책임도 지지 않습니다.</p>
+                    <h2>4. 데이터 개인정보 보호</h2>
+                    <p>본 애플리케이션은 모든 원격 측정 지표를 호스트 시스템에서 로컬로만 처리하며, 원격 네트워크 서버로 민감한 사용자 통계를 수집, 저장 또는 전송하지 않습니다.</p>
+                </article>
+
+                <article id="lang-ja" class="lang-section" lang="ja">
+                    <h1>最終ユーザー許諾契約 (EULA)</h1>
+                    <p>本最終ユーザー許諾契約（以下「EULA」）は、ユーザー（個人または法人のいずれか）と Krvatox Projects との間の、Krvatox Monitoring Program ソフトウェアに関する法的契約です。</p>
+                    <h2>1. ライセンスの付与</h2>
+                    <p>ユーザーには、個人のコンピュータハードウェアのメトリクスを個人的かつ非商業的な目的で監視するためにのみ、本ソフトウェアを使用する非独占的かつ譲渡不可能なライセンスが付与されます。</p>
+                    <h2>2. 禁止事項</h2>
+                    <p>ユーザーは、本ユーティリティをデコンパイル、改変、リバースエンジニアリング、またはソースコード of の抽出を試みることはできず、メインのバイナリファイルからコンポーネントを切り離して使用することはできません。</p>
+                    <h2>3. 保証の否認</h2>
+                    <p>本ソフトウェアは「現状のまま」（AS IS）で提供されます。開発者は、システムのオーバークロックやセンサーデータの誤解釈によって生じたハードウェアの故障について、一切の責任を負いません。</p>
+                    <h2>4. プライバシーについて</h2>
+                    <p>本アプリケーションは、すべてのテレメトリメトリクスをホストマシン上でローカルに処理し、リモートネットワークサーバーにいかなる機密ユーザー統計も収集、保存、または送信することはありません。</p>
+                </article>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-box">
+                <a href="mailto:krvatox@gmail.com" class="footer-email">krvatox@gmail.com</a>
+                <div class="copyright">Krvatox &copy; 2026</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const metaTitles = {
+            'ru': 'Лицензионное соглашение (EULA) - Krvatox Monitoring Program',
+            'en': 'End-User License Agreement (EULA) - Krvatox Monitoring Program',
+            'fr': 'Contrat de Licence Utilisateur Final (CLUF) - Krvatox Program',
+            'de': 'Endbenutzer-Lizenzvereinbarung (EULA) - Krvatox Software',
+            'zh': '最终用户许可协议 (EULA) - Krvatox Monitoring Program',
+            'es': 'Acuerdo de Licencia de Usuario Final (EULA) - Krvatox',
+            'ko': '최종 사용자 라이선스 계약 (EULA) - Krvatox',
+            'ja': '最終ユーザー許諾契約 (EULA) - Krvatox Monitoring Program'
+        };
+
+        const backTexts = {
+            'ru': '← Назад', 'en': '← Back', 'fr': '← Retour', 'de': '← Zurück',
+            'zh': '← 返回', 'es': '← Volver', 'ko': '← 뒤로 가기', 'ja': '← 戻る'
+        };
+
+        const headerTitles = {
+            'ru': 'Лицензионное соглашение', 'en': 'License Agreement', 'fr': 'Accord de Licence', 'de': 'Lizenzvereinbarung',
+            'zh': '许可协议', 'es': 'Acuerdo de Licencia', 'ko': '라이선스 계약', 'ja': '라이センス契約'
+        };
+
+        const supportedLangs = ['ru', 'en', 'fr', 'de', 'zh', 'es', 'ko', 'ja'];
+
+        function applyLanguage(langCode) {
+            const sections = document.querySelectorAll('.lang-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            
+            const targetSection = document.getElementById('lang-' + langCode);
+            if (targetSection) targetSection.classList.add('active');
+
+            document.documentElement.lang = langCode;
+            document.title = metaTitles[langCode] || metaTitles['en'];
+            document.getElementById('backBtn').innerText = backTexts[langCode] || '← Back';
+            document.getElementById('headerTitle').innerText = headerTitles[langCode] || 'License Agreement';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            let userLang = navigator.language || navigator.userLanguage;
+            userLang = userLang.toLowerCase().split('-')[0];
+
+            if (supportedLangs.includes(userLang)) {
+                applyLanguage(userLang);
+            } else {
+                applyLanguage('en');
+            }
+        });
+    </script>
+</body>
+</html>

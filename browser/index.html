@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltshred Browser — Установка и обзор интерфейса</title>
+
+    <!-- SEO и Метатеги -->
+    <meta name="description" content="Установка Voltshred Browser под Windows x64. Обзор интерфейса: вкладки, адресная строка, загрузки, закладки, настройки приватности и три темы оформления.">
+    <meta name="keywords" content="Voltshred Browser, установка, скачать браузер, Windows x64, Bare Chromium, Frutiger Aero, Zero Telemetry">
+    <meta name="author" content="Vladimir Kredo">
+
+    <!-- Определение ОС и редирект для неподдерживаемых платформ -->
+    <script>
+        (function () {
+            var ua = navigator.userAgent || '';
+            var platform = navigator.platform || '';
+            var isAndroid = /android/i.test(ua);
+            var isIOS = /iphone|ipad|ipod/i.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            var isMac = !isIOS && /mac/i.test(platform);
+            var isLinux = !isAndroid && /linux/i.test(platform);
+
+            var target = null;
+            if (isAndroid) target = 'unacceptable/android.html';
+            else if (isIOS) target = 'unacceptable/ios.html';
+            else if (isMac) target = 'unacceptable/macos.html';
+            else if (isLinux) target = 'unacceptable/linux.html';
+
+            if (target) {
+                window.location.replace(target);
+            }
+        })();
+    </script>
+
+    <!-- Open Graph (Социальные сети) -->
+    <meta property="og:title" content="Voltshred Browser — Установка">
+    <meta property="og:description" content="Портативный EXE-файл без установщика. Zero Telemetry, три темы, голосовой поиск.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://voltshred.xo.je/index.html">
+
+    <style>
+        /* Системная палитра Google Material Design */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #202124;
+                --bg-card: #292a2d;
+                --bg-surface: #303134;
+                --text-primary: #e8eaed;
+                --text-secondary: #9aa0a6;
+                --google-blue: #8ab4f8;
+                --google-blue-hover: #1a73e8;
+                --border-color: #3c4043;
+                --btn-primary-bg: #8ab4f8;
+                --btn-primary-text: #202124;
+                --tag-bg: #3c4043;
+                --table-header-bg: #303134;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-page: #ffffff;
+                --bg-card: #ffffff;
+                --bg-surface: #f8f9fa;
+                --text-primary: #202124;
+                --text-secondary: #5f6368;
+                --google-blue: #1a73e8;
+                --google-blue-hover: #e8f0fe;
+                --border-color: #dadce0;
+                --btn-primary-bg: #1a73e8;
+                --btn-primary-text: #ffffff;
+                --tag-bg: #f1f3f4;
+                --table-header-bg: #f8f9fa;
+            }
+        }
+
+        :root {
+            --bg-page: #ffffff;
+            --bg-card: #ffffff;
+            --bg-surface: #f8f9fa;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --google-blue: #1a73e8;
+            --google-blue-hover: #e8f0fe;
+            --border-color: #dadce0;
+            --btn-primary-bg: #1a73e8;
+            --btn-primary-text: #ffffff;
+            --tag-bg: #f1f3f4;
+            --table-header-bg: #f8f9fa;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        html { scroll-behavior: smooth; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Google Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-page);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .brand:hover { opacity: 0.85; }
+        .brand span { font-weight: 500; color: var(--google-blue); }
+
+        .nav-links { display: flex; gap: 24px; }
+
+        .nav-links a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover { color: var(--google-blue); }
+
+        .hero {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 80px 24px 56px 24px;
+            text-align: center;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 52px;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 26px;
+            color: var(--text-secondary);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .main-content {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px 80px 24px;
+            width: 100%;
+        }
+
+        section {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        section:first-of-type { border-top: none; padding-top: 20px; }
+
+        .section-header { margin-bottom: 32px; }
+
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+        }
+
+        .btn-primary:hover { opacity: 0.88; }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--google-blue);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover { background-color: var(--google-blue-hover); }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+
+        /* Шаги установки */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .step:first-child { border-top: none; padding-top: 0; }
+
+        .step-num {
+            flex: 0 0 auto;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--tag-bg);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .step-body h3 {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .step-body p {
+            font-size: 14px;
+            line-height: 22px;
+            color: var(--text-secondary);
+        }
+
+        .step-body code {
+            background-color: var(--tag-bg);
+            color: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: "SF Mono", Consolas, monospace;
+        }
+
+        /* Сетка карточек интерфейса */
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px 0 rgba(60,64,67,0.15);
+        }
+
+        .card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+
+        .card-tag {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 8px;
+            background-color: var(--tag-bg);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .card h3 { font-size: 22px; font-weight: 400; margin-bottom: 12px; color: var(--text-primary); }
+
+        .card p {
+            font-size: 14px;
+            line-height: 22px;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+
+        /* Сетка технических характеристик */
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-item { transition: transform 0.2s ease; }
+        .feature-item:hover { transform: translateX(4px); }
+
+        .feature-item h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .feature-item p { font-size: 14px; line-height: 22px; color: var(--text-secondary); }
+
+        /* Адаптивная таблица требований */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+
+        th, td { padding: 16px 24px; border-bottom: 1px solid var(--border-color); }
+
+        th { background-color: var(--table-header-bg); color: var(--text-primary); font-weight: 500; }
+
+        td { color: var(--text-secondary); vertical-align: top; transition: background-color 0.15s ease, color 0.15s ease; }
+
+        tr:hover td { background-color: var(--google-blue-hover); color: var(--text-primary); }
+
+        tr:last-child td { border-bottom: none; }
+
+        @media (prefers-color-scheme: dark) {
+            tr:hover td.td-bold { color: #ffffff; }
+        }
+
+        /* Themes preview strip */
+        .theme-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .theme-chip {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            background-color: var(--bg-surface);
+        }
+
+        .theme-swatch {
+            width: 100%;
+            height: 56px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+        }
+
+        .swatch-dark { background: linear-gradient(135deg, #17171b 0%, #6d6bff 100%); }
+        .swatch-light { background: linear-gradient(135deg, #f4f5f6 0%, #1c1c1e 100%); }
+        .swatch-aero { background: linear-gradient(135deg, #dcf2fd 0%, #00a2e8 100%); }
+
+        .theme-chip h4 { font-size: 15px; font-weight: 500; margin-bottom: 6px; color: var(--text-primary); }
+        .theme-chip p { font-size: 13px; line-height: 19px; color: var(--text-secondary); }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-surface);
+        }
+
+        .footer-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 56px 24px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 48px;
+        }
+
+        .footer-brand { font-size: 16px; font-weight: 500; margin-bottom: 12px; color: var(--text-primary); }
+
+        .footer-email {
+            color: var(--google-blue);
+            text-decoration: none;
+            font-size: 13px;
+            display: inline-block;
+            margin-top: 16px;
+            transition: opacity 0.15s ease;
+        }
+
+        .footer-email:hover { text-decoration: underline; opacity: 0.85; }
+
+        .footer-links h4 { color: var(--text-primary); font-size: 14px; font-weight: 500; margin-bottom: 16px; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s ease; }
+        .footer-links a:hover { color: var(--google-blue); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; line-height: 40px; }
+            .grid-products { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; gap: 24px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a class="brand" href="index.html">Voltshred<span>.</span></a>
+            <div class="nav-links">
+                <a href="#interface" id="nav-u">Интерфейс</a>
+                <a href="#themes" id="nav-t">Темы</a>
+                <a href="#requirements" id="nav-r">Требования</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1 id="hero-title">Voltshred Browser — обзор интерфейса.</h1>
+        <p id="hero-desc">Портативное приложение под Windows x64. Ниже — обзор интерфейса: вкладки, адресная строка, загрузки, закладки, настройки приватности и три темы оформления.</p>
+        <div class="hero-actions">
+            <a href="downloads/setup.exe" download class="btn btn-primary" id="b-download">Скачать для Windows x64</a>
+            <a href="#interface" class="btn btn-secondary" id="hero-btn2">Обзор интерфейса</a>
+            <a href="#requirements" class="btn btn-secondary" id="hero-btn3">Требования</a>
+        </div>
+    </section>
+
+    <main class="main-content">
+
+        <section id="interface" style="animation-delay: 0.1s;">
+            <div class="section-header">
+                <h2 id="t-ui">Обзор интерфейса</h2>
+                <p id="d-ui">Основные элементы управления браузером, доступные сразу после запуска.</p>
+            </div>
+
+            <div class="grid-products">
+                <div class="card">
+                    <div>
+                        <div class="card-meta"><span class="card-tag">Вкладки</span></div>
+                        <h3>Панель вкладок</h3>
+                        <p id="ui-p1">Компактные вкладки с усечением заголовка, крестиком закрытия и кнопкой добавления новой вкладки. Активная вкладка подсвечивается акцентным цветом текущей темы.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-meta"><span class="card-tag">Навигация</span></div>
+                        <h3>Адресная строка и тулбар</h3>
+                        <p id="ui-p2">Кнопки навигации вперед/назад, адресная строка с автодополнением и подсказками, а также значок загрузок со счетчиком активных файлов.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-meta"><span class="card-tag">Загрузки</span></div>
+                        <h3>Менеджер загрузок</h3>
+                        <p id="ui-p3">Всплывающая панель со списком файлов, индикатором прогресса, статусом ошибки и кнопкой повтора для незавершенных загрузок.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-meta"><span class="card-tag">Закладки</span></div>
+                        <h3>Закладки на домашнем экране</h3>
+                        <p id="ui-p4">Быстрое добавление и удаление закладок с указанием названия и URL. Список хранится локально и открывается в один клик.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-meta"><span class="card-tag">Приватность</span></div>
+                        <h3>Настройки безопасности</h3>
+                        <p id="ui-p5">Переключатели Do Not Track, блокировка cookies и всплывающих окон, скрытие геолокации, запрос подтверждения перед скачиванием и хранение паролей.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-meta"><span class="card-tag">Персонализация</span></div>
+                        <h3>Раздел настроек</h3>
+                        <p id="ui-p6">Выбор темы, поисковой системы, стартовой страницы, масштаба, языка интерфейса и размера шрифта — все параметры применяются мгновенно.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="themes" style="animation-delay: 0.2s;">
+            <div class="section-header">
+                <h2 id="t-themes">Темы оформления</h2>
+                <p id="d-themes">Три готовых стиля интерфейса, переключаемых из настроек без перезапуска.</p>
+            </div>
+
+            <div class="theme-strip">
+                <div class="theme-chip">
+                    <div class="theme-swatch swatch-dark"></div>
+                    <h4 id="th-dark">Dark Theme</h4>
+                    <p id="th-dark-p">Холодный почти-чёрный фон с фирменным акцентом электрик-индиго на переключателях, активной вкладке и кольце фокуса.</p>
+                </div>
+                <div class="theme-chip">
+                    <div class="theme-swatch swatch-light"></div>
+                    <h4 id="th-light">Light Theme</h4>
+                    <p id="th-light-p">Светлый нейтральный интерфейс с высоким контрастом текста и минималистичной цветовой схемой.</p>
+                </div>
+                <div class="theme-chip">
+                    <div class="theme-swatch swatch-aero"></div>
+                    <h4 id="th-aero">Frutiger Aero</h4>
+                    <p id="th-aero-p">Стеклянный эффект размытия (Aero Glass), фоновое изображение и голубой акцент — стилизация под интерфейсы конца 2000-х.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="requirements" style="animation-delay: 0.3s;">
+            <div class="section-header">
+                <h2 id="t-req">Системные требования</h2>
+                <p id="d-req">Минимальные параметры для стабильной работы приложения.</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="th-param">Параметр</th>
+                            <th id="th-val">Значение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="td-bold" id="r1n">Операционная система</td>
+                            <td id="r1v">Windows 10 / 11, архитектура x64</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold" id="r2n">Размер дистрибутива</td>
+                            <td id="r2v">Менее 15 МБ, без внешних зависимостей</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold" id="r3n">Права доступа</td>
+                            <td id="r3v">Не требуются права администратора</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold" id="r4n">Установщик</td>
+                            <td id="r4v">Отсутствует — портативный запуск EXE</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold" id="r5n">Сетевая активность</td>
+                            <td id="r5v">Только по запросу пользователя, без фоновой телеметрии</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <div class="footer-brand">Voltshred Browser</div>
+                <p style="font-size: 12px; max-width: 400px; line-height: 18px;" id="f-desc">Установка и настройка портативного браузера без телеметрии. Все параметры интерфейса сохраняются локально и не покидают устройство.</p>
+                <a href="mailto:voltshred@gmail.com" class="footer-email">voltshred@gmail.com</a>
+                <p style="margin-top: 24px; font-size: 11px;">&copy; 2026 Voltshred Systems. Все права защищены.</p>
+            </div>
+            <div class="footer-links">
+                <h4 id="f-h1">Интерфейс</h4>
+                <ul>
+                    <li><a href="#interface">Обзор элементов</a></li>
+                    <li><a href="#themes">Темы оформления</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 id="f-h2">Прочее</h4>
+                <ul>
+                    <li><a href="#requirements">Требования</a></li>
+                    <li><a href="index.html">На главную</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const locale = {
+            ru: {
+                navU: "Интерфейс", navT: "Темы", navR: "Требования",
+                heroTitle: "Voltshred Browser — обзор интерфейса.",
+                heroDesc: "Портативное приложение под Windows x64. Ниже — обзор интерфейса: вкладки, адресная строка, загрузки, закладки, настройки приватности и три темы оформления.",
+                heroBtn2: "Обзор интерфейса", heroBtn3: "Требования", bDownload: "Скачать для Windows x64",
+                tUi: "Обзор интерфейса", dUi: "Основные элементы управления браузером, доступные сразу после запуска.",
+                uiP1: "Компактные вкладки с усечением заголовка, крестиком закрытия и кнопкой добавления новой вкладки. Активная вкладка подсвечивается акцентным цветом текущей темы.",
+                uiP2: "Кнопки навигации вперед/назад, адресная строка с автодополнением и подсказками, а также значок загрузок со счетчиком активных файлов.",
+                uiP3: "Всплывающая панель со списком файлов, индикатором прогресса, статусом ошибки и кнопкой повтора для незавершенных загрузок.",
+                uiP4: "Быстрое добавление и удаление закладок с указанием названия и URL. Список хранится локально и открывается в один клик.",
+                uiP5: "Переключатели Do Not Track, блокировка cookies и всплывающих окон, скрытие геолокации, запрос подтверждения перед скачиванием и хранение паролей.",
+                uiP6: "Выбор темы, поисковой системы, стартовой страницы, масштаба, языка интерфейса и размера шрифта — все параметры применяются мгновенно.",
+                tThemes: "Темы оформления", dThemes: "Три готовых стиля интерфейса, переключаемых из настроек без перезапуска.",
+                thDark: "Dark Theme", thDarkP: "Холодный почти-чёрный фон с фирменным акцентом электрик-индиго на переключателях, активной вкладке и кольце фокуса.",
+                thLight: "Light Theme", thLightP: "Светлый нейтральный интерфейс с высоким контрастом текста и минималистичной цветовой схемой.",
+                thAero: "Frutiger Aero", thAeroP: "Стеклянный эффект размытия (Aero Glass), фоновое изображение и голубой акцент — стилизация под интерфейсы конца 2000-х.",
+                tReq: "Системные требования", dReq: "Минимальные параметры для стабильной работы приложения.",
+                thParam: "Параметр", thVal: "Значение",
+                r1n: "Операционная система", r1v: "Windows 10 / 11, архитектура x64",
+                r2n: "Размер дистрибутива", r2v: "Менее 15 МБ, без внешних зависимостей",
+                r3n: "Права доступа", r3v: "Не требуются права администратора",
+                r4n: "Установщик", r4v: "Отсутствует — портативный запуск EXE",
+                r5n: "Сетевая активность", r5v: "Только по запросу пользователя, без фоновой телеметрии",
+                fDesc: "Обзор портативного браузера без телеметрии. Все параметры интерфейса сохраняются локально и не покидают устройство.",
+                fH1: "Интерфейс", fH2: "Прочее"
+            },
+            en: {
+                navU: "Interface", navT: "Themes", navR: "Requirements",
+                heroTitle: "Voltshred Browser — Interface Overview.",
+                heroDesc: "A portable application for Windows x64. Below is an overview of the interface: tabs, address bar, downloads, bookmarks, privacy settings, and three themes.",
+                heroBtn2: "Interface Overview", heroBtn3: "Requirements", bDownload: "Download for Windows x64",
+                tUi: "Interface Overview", dUi: "Core browser controls available right after launch.",
+                uiP1: "Compact tabs with title truncation, a close button, and a button to add a new tab. The active tab is highlighted with the current theme's accent color.",
+                uiP2: "Back/forward navigation buttons, an address bar with autocomplete and suggestions, plus a downloads icon showing a badge for active files.",
+                uiP3: "A popup panel listing files with a progress indicator, error status, and a retry button for failed downloads.",
+                uiP4: "Quickly add or remove bookmarks with a title and URL. The list is stored locally and opens with a single click.",
+                uiP5: "Do Not Track, block cookies and popups, hide geolocation, ask before downloading, and password storage toggles.",
+                uiP6: "Choose theme, search engine, startup page, zoom level, interface language, and font size — all applied instantly.",
+                tThemes: "Themes", dThemes: "Three built-in interface styles, switchable from settings without a restart.",
+                thDark: "Dark Theme", thDarkP: "A cold near-black background with a signature electric-indigo accent on toggles, the active tab, and the focus ring.",
+                thLight: "Light Theme", thLightP: "A clean light interface with high text contrast and a minimalist color scheme.",
+                thAero: "Frutiger Aero", thAeroP: "Glass blur effect (Aero Glass), a background image, and a blue accent — styled after late-2000s interfaces.",
+                tReq: "System Requirements", dReq: "Minimum parameters for stable operation.",
+                thParam: "Parameter", thVal: "Value",
+                r1n: "Operating system", r1v: "Windows 10 / 11, x64 architecture",
+                r2n: "Distribution size", r2v: "Under 15 MB, no external dependencies",
+                r3n: "Access rights", r3v: "No administrator privileges required",
+                r4n: "Installer", r4v: "None — portable EXE launch",
+                r5n: "Network activity", r5v: "Only on user request, no background telemetry",
+                fDesc: "An overview of a portable browser with zero telemetry. All interface settings are stored locally and never leave the device.",
+                fH1: "Interface", fH2: "Other"
+            }
+        };
+
+        const currentLang = (navigator.language || navigator.userLanguage).startsWith('ru') ? 'ru' : 'en';
+        const t = locale[currentLang];
+
+        document.getElementById('nav-u').innerText = t.navU;
+        document.getElementById('nav-t').innerText = t.navT;
+        document.getElementById('nav-r').innerText = t.navR;
+
+        document.getElementById('hero-title').innerText = t.heroTitle;
+        document.getElementById('hero-desc').innerText = t.heroDesc;
+        document.getElementById('hero-btn2').innerText = t.heroBtn2;
+        document.getElementById('hero-btn3').innerText = t.heroBtn3;
+        document.getElementById('b-download').innerText = t.bDownload;
+
+        document.getElementById('t-ui').innerText = t.tUi;
+        document.getElementById('d-ui').innerText = t.dUi;
+        document.getElementById('ui-p1').innerText = t.uiP1;
+        document.getElementById('ui-p2').innerText = t.uiP2;
+        document.getElementById('ui-p3').innerText = t.uiP3;
+        document.getElementById('ui-p4').innerText = t.uiP4;
+        document.getElementById('ui-p5').innerText = t.uiP5;
+        document.getElementById('ui-p6').innerText = t.uiP6;
+
+        document.getElementById('t-themes').innerText = t.tThemes;
+        document.getElementById('d-themes').innerText = t.dThemes;
+        document.getElementById('th-dark').innerText = t.thDark;
+        document.getElementById('th-dark-p').innerText = t.thDarkP;
+        document.getElementById('th-light').innerText = t.thLight;
+        document.getElementById('th-light-p').innerText = t.thLightP;
+        document.getElementById('th-aero').innerText = t.thAero;
+        document.getElementById('th-aero-p').innerText = t.thAeroP;
+
+        document.getElementById('t-req').innerText = t.tReq;
+        document.getElementById('d-req').innerText = t.dReq;
+        document.getElementById('th-param').innerText = t.thParam;
+        document.getElementById('th-val').innerText = t.thVal;
+        document.getElementById('r1n').innerText = t.r1n;
+        document.getElementById('r1v').innerText = t.r1v;
+        document.getElementById('r2n').innerText = t.r2n;
+        document.getElementById('r2v').innerText = t.r2v;
+        document.getElementById('r3n').innerText = t.r3n;
+        document.getElementById('r3v').innerText = t.r3v;
+        document.getElementById('r4n').innerText = t.r4n;
+        document.getElementById('r4v').innerText = t.r4v;
+        document.getElementById('r5n').innerText = t.r5n;
+        document.getElementById('r5v').innerText = t.r5v;
+
+        document.getElementById('f-desc').innerText = t.fDesc;
+        document.getElementById('f-h1').innerText = t.fH1;
+        document.getElementById('f-h2').innerText = t.fH2;
+    </script>
+</body>
+</html>

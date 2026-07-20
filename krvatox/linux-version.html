@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krvatox — System Benchmarking</title>
+    <style>
+        /* Цветовая палитра: благородный бело-серый глянец */
+        :root {
+            --bg-1: #ffffff;
+            --bg-2: #f5f5f7;
+            --bg-3: #e5e5ea;
+            --bg-4: #fafafa;
+            --text: #000000;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-strong: #000000;
+            --muted: #6e6e73;
+            --block-bg: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Глубокие графитово-платиновые переливы в темной теме */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-1: #09090b;
+                --bg-2: #121216;
+                --bg-3: #1a1a22;
+                --bg-4: #141419;
+                --text: #ffffff;
+                --border: rgba(255, 255, 255, 0.08);
+                --border-strong: #ffffff;
+                --muted: #86868b;
+                --block-bg: rgba(255, 255, 255, 0.03);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Полноэкранный контейнер с живой анимацией градиента */
+        body {
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4), var(--bg-1));
+            background-size: 400% 400%;
+            animation: fullscreenGradient 16s ease infinite;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 50px;
+            transition: color 0.3s;
+            overflow-x: hidden;
+        }
+
+        @keyframes fullscreenGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Полноэкранный двухколоночный grid */
+        .main-content {
+            grid-shrink: 0;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        /* Левая колонка — Статус */
+        .status-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--muted);
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+
+        .not-supported-box {
+            border-left: 3px solid var(--border-strong);
+            background-color: var(--block-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .box-title {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .box-desc {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .btn-disabled {
+            width: 100%;
+            max-width: 400px;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: not-allowed;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .pc-hint {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        /* Правая колонка — Описание возможностей */
+        .features-side {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border);
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .feature-item {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            color: var(--text);
+        }
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-item::before {
+            content: "→";
+            font-weight: bold;
+            margin-right: 16px;
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+
+        /* Футер */
+        footer {
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            body { padding: 30px 24px; }
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                margin: 20px auto;
+            }
+            h1 { font-size: 3rem; }
+            .btn-disabled { max-width: 100%; }
+            footer {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                margin-top: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-content">
+        <!-- Левая половина: Информация об отсутствии поддержки -->
+        <section class="status-side">
+            <h1 id="mainTitle">Krvatox</h1>
+            <div class="tagline" id="tagline">Advanced System Benchmarking</div>
+
+            <div class="not-supported-box">
+                <div class="box-title" id="alertTitle">⚠️ Недоступно</div>
+                <div class="box-desc" id="alertDesc">Программа Krvatox недоступна для операционной системы Linux.</div>
+            </div>
+
+            <button class="btn-disabled" id="btnText" disabled>Недоступно для Linux</button>
+            <div class="pc-hint" id="pcHint">Пожалуйста, используйте устройство под управлением ОС Windows для загрузки приложения.</div>
+        </section>
+
+        <!-- Правая половина: Функционал ПО -->
+        <section class="features-side">
+            <div class="section-title" id="aboutTitle">О программе</div>
+            <div id="featuresList">
+                <!-- Контент генерируется скриптом на нужном языке -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="mailto:krvatox@gmail.com">krvatox@gmail.com</a>
+            <a href="license.html" id="licenseLink">Лицензия</a>
+        </div>
+        <div class="copyright">Krvatox &copy; 2026</div>
+    </footer>
+
+    <script>
+        // База данных локализации (8 языков)
+        const translations = {
+            ru: {
+                mainTitle: "Krvatox",
+                tagline: "Продвинутое тестирование системы",
+                alertTitle: "⚠️ Недоступно",
+                alertDesc: "Программа Krvatox недоступна для операционной системы Linux.",
+                aboutTitle: "Спецификация ПО",
+                btnText: "Недоступно для Linux",
+                pcHint: "Пожалуйста, используйте устройство под управлением ОС Windows для загрузки приложения.",
+                licenseLink: "Лицензия",
+                features: [
+                    "Глубокий комплексный анализ производительности центрального процессора и графического чипа.",
+                    "Стресс-тестирование внутренних компонентов ПК в экстремальных и кастомных режимах.",
+                    "Точный мониторинг температурных показателей, лимитов потребления, вольтажа и частот в реальном времени.",
+                    "Проверка стабильности операционной системы и узлов оборудования после оверклокинга (разгона).",
+                    "Сбор детальных технических спецификаций о материнской плате, модулях оперативной памяти и накопителях.",
+                    "Экспорт подробных логов, результатов бенчмарков и диагностических отчетов в форматы TXT и HTML.",
+                    "Минималистичный высокопроизводительный интерфейс, не расходующий ресурсы ПК во время выполнения тестов."
+                ]
+            },
+            en: {
+                mainTitle: "Krvatox",
+                tagline: "Advanced System Benchmarking",
+                alertTitle: "⚠️ Unavailable",
+                alertDesc: "Krvatox software is entirely unavailable for the Linux operating system.",
+                aboutTitle: "Software Specification",
+                btnText: "Unavailable for Linux",
+                pcHint: "Please use a device powered by Microsoft Windows OS to download and run this software.",
+                licenseLink: "License",
+                features: [
+                    "Deep, comprehensive performance analysis of the central processing unit and graphics chip.",
+                    "Stress testing of internal PC components under extreme and custom modes.",
+                    "Accurate real-time monitoring of thermal metrics, power limits, voltage, and clock speeds.",
+                    "System and hardware stability verification following component overclocking.",
+                    "Detailed technical specification gathering for motherboards, RAM modules, and storage drives.",
+                    "Exporting of thorough log files, benchmark scores, and diagnostic reports to TXT and HTML.",
+                    "Minimalist, high-performance interface engineered to consume zero resources during active testing."
+                ]
+            },
+            fr: {
+                mainTitle: "Krvatox",
+                tagline: "Banc d'essai système avancé",
+                alertTitle: "⚠️ Indisponible",
+                alertDesc: "Le logiciel Krvatox n'est absolument pas disponible pour le système d'exploitation Linux.",
+                aboutTitle: "Spécifications du logiciel",
+                btnText: "Indisponible pour Linux",
+                pcHint: "Veuillez utiliser un appareil sous Windows pour télécharger et exécuter ce logiciel.",
+                licenseLink: "Licence",
+                features: [
+                    "Analyse approfondie et complète des performances du processeur central et de la carte graphique.",
+                    "Tests de résistance des composants internes du PC en modes extrêmes et personnalisés.",
+                    "Surveillance précise en temps réel des métriques thermiques, des limites de puissance, du voltage et des fréquences.",
+                    "Vérification de la stabilité du système et du matériel après l'overclocking des composants.",
+                    "Collecte de spécifications techniques détaillées sur la carte mère, la mémoire RAM et les disques de stockage.",
+                    "Exportation de rapports de diagnostic, de scores de référence et de journaux détaillés aux formats TXT et HTML.",
+                    "Interface minimaliste et performante conçue pour ne consommer aucune ressource pendant les tests actifs."
+                ]
+            },
+            de: {
+                mainTitle: "Krvatox",
+                tagline: "Erweitertes System-Benchmarking",
+                alertTitle: "⚠️ Nicht verfügbar",
+                alertDesc: "Die Krvatox-Software ist für das Linux-Betriebssystem vollständig unverfügbar.",
+                aboutTitle: "Software-Spezifikation",
+                btnText: "Nicht verfügbar für Linux",
+                pcHint: "Bitte verwenden Sie ein Gerät mit Microsoft Windows-Betriebssystem, um diese Software herunterzuladen.",
+                licenseLink: "Lizenz",
+                features: [
+                    "Tiefgehende, umfassende Leistungsanalyse des Hauptprozessors und des Grafikchips.",
+                    "Stresstests interner PC-Komponenten unter extremen und benutzerdefinierten Bedingungen.",
+                    "Genaue Echtzeit-Überwachung von Temperaturen, Leistungslimits, Spannungen und Taktraten.",
+                    "Überprüfung der System- und Hardwarestabilität nach der Übertaktung von Komponenten.",
+                    "Erfassung detaillierter technischer Daten von Mainboards, RAM-Modulen und Speichermedien.",
+                    "Export von detaillierten Protokolldateien, Benchmark-Ergebnissen und Diagnoseberichten in TXT und HTML.",
+                    "Minimalistische, hochperformante Benutzeroberfläche, die während der Tests keine Ressourcen verbraucht."
+                ]
+            },
+            es: {
+                mainTitle: "Krvatox",
+                tagline: "Pruebas de rendimiento avanzadas",
+                alertTitle: "⚠️ No disponible",
+                alertDesc: "El software Krvatox no está disponible bajo ninguna circunstancia para el sistema operativo Linux.",
+                aboutTitle: "Especificación del Software",
+                btnText: "No disponible para Linux",
+                pcHint: "Por favor, utilice un dispositivo con el sistema operativo Windows para descargar este software.",
+                licenseLink: "Licencia",
+                features: [
+                    "Análisis de rendimiento profundo e integral de la unidad central de procesamiento y el chip gráfico.",
+                    "Pruebas de estrés de componentes internos del PC bajo modos extremos y personalizados.",
+                    "Monitoreo preciso en tiempo real de métricas térmicas, límites de energía, voltaje y velocidades de reloj.",
+                    "Verificación de la estabilidad del sistema y el hardware tras el overclocking de componentes.",
+                    "Recopilación de especificaciones técnicas detalladas de placas base, módulos RAM y unidades de almacenamiento.",
+                    "Exportación de registros exhaustivos, puntuaciones de benchmarks e informes de diagnóstico en TXT e HTML.",
+                    "Interfaz minimalista de alto rendimiento diseñada para consumir cero recursos durante las pruebas activas."
+                ]
+            },
+            ko: {
+                mainTitle: "Krvatox",
+                tagline: "고급 시스템 벤치마킹",
+                alertTitle: "⚠️ 사용 불가",
+                alertDesc: "Krvatox 소프트웨어는 Linux 운영체제에서 완전히 사용이 불가능합니다.",
+                aboutTitle: "소프트웨어 사양",
+                btnText: "Linux 사용 불가",
+                pcHint: "이 소프트웨어를 다운로드하고 실행하려면 Microsoft Windows OS 장치를 사용하십시오.",
+                licenseLink: "라이선스",
+                features: [
+                    "중앙 처리 장치(CPU) 및 그래픽 칩(GPU) 성능의 심층적이고 포괄적인 분석.",
+                    "극한 및 사용자 정의 모드에서 PC 내부 구성 요소의 스트레스 테스트 수행.",
+                    "온도 지표, 전력 제한, 전압 및 클럭 속도의 정확한 실시간 모니터링.",
+                    "구성 요소 오버클럭 후 시스템 및 하드웨어의 안정성 검증.",
+                    "메인보드, RAM 모듈 및 스토리지 드라이브에 대한 상세한 기술 사양 수집.",
+                    "상세한 로그 파일, 벤치마크 점수 및 진단 보고서를 TXT 및 HTML 형식으로 내보내기.",
+                    "활성 테스트 중에 리소스를 전혀 소모하지 않도록 설계된 미니멀한 고성능 인터페이스."
+                ]
+            },
+            zh: {
+                mainTitle: "Krvatox",
+                tagline: "高级系统基准测试",
+                alertTitle: "⚠️ 不可用",
+                alertDesc: "Krvatox 软件在 Linux 操作系统上完全不可用。",
+                aboutTitle: "软件规格说明",
+                btnText: "Linux 版不可用",
+                pcHint: "请使用搭载 微软 Windows 操作系统的设备来下载和运行此软件。",
+                licenseLink: "许可证",
+                features: [
+                    "对中央处理器和图形芯片进行深度、全面的性能分析。",
+                    "在极端和自定义模式下对 PC 内部组件进行压力测试。",
+                    "实时精准监控温度指标、功耗限制、电压和时钟频率。",
+                    "组件超频后，对系统和硬件稳定性进行全面验证。",
+                    "收集主板、内存模组和存储驱动器的详细技术规格。",
+                    "支持将完整的日志文件、基准测试分数和诊断报告导出为 TXT 和 HTML 格式。",
+                    "极简、高效的界面设计，确保在执行活动测试时占用零额外系统资源。"
+                ]
+            },
+            ja: {
+                mainTitle: "Krvatox",
+                tagline: "高度なシステムベンチマーク",
+                alertTitle: "⚠️ 利用不可",
+                alertDesc: "Krvatoxソフトウェアは、Linuxオペレーティングシステムでは完全に利用できません。",
+                aboutTitle: "ソフトウェア仕様",
+                btnText: "Linuxでは利用不可",
+                pcHint: "このソフトウェアをダウンロードして実行するには、Windows搭載の端末を使用してください。",
+                licenseLink: "ライセンス",
+                features: [
+                    "中央処理装置（CPU）およびグラフィックスチップ（GPU）の性能に関する高度で包括的な分析。",
+                    "極限状態およびカスタムモードにおけるPC内部コンポーネントの負荷テストの実行。",
+                    "温度メトリクス、電力制限、電圧、およびクロック速度の正確なリアルタイム監視。",
+                    "コンポーネントのオーバークロック後におけるシステムおよびハードウェアの安定性検証。",
+                    "マザーボード、RAMモジュール、およびストレージドライブの詳細な技術仕様の収集。",
+                    "詳細なログファイル、ベンチマークスコア、および診断レポートのTXTおよびHTML形式への出力。",
+                    "アクティブなテスト実行中に余計なリソースを一切消費しないミニマルで高効率なインターフェース。"
+                ]
+            }
+        };
+
+        function applyLanguage(lang) {
+            if (!translations[lang]) return;
+            const data = translations[lang];
+            
+            document.getElementById('mainTitle').textContent = data.mainTitle;
+            document.getElementById('tagline').textContent = data.tagline;
+            document.getElementById('alertTitle').textContent = data.alertTitle;
+            document.getElementById('alertDesc').textContent = data.alertDesc;
+            document.getElementById('aboutTitle').textContent = data.aboutTitle;
+            document.getElementById('btnText').textContent = data.btnText;
+            document.getElementById('pcHint').textContent = data.pcHint;
+            document.getElementById('licenseLink').textContent = data.licenseLink;
+
+            const listContainer = document.getElementById('featuresList');
+            listContainer.innerHTML = '';
+            data.features.forEach(text => {
+                const item = document.createElement('div');
+                item.className = 'feature-item';
+                item.textContent = text;
+                listContainer.appendChild(item);
+            });
+        }
+
+        // Автоопределение локализации браузера
+        window.addEventListener('DOMContentLoaded', () => {
+            const userLanguages = navigator.languages || [navigator.language || navigator.userLanguage];
+            let matchedLang = 'en';
+
+            for (let lang of userLanguages) {
+                const shortLang = lang.substring(0, 2).toLowerCase();
+                if (translations[shortLang]) {
+                    matchedLang = shortLang;
+                    break;
+                }
+            }
+            
+            applyLanguage(matchedLang);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Запрещаем индексацию служебных страниц и файлов
+Disallow: /404.html
+Disallow: /readme.md
+Disallow: /license.html
+
+# Указываем путь к карте сайта для поисковиков
+Sitemap: https://krvatox.github.io/sitemap.xml

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Krvatox Monitoring Program - Официальный сайт</title>
+    <meta name="description" content="Официальный сайт утилиты Krvatox Monitoring Program. Мониторинг аппаратных компонентов ПК, температуры, частот и внутриигровой HUD-оверлей FPS в реальном времени.">
+    <meta name="keywords" content="Krvatox, Krvatox Monitoring, скачать Krvatox, мониторинг пк, оверлей фпс, мониторинг процессора, мониторинг видеокарты, fps overlay tool">
+    
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="yandex" content="index, follow">
+    
+    <link rel="canonical" href="https://krvatox.github.io/index.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Krvatox Projects">
+    <meta property="og:url" content="https://krvatox.github.io/index.html">
+    <meta property="og:title" content="Krvatox Monitoring Program - Hardware Telemetry & HUD Overlay">
+    <meta property="og:description" content="Утилита для точного отслеживания параметров работы процессора, видеокарты, памяти и накопителей с кастомным игровым HUD.">
+    <meta property="og:image" content="https://krvatox.github.io/img/og_image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://krvatox.github.io/index.html">
+    <meta property="twitter:title" content="Krvatox Monitoring Program">
+    <meta property="twitter:description" content="Real-time hardware monitoring utility and customizable in-game FPS HUD overlay.">
+    <meta property="twitter:image" content="https://krvatox.github.io/img/og_image.png">
+
+    <script>
+        (function() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+            // 1. Проверка на мобильные устройства (смартфоны и планшеты Android, iOS, Windows Phone)
+            if (/android|avantgo|blackberry|iemobile|ip(hone|od|ad)|opera m(ob|in)i|vodafone|xda|xiino/i.test(ua)) {
+                window.location.replace('mobile-site.html');
+                return; // Останавливаем выполнение скрипта
+            }
+
+            // 2. Проверка на macOS (компьютеры Apple Mac)
+            if (/Macintosh|MacIntel|MacPPC|Mac68K/i.test(ua)) {
+                window.location.replace('macos.html');
+                return;
+            }
+
+            // 3. Проверка на настольный Linux (исключая Android, который перехвачен на шаге 1)
+            if (/Linux/i.test(ua)) {
+                window.location.replace('linux-version.html');
+                return;
+            }
+
+            // 4. По умолчанию (Windows и прочие десктопы) — сразу перенаправляем на index_ln.html
+            window.location.replace('index_ln.html');
+        })();
+    </script>
+</head>
+<body style="background:#0a0a0a;"></body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">404 — Voltshred Browser</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #202124; --bg-card: #292a2d; --text-primary: #e8eaed;
+                --text-secondary: #9aa0a6; --google-blue: #8ab4f8; --border-color: #3c4043;
+                --btn-primary-bg: #8ab4f8; --btn-primary-text: #202124;
+            }
+        }
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-page: #ffffff; --bg-card: #ffffff; --text-primary: #202124;
+                --text-secondary: #5f6368; --google-blue: #1a73e8; --border-color: #dadce0;
+                --btn-primary-bg: #1a73e8; --btn-primary-text: #ffffff;
+            }
+        }
+        :root {
+            --bg-page: #ffffff; --bg-card: #ffffff; --text-primary: #202124;
+            --text-secondary: #5f6368; --google-blue: #1a73e8; --border-color: #dadce0;
+            --btn-primary-bg: #1a73e8; --btn-primary-text: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Google Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+        body {
+            background-color: var(--bg-page); color: var(--text-primary);
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 24px; text-align: center;
+        }
+        .wrap { max-width: 480px; }
+        .code {
+            font-size: 72px; font-weight: 500; letter-spacing: -1px; color: var(--google-blue);
+            margin-bottom: 8px;
+        }
+        h1 { font-size: 24px; font-weight: 400; margin-bottom: 16px; letter-spacing: -0.3px; }
+        p { font-size: 15px; line-height: 24px; color: var(--text-secondary); margin-bottom: 28px; }
+        a.btn {
+            display: inline-block; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 500;
+            text-decoration: none; background-color: var(--btn-primary-bg); color: var(--btn-primary-text);
+            transition: opacity 0.2s ease;
+        }
+        a.btn:hover { opacity: 0.88; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="code">404</div>
+        <h1 id="h1">...</h1>
+        <p id="p">...</p>
+        <a class="btn" href="https://voltshred.xo.je/index.html" id="back-btn">На главную</a>
+    </div>
+    <script>
+        const locale = {
+            ru: { title: "404 — Страница не найдена", h1: "Страница не найдена", p: "Такой страницы не существует или она была перемещена. Проверьте адрес или вернитесь на главную.", back: "На главную" },
+            en: { title: "404 — Page Not Found", h1: "Page Not Found", p: "This page doesn't exist or has been moved. Check the address or go back to the homepage.", back: "Back to home" }
+        };
+        const lang = (navigator.language || navigator.userLanguage).startsWith('ru') ? 'ru' : 'en';
+        const t = locale[lang];
+        document.getElementById('page-title').innerText = t.title;
+        document.getElementById('h1').innerText = t.h1;
+        document.getElementById('p').innerText = t.p;
+        document.getElementById('back-btn').innerText = t.back;
+        document.documentElement.lang = lang;
+    </script>
+</body>
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krvatox Monitoring Program</title>
+    
+    <style>
+        /* СВЕТЛОЕ ОФОРМЛЕНИЕ (ПО УМОЛЧАНИЮ) */
+        :root {
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-main: #000000;
+            --text-muted: #555555;
+            --accent: #000000;
+            --btn-text: #ffffff;
+            --block-bg: rgba(255, 255, 255, 0.5);
+            --th-bg: rgba(0, 0, 0, 0.05);
+            --footer-bg: rgba(245, 245, 247, 0.95);
+            --modal-bg: rgba(255, 255, 255, 0.98);
+            --nav-btn-bg: rgba(230, 230, 230, 0.8);
+            --nav-btn-hover-bg: #000000;
+            --nav-btn-hover-text: #ffffff;
+            --logo-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+            
+            /* Платиново-белый градиент */
+            --bg-1: #ffffff;
+            --bg-2: #f5f5f7;
+            --bg-3: #e5e5ea;
+            --bg-4: #fafafa;
+        }
+
+        /* ТЕМНОЕ ОФОРМЛЕНИЕ (АВТОМАТИЧЕСКАЯ АДАПТАЦИЯ) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --border-color: #262626;
+                --text-main: #ffffff;
+                --text-muted: #aaaaaa;
+                --accent: #ffffff;
+                --btn-text: #000000;
+                --block-bg: rgba(0, 0, 0, 0.4);
+                --th-bg: rgba(0, 0, 0, 0.6);
+                --footer-bg: rgba(0, 0, 0, 0.8);
+                --modal-bg: rgba(0, 0, 0, 0.95);
+                --nav-btn-bg: rgba(20, 20, 20, 0.8);
+                --nav-btn-hover-bg: #ffffff;
+                --nav-btn-hover-text: #000000;
+                --logo-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+                
+                /* Графитово-черный градиент */
+                --bg-1: #000000;
+                --bg-2: #1c1c1c;
+                --bg-3: #444444;
+                --bg-4: #111111;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            border-radius: 0 !important; /* Строгие острые углы */
+            user-select: none; /* Запрет выделения */
+        }
+
+        /* ДИНАМИЧНЫЙ ПЕРЕЛИВ ФОНА */
+        @keyframes fastBlackGray {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        html, body {
+            min-height: 100vh;
+        }
+
+        body {
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4)) !important;
+            background-size: 300% 300% !important;
+            animation: fastBlackGray 4s ease infinite !important;
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        header {
+            background: transparent;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 0;
+        }
+
+        .logo {
+            font-family: 'Brush Script MT', 'Comic Sans MS', 'Segoe Print', cursive;
+            font-size: 36px;
+            font-weight: normal;
+            color: var(--text-main);
+            text-shadow: var(--logo-shadow);
+        }
+
+        main {
+            padding: 40px 0;
+        }
+
+        .intro {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--accent);
+            background: var(--accent);
+            color: var(--btn-text);
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--text-main);
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+            margin-top: 40px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            background: var(--block-bg);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: var(--block-bg);
+        }
+
+        .spec-table th, .spec-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+        }
+
+        .spec-table th {
+            background-color: var(--th-bg);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .spec-table td:first-child {
+            color: var(--text-muted);
+            width: 30%;
+            font-weight: 600;
+        }
+
+        .info-box {
+            border-left: 2px solid var(--accent);
+            padding: 15px;
+            margin-bottom: 40px;
+            background: var(--block-bg);
+        }
+
+        .info-box ul {
+            list-style: none;
+        }
+
+        .info-box li {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .info-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .screenshot-card {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            cursor: pointer;
+            background: var(--block-bg);
+        }
+
+        .screenshot-card:hover {
+            border-color: var(--text-main);
+        }
+
+        .screenshot-wrapper {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .screenshot-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 30px 0;
+            background-color: var(--footer-bg);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА СКРИНШОТОВ */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-wrapper {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 100%;
+            max-height: 90vh;
+            border: 1px solid var(--border-color);
+            object-fit: contain;
+        }
+
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--nav-btn-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1010;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--nav-btn-hover-bg);
+            color: var(--nav-btn-hover-text);
+            border-color: var(--nav-btn-hover-bg);
+        }
+
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        .close-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1001;
+            cursor: zoom-out;
+        }
+
+        /* СИСТЕМА ДИНАМИЧЕСКИХ ЯЗЫКОВЫХ СЕЛЕКТОРОВ */
+        .ln { display: none; }
+        body.lang-ru .ln.ru { display: inline; }
+        body.lang-en .ln.en { display: inline; }
+        body.lang-de .ln.de { display: inline; }
+        body.lang-fr .ln.fr { display: inline; }
+        body.lang-es .ln.es { display: inline; }
+        body.lang-zh .ln.zh { display: inline; }
+        body.lang-ko .ln.ko { display: inline; }
+        body.lang-ja .ln.ja { display: inline; }
+
+        body.lang-ru div.ln.ru, body.lang-ru p.ln.ru, body.lang-ru h1.ln.ru, body.lang-ru h2.ln.ru { display: block; }
+        body.lang-en div.ln.en, body.lang-en p.ln.en, body.lang-en h1.ln.en, body.lang-en h2.ln.en { display: block; }
+        body.lang-de div.ln.de, body.lang-de p.ln.de, body.lang-de h1.ln.de, body.lang-de h2.ln.de { display: block; }
+        body.lang-fr div.ln.fr, body.lang-fr p.ln.fr, body.lang-fr h1.ln.fr, body.lang-fr h2.ln.fr { display: block; }
+        body.lang-es div.ln.es, body.lang-es p.ln.es, body.lang-es h1.ln.es, body.lang-es h2.ln.es { display: block; }
+        body.lang-zh div.ln.zh, body.lang-zh p.ln.zh, body.lang-zh h1.ln.zh, body.lang-zh h2.ln.zh { display: block; }
+        body.lang-ko div.ln.ko, body.lang-ko p.ln.ko, body.lang-ko h1.ln.ko, body.lang-ko h2.ln.ko { display: block; }
+        body.lang-ja div.ln.ja, body.lang-ja p.ln.ja, body.lang-ja h1.ln.ja, body.lang-ja h2.ln.ja { display: block; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Krvatox Monitoring Program</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            
+            <div class="intro">
+                <h1 class="ln ru">Программа для мониторинга ПК</h1>
+                <h1 class="ln en">PC Monitoring Software</h1>
+                <h1 class="ln de">PC-Monitoring-Software</h1>
+                <h1 class="ln fr">Logiciel de surveillance PC</h1>
+                <h1 class="ln es">Software de Monitoreo de PC</h1>
+                <h1 class="ln zh">电脑硬件监控软件</h1>
+                <h1 class="ln ko">PC 모니터링 소프트웨어</h1>
+                <h1 class="ln ja">PCモニタリングソフトウェア</h1>
+
+                <p class="ln ru">Утилита отображает рабочие параметры процессора, видеокарты, накопителей и оперативной памяти, а также предоставляет оверлей FPS в играх.</p>
+                <p class="ln en">The utility displays operating parameters of the processor, graphics card, drives, and RAM, and features an in-game FPS HUD overlay.</p>
+                <p class="ln de">Das Dienstprogramm zeigt Betriebsparameter von Prozessor, Grafikkarte, Festplatten und Arbeitsspeicher an und bietet eine FPS-Anzeige in Spielen.</p>
+                <p class="ln fr">L'utilitaire affiche les paramètres de fonctionnement du processeur, de la carte graphique, des disques et de la mémoire RAM, ainsi qu'un overlay FPS en jeu.</p>
+                <p class="ln es">La utilidad muestra los parámetros de funcionamiento del procesador, tarjeta gráfica, discos y memoria RAM, así como una superposición HUD de FPS en juegos.</p>
+                <p class="ln zh">该工具可实时显示处理器、显卡、硬盘和内存的运行参数，并支持游戏内 FPS HUD 悬浮窗。</p>
+                <p class="ln ko">이 유틸리티는 프로세서, 그래픽 카드, 드라이브 및 RAM의 작동 매개변수를 표시하며 게임 내 FPS HUD 오버레이 기능을 제공합니다.</p>
+                <p class="ln ja">プロセッサ、グラフィックボード、ストレージ、メモリの動作パラメータを表示し、ゲーム内でのFPS HUDオーバーレイ機能も備えています。</p>
+
+                <a href="Krvatox_Setup.exe" class="btn">
+                    <span class="ln ru">Скачать установщик</span>
+                    <span class="ln en">Download Installer</span>
+                    <span class="ln de">Installer herunterladen</span>
+                    <span class="ln fr">Télécharger l'installateur</span>
+                    <span class="ln es">Descargar Instalador</span>
+                    <span class="ln zh">下载安装程序</span>
+                    <span class="ln ko">설치 프로그램 다운로드</span>
+                    <span class="ln ja">インストーラーをダウンロード</span>
+                </a>
+            </div>
+
+            <h2 class="ln ru">Возможности программы</h2>
+            <h2 class="ln en">Software Features</h2>
+            <h2 class="ln de">Software-Features</h2>
+            <h2 class="ln fr">Fonctionnalités du logiciel</h2>
+            <h2 class="ln es">Características del Software</h2>
+            <h2 class="ln zh">软件功能</h2>
+            <h2 class="ln ko">소프트웨어 기능</h2>
+            <h2 class="ln ja">ソフトウェア機能</h2>
+
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-title">
+                        <span class="ln ru">Телеметрия железа</span><span class="ln en">Hardware Telemetry</span><span class="ln de">Hardware-Telemetrie</span><span class="ln fr">Télémétrie Matérielle</span><span class="ln es">Telemetría de Hardware</span><span class="ln zh">硬件遥测</span><span class="ln ko">하드웨어 원격 측정</span><span class="ln ja">ハードウェア・テレメトリ</span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="ln ru">Точное отслеживание частот, температур, напряжений и нагрузки CPU, GPU и оперативной памяти.</span>
+                        <span class="ln en">Precise tracking of frequencies, core temperatures, voltages, and utilization of CPU, GPU, and RAM.</span>
+                        <span class="ln de">Präzise Erfassung von Frequenzen, Kerntemperaturen, aktuellen Spannungen und der prozentualen Auslastung von CPU, Grafikchip und RAM-Modulen.</span>
+                        <span class="ln fr">Suivi précis des fréquences, températures, tensions et utilisation du CPU, du GPU et de la RAM.</span>
+                        <span class="ln es">Seguimiento preciso de frecuencias, temperaturas de núcleos, voltajes y uso de CPU, GPU y RAM.</span>
+                        <span class="ln zh">精确追踪 CPU、GPU 和内存的频率、核心温度、电压及负载百分比。</span>
+                        <span class="ln ko">CPU, GPU 및 RAM의 주파수, 코어 온도, 전압 및 부하율을 정밀하게 추적합니다.</span>
+                        <span class="ln ja">CPU、GPU、RAMの周波数、コア温度、電圧、負荷率を正確に追跡します。</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">
+                        <span class="ln ru">Игровой HUD оверлей</span><span class="ln en">In-Game HUD Overlay</span><span class="ln de">In-Game HUD Overlay</span><span class="ln fr">Incrustation HUD en jeu</span><span class="ln es">Superposición HUD en juego</span><span class="ln zh">游戏内 HUD 悬浮窗</span><span class="ln ko">게임 내 HUD 오버레이</span><span class="ln ja">ゲーム内HUDオーバーレイ</span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="ln ru">Настраиваемый экранный дисплей для контроля частоты кадров (FPS), стабильности фреймтайма и температур в игре.</span>
+                        <span class="ln en">Customizable on-screen display to monitor frame rate (FPS), frametime stability, and hardware temperatures directly in games.</span>
+                        <span class="ln de">Anzeige einer anpassbaren Bildschirmanzeige zur Überwachung der Bildrate (FPS), Frametime-Stabilität und Hardware-Temperaturen direkt im Spiel.</span>
+                        <span class="ln fr">Affichage superposé personnalisable pour surveiller le taux de rafraîchissement (FPS), la stabilité du frametime et les températures en jeu.</span>
+                        <span class="ln es">Pantalla personalizable para monitorear la tasa de fotogramas (FPS), la estabilidad del frametime y las temperaturas en el juego.</span>
+                        <span class="ln zh">可自定义的屏幕悬浮窗，在游戏内直接监控帧率 (FPS)、帧时间 (Frametime) 稳定性及硬件温度。</span>
+                        <span class="ln ko">게임 내에서 프레임 레이트(FPS), 프레임타임 안정성 및 하드웨어 온도를 직접 모니터링할 수 있는 맞춤형 화면 표시입니다.</span>
+                        <span class="ln ja">ゲーム内でフレームレート（FPS）、フレームタイムの安定性、ハードウェア温度を直接監視できるカスタマイズ可能な画面表示です。</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">
+                        <span class="ln ru">Тесты и диагностика</span><span class="ln en">Tests & Diagnostics</span><span class="ln de">Tests & Diagnose</span><span class="ln fr">Tests & Diagnostics</span><span class="ln es">Pruebas y Diagnóstico</span><span class="ln zh">测试与诊断</span><span class="ln ko">테스트 및 진단</span><span class="ln ja">テスト＆診断</span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="ln ru">Встроенные модули для оценки производительности процессора под нагрузкой и замера скорости чтения/записи накопителей.</span>
+                        <span class="ln en">Built-in modules to evaluate CPU performance under load and measure sequential read/write drive speeds.</span>
+                        <span class="ln de">Integrierte Module zur Bewertung der CPU-Rechenleistung unter Volllast sowie zur Messung der sequentiellen Lese- und Schreibgeschwindigkeiten von Laufwerken (IOPS).</span>
+                        <span class="ln fr">Modules intégrés pour évaluer les performances du processeur sous charge et mesurer les vitesses de lecture/écriture séquentielles des disques.</span>
+                        <span class="ln es">Módulos integrados para evaluar el rendimiento de la CPU bajo carga y medir las velocidades de lectura/escritura secuenciales de las unidades.</span>
+                        <span class="ln zh">内置模组，用于评估满载下的 CPU 计算性能以及测量硬盘的顺序读写速度。</span>
+                        <span class="ln ko">부하 상태에서 CPU 연산性能을 평가하고 드라이브의 순차 읽기/쓰기 속도를 측정하는 내장 모듈입니다.</span>
+                        <span class="ln ja">高負荷下でのCPU演算性能の評価、およびストレージのシーケンシャル読み込み/書き込み速度を測定する内蔵モジュールです。</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="ln ru">Поддерживаемые компоненты и параметры</h2>
+            <h2 class="ln en">Supported Components & Parameters</h2>
+            <h2 class="ln de">Unterstützte Komponenten & Parameter</h2>
+            <h2 class="ln fr">Composants & Paramètres Supportés</h2>
+            <h2 class="ln es">Componentes y Parámetros Soportados</h2>
+            <h2 class="ln zh">支持的组件与参数</h2>
+            <h2 class="ln ko">지원되는 구성 요소 및 매개변수</h2>
+            <h2 class="ln ja">サポートされているコンポーネントとパラメータ</h2>
+
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="ln ru">Аппаратный узел</span><span class="ln en">Hardware Node</span><span class="ln de">Hardware-Knoten</span><span class="ln fr">Composant Matériel</span><span class="ln es">Componente de Hardware</span><span class="ln zh">硬件节点</span><span class="ln ko">하드웨어 노드</span><span class="ln ja">ハードウェア・ノード</span>
+                        </th>
+                        <th>
+                            <span class="ln ru">Контролируемые метрики телеметрии</span><span class="ln en">Monitored Telemetry Metrics</span><span class="ln de">Überwachte Telemetrie-Metriken</span><span class="ln fr">Métriques de Télémétrie Surveillées</span><span class="ln es">Métricas de Telemetría Monitoreadas</span><span class="ln zh">监控的遥测指标</span><span class="ln ko">모니터링되는 원격 측정 지표</span><span class="ln ja">監視されるテレメトリ・メトリクス</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="ln ru">Процессор (CPU)</span><span class="ln en">Processor (CPU)</span><span class="ln de">Prozessor (CPU)</span><span class="ln fr">Processeur (CPU)</span><span class="ln es">Procesador (CPU)</span><span class="ln zh">处理器 (CPU)</span><span class="ln ko">프로세서 (CPU)</span><span class="ln ja">プロセッサ (CPU)</span></td>
+                        <td>
+                            <span class="ln ru">Нагрузка по ядрам, частота в реальном времени, температура ядер, энергопотребление (TDP), напряжение.</span>
+                            <span class="ln en">Core utilization, real-time clock speed, core temperatures, total power consumption (TDP), core voltage.</span>
+                            <span class="ln de">Auslastung der einzelnen Kerne, Echtzeit-Taktrate, Kerntemperaturen, Gesamte Leistungsaufnahme (TDP), Kernspannung.</span>
+                            <span class="ln fr">Utilisation des cœurs, fréquence en temps réel, températures des cœurs, consommation totale (TDP), tension du cœur.</span>
+                            <span class="ln es">Uso por núcleo, velocidad de reloj en tiempo real, temperaturas de núcleos, consumo total de energía (TDP), voltaje de núcleo.</span>
+                            <span class="ln zh">核心负载、实时主频、核心温度、总功耗 (TDP)、核心电压。</span>
+                            <span class="ln ko">코어별 부하, 실시간 클럭 속도, 코어 온도, 총 소비 전력 (TDP), 코어 전압.</span>
+                            <span class="ln ja">コア別の負荷、リアルタイムの動作周波数、コア温度、総消費電力（TDP）、コア電圧。</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="ln ru">Видеокарта (GPU)</span><span class="ln en">Graphics Card (GPU)</span><span class="ln de">Grafikkarte (GPU)</span><span class="ln fr">Carte Graphique (GPU)</span><span class="ln es">Tarjeta Gráfica (GPU)</span><span class="ln zh">显卡 (GPU)</span><span class="ln ko">그래픽 카드 (GPU)</span><span class="ln ja">グラフィックボード (GPU)</span></td>
+                        <td>
+                            <span class="ln ru">Частота чипа и видеопамяти, температура чипа и HotSpot, выделенная и занятая VRAM, скорость вентиляторов (RPM).</span>
+                            <span class="ln en">Core and memory clock speed, chip and HotSpot temperatures, allocated and used VRAM, fan speed (RPM).</span>
+                            <span class="ln de">Taktfrequenz von Grafikchip und Videospeicher, chip- und HotSpot-Temperatur, zugewiesener und belegter VRAM, Lüfterdrehzahl (RPM).</span>
+                            <span class="ln fr">Fréquence du cœur et de la mémoire, température du puce et du HotSpot, VRAM allouée et utilisée, vitesse des ventilateurs (RPM).</span>
+                            <span class="ln es">Frecuencia de reloj de núcleo y memoria, temperatura del chip y HotSpot, VRAM asignada y utilizada, velocidad del ventilador (RPM).</span>
+                            <span class="ln zh">核心及显存频率、核心与 HotSpot 温度、已分配和已用 VRAM、风扇转速 (RPM)。</span>
+                            <span class="ln ko">코어 및 메모리 클럭 속도, 칩 및 HotSpot 온도, 할당 및 사용된 VRAM, 팬 속도 (RPM).</span>
+                            <span class="ln ja">コアおよびメモリの動作周波数、チップおよびHotSpotの温度、割り当て済み/使用中のVRAM、ファン回転数（RPM）。</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="ln ru">Оперативная память (RAM)</span><span class="ln en">RAM Memory</span><span class="ln de">Arbeitsspeicher (RAM)</span><span class="ln fr">Mémoire RAM</span><span class="ln es">Memoria RAM</span><span class="ln zh">运行内存 (RAM)</span><span class="ln ko">작동 메모리 (RAM)</span><span class="ln ja">メインメモリ (RAM)</span></td>
+                        <td>
+                            <span class="ln ru">Общий объем, занятый и свободный объем в мегабайтах, процентная нагрузка, скорость передачи данных.</span>
+                            <span class="ln en">Total physical memory, used and free space in megabytes, utilization percentage, data transfer throughput.</span>
+                            <span class="ln de">Gesamter physischer Speicher, belegter und freier Speicherplatz in Megabyte, prozentuale Nettoauslastung, Datendurchsatzgeschwindigkeit.</span>
+                            <span class="ln fr">Mémoire physique totale, espace utilisé et libre en mégaoctets, pourcentage d'utilisation, débit de transfert.</span>
+                            <span class="ln es">Memoria física total, espacio usado y libre en megabytes, porcentaje de uso, velocidad de transferencia de datos.</span>
+                            <span class="ln zh">总物理内存、已用和可用空间 (MB)、利用率百分比、数据传输速率。</span>
+                            <span class="ln ko">총 물리 메모리, 메가바이트 단위의 사용 및 여유 공간, 부하율 백분율, 데이터 전송 속도.</span>
+                            <span class="ln ja">総物理メモリ、メガバイト単位の使用中/空き容量、負荷率の割合、データ転送速度。</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="ln ru">Накопители (SSD / HDD)</span><span class="ln en">Storage Drives (SSD / HDD)</span><span class="ln de">Speicherlaufwerke (SSD / HDD)</span><span class="ln fr">Disques de Stockage</span><span class="ln es">Unidades de Almacenamiento</span><span class="ln zh">存储驱动器 (SSD / HDD)</span><span class="ln ko">저장 드라이브 (SSD / HDD)</span><span class="ln ja">ストレージ（SSD / HDD）</span></td>
+                        <td>
+                            <span class="ln ru">Текущая рабочая температура, скорость последовательного чтения и записи, мониторинг операций ввода-вывода (IOPS).</span>
+                            <span class="ln en">Current operating temperature, sequential read and write speeds, monitoring of input/output operations per second (IOPS).</span>
+                            <span class="ln de">Aktuelle Betriebstemperatur, sequentielle Lese- und Schreibgeschwindigkeit, Überwachung der Ein-/Ausgabeoperationen pro Sekunde (IOPS).</span>
+                            <span class="ln fr">Température de fonctionnement actuelle, vitesses de lecture/écriture séquentielles, surveillance des opérations d'entrée/sortie par seconde (IOPS).</span>
+                            <span class="ln es">Temperatura de funcionamiento actual, velocidades de lectura/escritura secuenciales, monitoreo de operaciones de E/S por segundo (IOPS).</span>
+                            <span class="ln zh">当前工作温度、顺序读取和写入速度、每秒输入/输出操作数 (IOPS) 监控。</span>
+                            <span class="ln ko">현재 작동 온도, 순차 읽기 및 쓰기 속도, 초당 입출력 작업 수 (IOPS) 모니터링.</span>
+                            <span class="ln ja">現在の動作温度、シーケンシャル読み込み/書き込み速度、1秒あたりの入出力操作数（IOPS）の監視。</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 class="ln ru">Технические спецификации и требования</h2>
+            <h2 class="ln en">Technical Specifications & Requirements</h2>
+            <h2 class="ln de">Technische Spezifikationen und Anforderungen</h2>
+            <h2 class="ln fr">Spécifications Techniques & Exigences</h2>
+            <h2 class="ln es">Especificaciones Técnicas y Requisitos</h2>
+            <h2 class="ln zh">技术规格与系统要求</h2>
+            <h2 class="ln ko">기술 사양 및 요구 사항</h2>
+            <h2 class="ln ja">技術仕様および要件</h2>
+
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="ln ru">Критерий</span><span class="ln en">Criterion</span><span class="ln de">Kriterium</span><span class="ln fr">Critère</span><span class="ln es">Criterio</span><span class="ln zh">指标名称</span><span class="ln ko">기준</span><span class="ln ja">基準</span>
+                        </th>
+                        <th>
+                            <span class="ln ru">Спецификация и совместимость</span><span class="ln en">Specification & Compatibility</span><span class="ln de">Spezifikation und Kompatibilität</span><span class="ln fr">Spécification & Compatibilité</span><span class="ln es">Especificación y Compatibilidad</span><span class="ln zh">规格参数与兼容性</span><span class="ln ko">사양 및 호환성</span><span class="ln ja">仕様および互換性</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="ln ru">Операционная sistema</span><span class="ln en">Operating System</span><span class="ln de">Betriebssystem</span><span class="ln fr">Système d'Exploitation</span><span class="ln es">Sistema Operativo</span><span class="ln zh">操作系统</span><span class="ln ko">운영 체제</span><span class="ln ja">オペレーティングシステム</span></td>
+                        <td>
+                            <span class="ln ru">Windows 10 / Windows 11 (Исключительно 64-bit)</span>
+                            <span class="ln en">Windows 10 / Windows 11 (64-bit versions only)</span>
+                            <span class="ln de">Windows 10 / Windows 11 (Ausschließlich 64-Bit-Versionen)</span>
+                            <span class="ln fr">Windows 10 / Windows 11 (Versions 64 bits uniquement)</span>
+                            <span class="ln es">Windows 10 / Windows 11 (Solo versiones de 64 bits)</span>
+                            <span class="ln zh">Windows 10 / Windows 11 (仅限 64 位版本)</span>
+                            <span class="ln ko">Windows 10 / Windows 11 (64비트 버전 전용)</span>
+                            <span class="ln ja">Windows 10 / Windows 11 (64ビットバージョンのみ)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="ln ru">Платформа и разработка</span><span class="ln en">Platform & Development</span><span class="ln de">Plattform & Entwicklung</span><span class="ln fr">Plateforme & Développement</span><span class="ln es">Plataforma y Desarrollo</span><span class="ln zh">开发平台</span><span class="ln ko">플랫폼 및 개발</span><span class="ln ja">プラットフォームと開発</span></td>
+                        <td>
+                            <span class="ln ru">Разработано на базе .NET 10.0; интерфейс построен на Windows Forms Framework</span>
+                            <span class="ln en">Developed on the .NET 10.0 runtime environment; user interface built with Windows Forms Framework</span>
+                            <span class="ln de">Entwickelt auf Basis der .NET 10.0 Laufzeitumgebung; Benutzeroberfläche basiert auf dem Windows Forms Framework</span>
+                            <span class="ln fr">Développé sur l'environnement d'exécution .NET 10.0 ; interface utilisateur basée sur Windows Forms Framework</span>
+                            <span class="ln es">Desarrollado sobre el entorno de ejecución .NET 10.0; interfaz de usuario basada en Windows Forms Framework</span>
+                            <span class="ln zh">基于 .NET 10.0 运行环境开发；用户界面构建于 Windows Forms 框架</span>
+                            <span class="ln ko">.NET 10.0 런타임 환경을 기반으로 개발됨; 사용자 인터페이스는 Windows Forms 프레임워크 기반</span>
+                            <span class="ln ja">.NET 10.0 ランタイム環境をベースに開発。ユーザーインターフェースは Windows Forms フレームワークで構築</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="ln ru">Необходимые компоненты</span><span class="ln en">Required Components</span><span class="ln de">Erforderliche Komponenten</span><span class="ln fr">Composants Requis</span><span class="ln es">Componentes Requeridos</span><span class="ln zh">必要组件</span><span class="ln ko">필수 구성 요소</span><span class="ln ja">必要なコンポーネント</span></td>
+                        <td>
+                            <span class="ln ru">Для корректного отображения игрового оверлея требуется запущенный в фоне RivaTuner Statistics Server (RTSS)</span>
+                            <span class="ln en">Correct rendering of the in-game overlay requires RivaTuner Statistics Server (RTSS) running actively in the background</span>
+                            <span class="ln de">Für die korrekte Darstellung des In-Game-Overlays ist eine aktive Ausführung des RivaTuner Statistics Server (RTSS) im Hintergrund erforderlich</span>
+                            <span class="ln fr">L'affichage correct de l'incrustation en jeu nécessite l'exécution en arrière-plan du RivaTuner Statistics Server (RTSS)</span>
+                            <span class="ln es">La representación correcta de la superposición en juego requiere que RivaTuner Statistics Server (RTSS) se ejecute activamente en segundo plano</span>
+                            <span class="ln zh">为确保游戏内悬浮窗的正确渲染，需要后台保持 RivaTuner Statistics Server (RTSS) 处于运行状态</span>
+                            <span class="ln ko">게임 내 오버레이를 올바르게 렌더링하려면 RivaTuner Statistics Server(RTSS)가 백그라운드에서 활성화되어 실행 중이어야 합니다.</span>
+                            <span class="ln ja">ゲーム内オーバーレイを正しく描画するには、バックグラウンドで RivaTuner Statistics Server（RTSS）がアクティブに実行されている必要があります</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box">
+                <ul>
+                    <li>
+                        <span class="ln ru">• Важно: Для запуска требуются права администратора, чтобы корректно инициализировать низкоуровневые драйверы опроса датчиков температуры.</span>
+                        <span class="ln en">• Important: Administrator privileges are required at startup to correctly initialize low-level drivers for reading hardware temperature sensors.</span>
+                        <span class="ln de">• Wichtig: Zum Starten sind Administratorrechte erforderlich, um die Low-Level-Treiber für das Auslesen der Temperatursensoren korrekt zu initialisieren.</span>
+                        <span class="ln fr">• Important : Les privilèges d'administrateur sont requis au démarrage pour initialiser correctement les pilotes de bas niveau pour la lecture des capteurs de température.</span>
+                        <span class="ln es">• Importante: Se requieren privilegios de administrador al iniciar para inicializar correctamente los controladores de bajo nivel para leer los sensores de temperatura.</span>
+                        <span class="ln zh">• 重要提示：启动时需要管理员权限，以便正确初始化用于读取温度传感器的底层驱动程序。</span>
+                        <span class="ln ko">• 중요: 하드웨어 온도 센서를 읽기 위한 하위 수준 드라이버를 올ба르게 초기화하려면 시작 시 관리자 권한이 필요합니다.</span>
+                        <span class="ln ja">• 重要：温度センサーを読み取るための低レベルドライバーを正しく初期化するには、起動時に管理者権限が必要です。</span>
+                    </li>
+                    <li>
+                        <span class="ln ru">• Конфиденциальность: Программа обрабатывает все данные локально. Сбор, хранение или отправка профилей пользователей и статистики отсутствуют.</span>
+                        <span class="ln en">• Privacy: The application processes all data locally. There is no collection, storage, or transmission of user profiles or telemetry usage statistics.</span>
+                        <span class="ln de">• Datenschutz: Das Programm verarbeitet alle Daten lokal. Es werden keine Benutzerprofile, Telemetriedaten oder Nutzungsstatistiken gesammelt oder übertragen.</span>
+                        <span class="ln fr">• Confidentialité : L'application traite toutes les données localement. Aucun profil utilisateur ou statistique d'utilisation n'est collecté, stocké ou transmis.</span>
+                        <span class="ln es">• Privacidad: La aplicación procesa todos los datos localmente. No existe recopilación, almacenamiento ni transmisión de perfiles de usuario o estadísticas de uso.</span>
+                        <span class="ln zh">• 隐私安全：程序完全在本地处理所有数据。不收集、不存储、亦不向外传输任何用户配置文件或遥测使用统计。</span>
+                        <span class="ln ko">• 개인정보 보호: 애플리케이션은 모든 데이터를 로컬에서 처리합니다. 사용자 프로필이나 원격 측정 사용 통계의 수집, 저장 또는 전송이 일체 없습니다.</span>
+                        <span class="ln ja">• プライバシー：アプリケーションはすべてのデータをローカルで処理します。ユーザープロファイルやテレメトリの使用統計の収集、保存、送信は一切行われません。</span>
+                    </li>
+                </ul>
+            </div>
+
+            <h2 class="ln ru">Скриншоты программы</h2>
+            <h2 class="ln en">Software Screenshots</h2>
+            <h2 class="ln de">Software-Screenshots</h2>
+            <h2 class="ln fr">Captures d'écran du logiciel</h2>
+            <h2 class="ln es">Capturas de Pantalla del Software</h2>
+            <h2 class="ln zh">软件截图</h2>
+            <h2 class="ln ko">소프트웨어 스크린샷</h2>
+            <h2 class="ln ja">ソフトウェアのスクリーンショット</h2>
+
+            <div class="screenshot-grid">
+                <div class="screenshot-card" onclick="openImageModal(0)">
+                    <div class="screenshot-wrapper">
+                        <img id="scr-1" src="en_img/1.png" alt="Screenshot 1">
+                    </div>
+                </div>
+                <div class="screenshot-card" onclick="openImageModal(1)">
+                    <div class="screenshot-wrapper">
+                        <img id="scr-2" src="en_img/2.png" alt="Screenshot 2">
+                    </div>
+                </div>
+                <div class="screenshot-card" onclick="openImageModal(2)">
+                    <div class="screenshot-wrapper">
+                        <img id="scr-3" src="en_img/3.png" alt="Screenshot 3">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>&copy; 2023-2026 Krvatox Projects.</div>
+                <div class="footer-links">
+                    <span style="color: var(--text-muted);">
+                        <span class="ln ru">Служба поддержки</span><span class="ln en">Support Contact</span><span class="ln de">Support-Kontakt</span><span class="ln fr">Contact Support</span><span class="ln es">Contacto de Soporte</span><span class="ln zh">技术支持邮箱</span><span class="ln ko">지원 문의</span><span class="ln ja">サポート窓口</span>: krvatox@gmail.com
+                    </span>
+                    <a href="license.html" target="_blank">
+                        <span class="ln ru">Лицензионное соглашение</span><span class="ln en">End-User License Agreement</span><span class="ln de">Endbenutzer-Lizenzvereinbarung</span><span class="ln fr">Contrat de Licence Final</span><span class="ln es">Acuerdo de Licencia Final</span><span class="ln zh">最终用户许可协议</span><span class="ln ko">최종 사용자 라이선스 계약</span><span class="ln ja">最终ユーザー許諾契約</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="imageModal" class="modal">
+        <div class="close-area" onclick="closeModal()"></div>
+        
+        <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
+        
+        <div class="modal-wrapper" style="z-index: 1005;">
+            <img class="modal-content" id="modalImg" alt="Viewport View">
+        </div>
+        
+        <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
+    </div>
+
+    <script>
+        // Массив относительных имён скриншотов
+        const baseImages = ['1.png', '2.png', '3.png'];
+        let activeImgFolder = 'en_img/'; // По умолчанию английские
+        let currentIndex = 0;
+
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+
+        function openImageModal(index) {
+            currentIndex = index;
+            modal.style.display = "flex";
+            updateModalImage();
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex >= baseImages.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = baseImages.length - 1;
+            }
+            updateModalImage();
+        }
+
+        function updateModalImage() {
+            // Формируем полный путь на основе активной папки языка
+            modalImg.src = activeImgFolder + baseImages[currentIndex];
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (modal.style.display === "flex") {
+                if (event.key === "ArrowLeft") {
+                    changeImage(-1);
+                } else if (event.key === "ArrowRight") {
+                    changeImage(1);
+                } else if (event.key === "Escape") {
+                    closeModal();
+                }
+            }
+        });
+
+        // СЛУЖЕБНЫЕ МЕТА-ЗАГОЛОВКИ ДЛЯ СТРАНИЦЫ
+        const pageTitles = {
+            'ru': 'Krvatox Monitoring Program - Официальный сайт',
+            'en': 'Krvatox Monitoring Program - Official Website',
+            'de': 'Krvatox Monitoring Program - Offizielle Website',
+            'fr': 'Krvatox Monitoring Program - Site Officiel',
+            'es': 'Krvatox Monitoring Program - Sitio Oficial',
+            'zh': 'Krvatox Monitoring Program - 官方网站',
+            'ko': 'Krvatox Monitoring Program - 공식 웹사이트',
+            'ja': 'Krvatox Monitoring Program - 公式サイト'
+        };
+
+        // АВТООПРЕДЕЛЕНИЕ ЯЗЫКА СИСТЕМЫ ПОЛЬЗОВАТЕЛЯ
+        window.addEventListener('DOMContentLoaded', () => {
+            let userLang = navigator.language || navigator.userLanguage;
+            userLang = userLang.toLowerCase().split('-')[0]; // Выделяем базовый код (ru, en...)
+
+            const supported = ['ru', 'en', 'de', 'fr', 'es', 'zh', 'ko', 'ja'];
+            const activeLang = supported.includes(userLang) ? userLang : 'en'; 
+
+            // Присваиваем динамическую папку со скриншотами для текущего языка
+            activeImgFolder = activeLang + '_img/';
+
+            // Динамически обновляем пути src у скриншотов в сетке
+            document.getElementById('scr-1').src = activeImgFolder + '1.png';
+            document.getElementById('scr-2').src = activeImgFolder + '2.png';
+            document.getElementById('scr-3').src = activeImgFolder + '3.png';
+
+            // Активация локализации текстовых блоков через класс на body
+            document.body.className = 'lang-' + activeLang;
+            document.title = pageTitles[activeLang] || pageTitles['en'];
+        });
+    </script>
+
+</body>
+</html>

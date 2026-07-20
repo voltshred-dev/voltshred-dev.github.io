@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krvatox Monitoring Program - Features</title>
+
+    <meta name="description" content="Advanced hardware monitoring software with low-level kernel drivers and RTSS HUD integration. Stable release 1.0 from June 24, 2026.">
+    <meta name="keywords" content="Krvatox, hardware monitoring, FPS overlay, RTSS HUD, frametime analyzer, GPU hotspot, CPU telemetry, kernel driver monitoring">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="yandex" content="index, follow">
+    
+    <!-- SEO: Основная ссылка на домен krvatox.github.io -->
+    <link rel="canonical" href="https://krvatox.github.io/features.html">
+
+    <!-- SEO: Указание мультиязычных альтернатив для поисковых систем (8 языков) -->
+    <link rel="alternate" hreflang="ru" href="https://krvatox.github.io/features.html?lang=ru">
+    <link rel="alternate" hreflang="en" href="https://krvatox.github.io/features.html?lang=en">
+    <link rel="alternate" hreflang="fr" href="https://krvatox.github.io/features.html?lang=fr">
+    <link rel="alternate" hreflang="de" href="https://krvatox.github.io/features.html?lang=de">
+    <link rel="alternate" hreflang="es" href="https://krvatox.github.io/features.html?lang=es">
+    <link rel="alternate" hreflang="zh" href="https://krvatox.github.io/features.html?lang=zh">
+    <link rel="alternate" hreflang="ko" href="https://krvatox.github.io/features.html?lang=ko">
+    <link rel="alternate" hreflang="ja" href="https://krvatox.github.io/features.html?lang=ja">
+    <link rel="alternate" hreflang="x-default" href="https://krvatox.github.io/features.html">
+
+    <!-- Open Graph метатеги для соцсетей -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Krvatox Monitoring Program - Architecture & Features">
+    <meta property="og:description" content="Explore low-level logic, thread isolation, and advanced sensor telemetry of Krvatox 1.0 Stable.">
+    <meta property="og:url" content="https://krvatox.github.io/features.html">
+    <meta property="og:site_name" content="Krvatox Projects">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Krvatox Monitoring Program - Features">
+    <meta name="twitter:description" content="Low-overhead hardware monitoring and HUD analytics software released on June 24, 2026.">
+    
+    <style>
+        /* СВЕТЛОЕ ОФОРМЛЕНИЕ (ПО УМОЛЧАНИЮ) */
+        :root {
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-main: #000000;
+            --text-muted: #555555;
+            --accent: #000000;
+            --btn-text: #ffffff;
+            --block-bg: rgba(255, 255, 255, 0.5);
+            --th-bg: rgba(0, 0, 0, 0.05);
+            --footer-bg: rgba(245, 245, 247, 0.95);
+            --modal-bg: rgba(255, 255, 255, 0.98);
+            --nav-btn-bg: rgba(230, 230, 230, 0.8);
+            --nav-btn-hover-bg: #000000;
+            --nav-btn-hover-text: #ffffff;
+            --logo-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+            
+            --bg-1: #ffffff;
+            --bg-2: #f5f5f7;
+            --bg-3: #e5e5ea;
+            --bg-4: #fafafa;
+        }
+
+        /* ТЕМНОЕ ОФОРМЛЕНИЕ (АВТОМАТИЧЕСКАЯ АДАПТАЦИЯ) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --border-color: #262626;
+                --text-main: #ffffff;
+                --text-muted: #aaaaaa;
+                --accent: #ffffff;
+                --btn-text: #000000;
+                --block-bg: rgba(0, 0, 0, 0.4);
+                --th-bg: rgba(0, 0, 0, 0.6);
+                --footer-bg: rgba(0, 0, 0, 0.8);
+                --modal-bg: rgba(0, 0, 0, 0.95);
+                --nav-btn-bg: rgba(20, 20, 20, 0.8);
+                --nav-btn-hover-bg: #ffffff;
+                --nav-btn-hover-text: #000000;
+                --logo-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+                
+                --bg-1: #000000;
+                --bg-2: #1c1c1c;
+                --bg-3: #444444;
+                --bg-4: #111111;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            border-radius: 0 !important;
+            user-select: none;
+        }
+
+        @keyframes fastBlackGray {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        html, body {
+            min-height: 100vh;
+        }
+
+        body {
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4)) !important;
+            background-size: 300% 300% !important;
+            animation: fastBlackGray 4s ease infinite !important;
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        header {
+            background: transparent;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 0;
+        }
+
+        .logo {
+            font-family: 'Brush Script MT', 'Comic Sans MS', 'Segoe Print', cursive;
+            font-size: 36px;
+            font-weight: normal;
+            color: var(--text-main);
+            text-shadow: var(--logo-shadow);
+            text-decoration: none;
+        }
+
+        main {
+            padding: 40px 0;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--accent);
+            background: var(--accent);
+            color: var(--btn-text);
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--text-main);
+        }
+
+        .release-badge {
+            border: 1px dashed var(--border-color);
+            padding: 12px 20px;
+            background: var(--block-bg);
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .release-badge strong {
+            color: var(--text-main);
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-align: justify;
+        }
+
+        .feature-detail-block {
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            background: var(--block-bg);
+            margin-bottom: 25px;
+        }
+
+        .feature-detail-block ul {
+            list-style-type: none;
+            margin-top: 15px;
+        }
+
+        .feature-detail-block li {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .feature-detail-block li::before {
+            content: "▪";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 10px;
+            top: 1px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-back:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 30px 0;
+            background-color: var(--footer-bg);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Умная мультиязычная архитектура для роботов-индексаторов */
+        .ln { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="https://krvatox.github.io/index.html" class="logo">Krvatox Monitoring Program</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            
+            <div class="top-bar">
+                <!-- Заголовки H1 на 8 языках -->
+                <h1 class="ln ru">Архитектура и возможности</h1>
+                <h1 class="ln en">Architecture & Features</h1>
+                <h1 class="ln fr">Architecture & Fonctions</h1>
+                <h1 class="ln de">Architektur & Features</h1>
+                <h1 class="ln es">Arquitectura y Funciones</h1>
+                <h1 class="ln zh">底层架构与功能细节</h1>
+                <h1 class="ln ko">아키텍처 및 기능 상세</h1>
+                <h1 class="ln ja">アーキテクチャと機能詳細</h1>
+
+                <!-- Прямая исправленная ссылка на скачивание на домене krvatox.github.io -->
+                <a href="https://krvatox.github.io/Krvatox_Setup.exe" class="btn">
+                    <span class="ln ru">Скачать Krvatox_Setup.exe</span>
+                    <span class="ln en">Download Krvatox_Setup.exe</span>
+                    <span class="ln fr">Télécharger Krvatox_Setup.exe</span>
+                    <span class="ln de">Krvatox_Setup.exe Herunterladen</span>
+                    <span class="ln es">Descargar Krvatox_Setup.exe</span>
+                    <span class="ln zh">下载 Krvatox_Setup.exe</span>
+                    <span class="ln ko">Krvatox_Setup.exe 다운로드</span>
+                    <span class="ln ja">Krvatox_Setup.exe をダウンロード</span>
+                </a>
+            </div>
+
+            <!-- Плашки релиза на 8 языках -->
+            <div class="release-badge">
+                <span class="ln ru">Официальный релиз ветки <strong>Version 1.0 Stable</strong> состоялся <strong>24.06.2026</strong>. Данная сборка включает полную оптимизацию ядра опроса и протестирована на совместимость с последними обновлениями ОС.</span>
+                <span class="ln en">The official release of the <strong>Version 1.0 Stable</strong> branch took place on <strong>June 24, 2026</strong>. This build features complete core polling optimizations and is fully verified for compatibility with the latest OS updates.</span>
+                <span class="ln fr">La sortie officielle de la branche <strong>Version 1.0 Stable</strong> a eu lieu le <strong>24.06.2026</strong>. Cette version intègre une optimisation complète du noyau d'interrogation et a été testée pour garantir sa compatibilité avec les dernières mises à jour du système.</span>
+                <span class="ln de">Der offizielle Release des Zweigs <strong>Version 1.0 Stable</strong> erfolgte am <strong>24.06.2026</strong>. Dieses Build enthält umfassende Optimierungen des Abfrage-Kerns und wurde auf Kompatibilität mit den neuesten OS-Updates getestet.</span>
+                <span class="ln es">El lanzamiento oficial de la rama <strong>Version 1.0 Stable</strong> se realizó el <strong>24.06.2026</strong>. Esta compilación incluye una optimización completa del núcleo de sondeo y ha sido probada para garantizar la compatibilidad con las últimas actualizaciones del SO.</span>
+                <span class="ln zh"><strong>Version 1.0 Stable</strong> 稳定版分支于 <strong>2026年6月24日</strong> 正式发布。该版本对数据轮询内核进行了深度优化，并针对最新的操作系统更新完成了全面的兼容性测试。</span>
+                <span class="ln ko"><strong>Version 1.0 Stable</strong> 브랜치의 공식 릴리즈가 <strong>2026년 6月 24일</strong>에 이루어졌습니다. 본 빌드는 폴링 코어의 완전한 최적화를 포함하며 최신 OS 업데이트와의 호환성 검증을 마쳤습니다.</span>
+                <span class="ln ja"><strong>Version 1.0 Stable</strong> ブランチの公式リリースは <strong>2026年6月24日</strong> に行われました。このビルドはポーリングコアの完全な最適化を含み、最新OS 업데이트와의 호환性が検증되었습니다.</span>
+            </div>
+
+            <!-- Блок 1: Телеметрия -->
+            <div class="feature-detail-block">
+                <h2 class="ln ru">1. Расширенный мониторинг и телеметрия</h2>
+                <h2 class="ln en">1. Advanced Monitoring & Telemetry</h2>
+                <h2 class="ln fr">1. Surveillance avancée & Télémétrie</h2>
+                <h2 class="ln de">1. Erweiterte Überwachung & Telemetrie</h2>
+                <h2 class="ln es">1. Monitoreo Avanzado y Telemetría</h2>
+                <h2 class="ln zh">1. 高级硬件遥测技术</h2>
+                <h2 class="ln ko">1. 고급 모니터링 및 원격 측정</h2>
+                <h2 class="ln ja">1. 高度なモニタリングとテレメトリ</h2>
+
+                <p class="ln ru">Программа предоставляет пользователю исчерпывающий массив данных о работе компьютера. В отличие от стандартных диспетчеров задач, Krvatox фиксирует скрытые флуктуации параметров, исключая усреднение значений за длительные промежутки времени.</p>
+                <p class="ln en">The application provides the user with an exhaustive array of data regarding computer operation. Unlike standard task managers, Krvatox captures hidden parameter fluctuations, avoiding the averaging of values over long intervals.</p>
+                <p class="ln fr">L'application fournit à l'utilisateur un ensemble exhaustif de données sur le fonctionnement de l'ordinateur. Contrairement aux gestionnaires de tâches standards, Krvatox capture les fluctuations cachées des paramètres, évitant le lissage des valeurs sur de longs intervalles.</p>
+                <p class="ln de">Das Programm stellt dem Benutzer ein umfassendes Datenarray über den Computerbetrieb zur Verfügung. Im Gegensatz zu Standard-Taskmanagern erfasst Krvatox verborgene Parameterschwankungen und vermeidet das Glätten von Werten über lange Intervalle.</p>
+                <p class="ln es">La aplicación proporciona al usuario un conjunto exhaustif de datos sobre el funcionamiento de la computadora. A diferencia de los administradores de tareas estándar, Krvatox captura fluctuaciones ocultas de parámetros, evitando el promedio de valores en intervalos largos.</p>
+                <p class="ln zh">本程序为用户提供详尽的计算机运行数据矩阵。与标准的系统任务管理器不同，Krvatox 能够精准捕获瞬时的参数波动，杜绝了因长时间平均化处理而导致的数据失真。</p>
+                <p class="ln ko">이 애플리케이션은 컴퓨터 작동에 관한 철저한 데이터 배열을 사용자에게 제공합니다. 작업 관리자와 달리 Krvatox는 숨겨진 매개변수 변동을 포착하여 긴 간격 동안의 값 평균화를 방지합니다.</p>
+                <p class="ln ja">コンピュータの動作に関する網羅的なデータ配列をユーザーに提供します。標準的なタスクマネージャーとは異なり、Krvatoxは隠れたパラメータの変動を捉え、長い時間間隔での値の平均化を排除します。</p>
+
+                <ul>
+                    <li class="ln ru"><strong>Центральный процессор (CPU):</strong> Контроль частоты каждого отдельного вычислительного ядра, мониторинг физического вольтажа на кристалле и общего пакета тепловыделения (TDP в Ваттах) для выявления троттлинга.</li>
+                    <li class="ln en"><strong>Processor (CPU):</strong> Per-core clock speed tracking, physical die voltage monitoring, and total thermal design power (TDP in Watts) measurement to easily diagnose thermal throttling.</li>
+                    <li class="ln fr"><strong>Processeur (CPU):</strong> Suivi de la fréquence par cœur, surveillance de la tension physique du die, et mesure de l'enveloppe thermique globale (TDP en Watts) pour le diagnostic de throttling.</li>
+                    <li class="ln de"><strong>Prozessor (CPU):</strong> Taktüberwachung pro Kern, Überwachung der physischen Die-Spannung und Messung der gesamten Thermal Design Power (TDP in Watt), um thermisches Throttling leicht zu diagnostizieren.</li>
+                    <li class="ln es"><strong>Procesador (CPU):</strong> Seguimiento de velocidad de reloj por núcleo, monitoreo de voltaje físico del dado y medición de la potencia de diseño térmico total (TDP en vatios) para diagnosticar fácilmente el estrangulamiento térmico.</li>
+                    <li class="ln zh"><strong>中央处理器 (CPU):</strong> 独立核心主频追踪、晶片物理电压监测、以及总热设计功耗 (TDP，单位：瓦特) 测量，便于直接诊断因过热导致的降频 (Throttling)。</li>
+                    <li class="ln ko"><strong>중앙 처리 장치 (CPU):</strong> 각 개별 컴퓨팅 코어의 클럭 추적, 다이의 물리적 전압 모니터링 및 쓰로틀링을 쉽게 진단하기 위한 총 열 설계 전력(TDP, 와트 단위) 측정.</li>
+                    <li class="ln ja"><strong>中央プロセッサ (CPU):</strong> コアごとの動作周波数追跡、ダイの物理電圧監視、およびサーマルスロットリングを容易に診断するための総熱設計電力（W単位のTDP）の測定。</li>
+
+                    <li class="ln ru"><strong>Графическая подсистема (GPU):</strong> Отображение частоты графического процессора и шейдерного домена, сканирование температурной разницы между основным ядром и областью HotSpot (самой горячей точки кристалла), а также трекинг тахометра кулеров.</li>
+                    <li class="ln en"><strong>Graphics Card (GPU):</strong> Core and shader domain clock rendering, scanning the delta between the main GPU core and HotSpot thermal zones, and tracking fan speeds via precise RPM data.</li>
+                    <li class="ln fr"><strong>Carte Graphique (GPU):</strong> Affichage des fréquences du cœur et du domaine shader, analyse du delta de température entre le cœur principal du GPU et la zone HotSpot, et suivi de la vitesse des ventilateurs via des données RPM précises.</li>
+                    <li class="ln de"><strong>Grafikkarte (GPU):</strong> Taktwiedergabe für Kern- und Shader-Domänen, Scannen des Deltas zwischen dem Haupt-GPU-Kern und den HotSpot-Thermalzonen sowie Verfolgung der Lüfterdrehzahl über präzise RPM-Daten.</li>
+                    <li class="ln es"><strong>Tarjeta Gráfica (GPU):</strong> Renderizado de reloj de núcleo y dominio de sombreado, escaneo del delta entre el núcleo principal de la GPU y las zonas térmicas HotSpot, y seguimiento de velocidades de ventiladores a través de datos precisos de RPM.</li>
+                    <li class="ln zh"><strong>图形子系统 (GPU):</strong> 核心及着色器域时钟渲染、实时扫描核心常规温度与 HotSpot (核心最热点) 之间的温差、并通过精准的 RPM 数据追踪风扇转速。</li>
+                    <li class="ln ko"><strong>그래픽 카드 (GPU):</strong> 코어 및 셰이더 도메인 클럭 렌더링, 메인 GPU 코어와 HotSpot 열 영역 간의 편차 스캔, 정밀한 RPM 데이터를 통한 팬 속도 추적.</li>
+                    <li class="ln ja"><strong>グラフィックボード (GPU):</strong> コアおよびシェーダー ドメインの動作クロック描画、メインGPUコアとHotSpot熱領域間の温度差（デルタ）のスキャン、および正確なRPMデータによるファン回転数の追跡。</li>
+                </ul>
+            </div>
+
+            <!-- Блок 2: RTSS -->
+            <div class="feature-detail-block">
+                <h2 class="ln ru">2. Интеграция с RivaTuner Statistics Server (HUD)</h2>
+                <h2 class="ln en">2. RivaTuner Statistics Server Integration (HUD)</h2>
+                <h2 class="ln fr">2. Intégration avec RivaTuner Statistics Server (HUD)</h2>
+                <h2 class="ln de">2. RivaTuner Statistics Server-Integration (HUD)</h2>
+                <h2 class="ln es">2. Integración con RivaTuner Statistics Server (HUD)</h2>
+                <h2 class="ln zh">2. RivaTuner Statistics Server 悬浮窗深度集成</h2>
+                <h2 class="ln ko">2. RivaTuner Statistics Server 연동 (HUD)</h2>
+                <h2 class="ln ja">2. RivaTuner Statistics Server 統合 (HUD)</h2>
+
+                <p class="ln ru">Экранный оверлей взаимодействует со специальным разделом памяти RTSS, что исключает падение производительности графического движка игры во время вывода текста и графиков поверх кадра.</p>
+                <p class="ln en">The on-screen display interacts with a dedicated shared memory section of RTSS, completely eliminating game engine performance degradation while rendering text and charts directly over the frame.</p>
+                <p class="ln fr">L'affichage à l'écran interagit avec une section de mémoire partagée dédiée de RTSS, éliminant complètement la dégradation des performances du moteur de jeu lors du rendu du texte et des graphiques par-dessus l'image.</p>
+                <p class="ln de">Die Bildschirmanzeige interagiert mit einem dedizierten Shared-Memory-Bereich von RTSS, wodurch Leistungseinbußen der Grafik-Engine des Spiels beim Rendern von Texten und Diagrammen über dem Frame vollständig ausgeschlossen werden.</p>
+                <p class="ln es">La pantalla en tiempo real interactúa con una sección de memoria compartida dedicada de RTSS, Kanye West. CO, eliminando por completo la degradación del rendimiento del motor del juego mientras se procesa texto y gráficos sobre el fotograma.</p>
+                <p class="ln zh">屏幕悬浮窗直接与 RTSS 的专用共享内存区域进行交互，有效避免了在游戏画面之上渲染文本和实时历史折线图时可能引起的渲染引擎性能衰减或帧率抖动。</p>
+                <p class="ln ko">화면 오버레이는 RTSS의 전용 공유 메모리 섹션과 상호 작용하므로, 프레임 위에 텍스트와 그래프를 출력하는 동안 게임 그래픽 엔진의 성능 저하가 발생하지 않습니다.</p>
+                <p class="ln ja">画面上のオーバーレイは、RTSSの専用共有メモリセクションと相互作用するため、フレーム上にテキストやチャートを描画する際、ゲームエンジンのパフォーマンス低下を完全に排除します。</p>
+
+                <ul>
+                    <li class="ln ru">Вывод показателей времени кадра (Frametime) в миллисекундах для детекции скрытых микрофризов и статтеров, незаметных на обычном счетчике FPS.</li>
+                    <li class="ln en">Output of frametime metrics in milliseconds to detect hidden micro-stutters that are completely invisible on a standard FPS counter.</li>
+                    <li class="ln fr">Affichage des métriques de frametime en millisecondes pour détecter les micro-saccades cachées, invisibles sur un compteur de FPS standard.</li>
+                    <li class="ln de">Ausgabe von Frametime-Metriken in Millisekunden, um versteckte Mikroruckler zu erkennen, die auf einem Standard-FPS-Zähler unsichtbar sind.</li>
+                    <li class="ln es">Salida de métricas de frametime en milisegundos para detectar microtirones ocultos que son invisibles en un contador de FPS estándar.</li>
+                    <li class="ln zh">以毫秒 (ms) 为单位输出帧时间指标，用于捕捉和检测在普通 FPS 计数器上无法察觉的微小卡顿 (Micro-stutters)。</li>
+                    <li class="ln ko">일반 FPS 카운터에서는 보이지 않는 숨겨진 미세 프레임 드랍(스태터링)을 감지하기 위해 밀리초(ms) 단위로 프레임타임 지표 출력.</li>
+                    <li class="ln ja">通常のFPSカウンターでは見えない、隠れたマイクロスタッター（微小なカクつき）を検出するため、ミリ秒（ms）単位でフレームタイムメトリクスを出力。</li>
+                </ul>
+            </div>
+
+            <!-- Блок 3: Низкоуровневая логика -->
+            <div class="feature-detail-block">
+                <h2 class="ln ru">3. Технические тонкости и низкоуровневая логика</h2>
+                <h2 class="ln en">3. Technical Subtleties & Low-Level Logic</h2>
+                <h2 class="ln fr">3. Subtilités techniques & Logique de bas niveau</h2>
+                <h2 class="ln de">3. Technische Feinheiten & Low-Level-Logik</h2>
+                <h2 class="ln es">3. Sutilezas Técnicas y Lógica de Bajo Nivel</h2>
+                <h2 class="ln zh">3. 内核技术细节与低级逻辑</h2>
+                <h2 class="ln ko">3. 기술적 세부 사항 및 하위 수준 로직</h2>
+                <h2 class="ln ja">3. 技術的な詳細と低レベルロジック</h2>
+
+                <p class="ln ru">Стабильная работа Krvatox версии 1.0 обеспечивается рядом глубоких архитектурных решений, разработанных специально для минимизации оверхеда на операционную систему:</p>
+                <p class="ln en">The stable operation of Krvatox Version 1.0 is ensured by a set of deep architectural solutions engineered specifically to minimize operating system overhead:</p>
+                <p class="ln fr">Le fonctionnement stable de Krvatox Version 1.0 est garanti par un ensemble de solutions architecturales approfondies conçues spécifiquement pour minimiser l'impact sur le système d'exploitation :</p>
+                <p class="ln de">Der stabile Betrieb von Krvatox Version 1.0 wird durch eine Reihe tiefgehender Architekturentscheidungen gewährleistet, die speziell entwickelt wurden, um den OS-Overhead zu minimieren:</p>
+                <p class="ln es">El funcionamiento estable de Krvatox Versión 1.0 está garantizado por un conjunto de soluciones arquitectónicas profundas diseñadas específicamente para minimizar la sobrecarga del sistema operativo:</p>
+                <p class="ln zh">Krvatox 1.0 稳定版的平稳运行依赖于一系列底层架构解决方案，这些方案专门为了最大限度减少对操作系统的资源开销而设计：</p>
+                <p class="ln ko">Krvatox 버전 1.0의 안정적인 작동은 운영 체제 오버헤드를 최소화하기 위해 특별히 개발된 일련의 심층적 아키텍처 솔루션을 통해 보장됩니다.</p>
+                <p class="ln ja">Krvatox バージョン 1.0 の安定した動作は、オペレーティングシステムへのオーバーヘッドを最小限に抑えるために特別に設計された、一連의 高度なアーキテクチャソリューションによって保証されています。</p>
+
+                <ul>
+                    <li class="ln ru"><strong>Ring-0 Драйвер Датчиков:</strong> Для чтения температурных регистров MSR процессоров Intel/AMD и шины SMBus программа разворачивает безопасный подписанный драйвер ядра. Это исключает задержки, возникающие при использовании стандартных Windows WMI-запросов.</li>
+                    <li class="ln en"><strong>Ring-0 Sensor Driver:</strong> To read thermal MSR registers of Intel/AMD processors and the SMBus, the app deploys a secure signed kernel-mode driver. This completely bypasses latency associated with standard Windows WMI queries.</li>
+                    <li class="ln fr"><strong>Pilote de capteur Ring-0 :</strong> Pour lire les registres thermiques MSR des processeurs Intel/AMD et le bus SMBus, l'application déploie un pilote sécurisé et signé en mode noyau. Cela contourne complètement la latence Windows WMI.</li>
+                    <li class="ln de"><strong>Ring-0 Sensortreiber:</strong> Zum Auslesen thermischer MSR-Register von Intel/AMD-Prozessoren und des SMBus setzt die App einen sicheren, signierten Kernelmodus-Treiber ein. Dies umgeht die Latenz standardmäßiger Windows-WMI-Abfragen vollständig.</li>
+                    <li class="ln es"><strong>Controlador de Sensor Ring-0:</strong> Para leer los registros MSR térmicos de los procesadores Intel/AMD y el bus SMBus, la aplicación implementa un controlador firmado seguro en modo kernel. Esto evita por completo la latencia asociada con las consultas WMI estándar de Windows.</li>
+                    <li class="ln zh"><strong>Ring-0 级内核传感器驱动:</strong> 为了直接读取 Intel/AMD 处理器的 MSR 温度寄存器及 SMBus 总线，程序部署了经过安全签名的内核模式驱动程序。这彻底杜绝了使用传统 Windows WMI 查询带来的高延迟与数据滞后。</li>
+                    <li class="ln ko"><strong>Ring-0 센서 드라이버:</strong> Intel/AMD 프로세서의 열 MSR 레지스터 및 SMBus를 읽기 위해 애플리케이션은 안전하게 서명된 커널 모드 드라이버를 배포합니다. 이를 통해 표준 Windows WMI 쿼리와 관련된 지연 시간을 완전히 배제합니다.</li>
+                    <li class="ln ja"><strong>Ring-0 センサードライバー:</strong> Intel/AMDプロセッサの熱MSRレジスタおよびSMBusを読み取るため、安全に署名されたカーネルモードドライバーを展開します。これにより、標準のWindows WMIクエリに伴うレイテンシを完全に回避します。</li>
+
+                    <li class="ln ru"><strong>Изоляция потоков (No Interlocking):</strong> Модуль сбора телеметрии вынесен в отдельный высокоприоритетный поток, изолированный от интерфейса Windows Forms. Если графическая оболочка программы на мгновение задумается, сбор данных и HUD в игре продолжат работать без фризов.</li>
+                    <li class="ln en"><strong>Thread Isolation (No Interlocking):</strong> The telemetry collection module runs in a separate high-priority thread, isolated from the Windows Forms UI. If the main interface experiences a brief stall, data compilation and the HUD overlay will continue smoothly.</li>
+                    <li class="ln fr"><strong>Isolation des threads (No Interlocking) :</strong> Le module de collecte de télémétrie s'exécute dans un thread distinct à haute priorité, isolé de l'interface utilisateur Windows Forms. Si l'interface subit un blocage, l'overlay HUD continuera de fonctionner.</li>
+                    <li class="ln de"><strong>Thread-Isolierung (Kein Interlocking):</strong> Das Telemetrie-Sammelmodul läuft in einem separaten Thread mit hoher Priorität, isoliert von der Windows Forms-Benutzeroberfläche. Wenn die Hauptoberfläche kurzzeitig stockt, laufen die Datenerfassung и das HUD-Overlay reibungslos weiter.</li>
+                    <li class="ln es"><strong>Aislamiento de Hilos (Sin Interlocking):</strong> El módulo de recopilación de telemetría se ejecuta en un hilo separado de alta prioridad, aislado de la interfaz de usuario de Windows Forms. Si la interfaz principal experimenta un breve bloqueo, la recopilación de datos continuará sin problemas.</li>
+                    <li class="ln zh"><strong>独立线程隔离设计 (无锁交互):</strong> 遥测采集模块被分配在独立的、高优先级工作线程中，与 Windows Forms 界面线程完全隔离。即使程序的主图形界面发生瞬时卡顿，底层数据收集与游戏内 HUD 也会保持平稳更新。</li>
+                    <li class="ln ko"><strong>스레드 격리 (No Interlocking):</strong> 원격 측정 수집 모듈은 Windows Forms UI 인터페이스와 격리된 별도의 고순위 스레드에서 실행됩니다. 프로그램의 GUI 엔진이 일시적으로 응답하지 않더라도 데이터 수집 및 게임 내 HUD는 끊김 없이 유지됩니다.</li>
+                    <li class="ln ja"><strong>スレッド分離 (No Interlocking):</strong> テレメトリ収集モジュールは、Windows Forms UIから隔離された別の高優先度スレッドで動作します。メインインタフェースが一瞬ストールしても、データ収集とゲーム内HUDはカクつくことなくスムーズに継続されます。</li>
+
+                    <li class="ln ru"><strong>Безопасность для Античитов:</strong> Способ инжекции и передачи данных через общую память RTSS использует исключительно официальные API-вызовы RivaTuner. Программа не модифицирует файлы игр и не внедряет сторонний код в их процессы, что гарантирует полную безопасность от ложных срабатываний античитов (VAC, Easy Anti-Cheat, BattlEye).</li>
+                    <li class="ln en"><strong>Anti-Cheat Friendly:</strong> The ingestion method and data pipeline via RTSS shared memory utilize strictly official RivaTuner API calls. The software never modifies game files or injects foreign code into game processes, ensuring complete immunity against anti-cheat false positives (VAC, Easy Anti-Cheat, BattlEye).</li>
+                    <li class="ln fr"><strong>Compatible avec les Anti-Cheats :</strong> La méthode d'injection et le pipeline de données via la mémoire partagée RTSS utilisent strictement les appels API officiels de RivaTuner. Le logiciel ne modifie jamais les fichiers de jeu и n'injecte aucun code tiers.</li>
+                    <li class="ln de"><strong>Anti-Cheat-freundlich:</strong> Die Erfassungsmethode und die Datenpipeline über den gemeinsamen RTSS-Speicher nutzen ausschließlich offizielle RivaTuner-API-Aufrufe. Die Software modifiziert niemals Spieldateien oder injiziert fremden Code in Spielprozesse, was vollständige Immunität gegen Fehlalarme von Anti-Cheat-Systemen (VAC, Easy Anti-Cheat, BattlEye) garantiert.</li>
+                    <li class="ln es"><strong>Compatible con Anti-Cheats:</strong> El método de ingestión y la canalización de datos a través de la memoria compartida de RTSS utilizan estrictamente llamadas oficiales de la API de RivaTuner. El software nunca modifica los archivos del juego ni inyecta código externo en sus procesos (VAC, Easy Anti-Cheat, BattlEye).</li>
+                    <li class="ln zh"><strong>反作弊合规安全性:</strong> 经由 RTSS 共享内存的数据传输管线完全采用 RivaTuner 官方开放的 API 调用。本软件绝不修改游戏内存文件，亦不会向游戏进程注入任何第三方未知代码，确保在各类反作弊系统（如 VAC、Easy Anti-Cheat、BattlEye）中完全免受误报和封禁。</li>
+                    <li class="ln ko"><strong>안티치트 보안 호환성:</strong> RTSS 공유 메모리를 통한 데이터 전송 방식은 오직 RivaTuner의 공식 API 호출만을 사용합니다. 이 프로그램은 게임 파일을 수정하거나 게임 프로세스에 외부 코드를 주입하지 않으므로 안티치트 시스템(VAC, Easy Anti-Cheat, BattlEye)의 오탐지로부터 완벽하게 안전합니다.</li>
+                    <li class="ln ja"><strong>アンチチート安全互換性:</strong> RTSS共有メモリを介したデータインジェクション方式は、RivaTunerの公式API呼び出しのみを厳格に使用します。ゲームファイルを変更したり、ゲームプロセスにサードパーティのコードを注入したりしないため、アンチチートシステム（VAC、Easy Anti-Cheat, BattlEye）による誤検知から完全に保護されます。</li>
+                </ul>
+            </div>
+
+            <!-- Кнопка назад -->
+            <a href="https://krvatox.github.io/index.html" class="btn-back">
+                <span class="ln ru">Назад на главную</span>
+                <span class="ln en">Back to Main Page</span>
+                <span class="ln fr">Retour à la page principale</span>
+                <span class="ln de">Zurück zur Hauptseite</span>
+                <span class="ln es">Volver a la página principal</span>
+                <span class="ln zh">返回主页</span>
+                <span class="ln ko">메인 페이지로 돌아가기</span>
+                <span class="ln ja">メインページへ戻る</span>
+            </a>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>&copy; 2023-2026 Krvatox Projects.</div>
+                <div class="footer-links">
+                    <span style="color: var(--text-muted);">
+                        <span class="ln ru">Служба поддержки</span><span class="ln en">Support Contact</span><span class="ln fr">Contact Support</span><span class="ln de">Support-Kontakt</span><span class="ln es">Contacto de Soporte</span><span class="ln zh">技术支持邮箱</span><span class="ln ko">지원 문의</span><span class="ln ja">サポート窓口</span>: krvatox@gmail.com
+                    </span>
+                    <a href="https://krvatox.github.io/license.html" target="_blank">
+                        <span class="ln ru">Лицензионное соглашение</span><span class="ln en">End-User License Agreement</span><span class="ln fr">Contrat de Licence Final</span><span class="ln de">Endbenutzer-Lizenzvereinbarung</span><span class="ln es">Acuerdo de Licencia Final</span><span class="ln zh">最终用户许可协议</span><span class="ln ko">최종 사용자 라이선스 계약</span><span class="ln ja">最终ユーザー許諾契約</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // SEO: Тайтлы на 8 языках, динамически меняются без вреда для индекса
+        const pageTitles = {
+            'ru': 'Krvatox Monitoring Program - Возможности',
+            'en': 'Krvatox Monitoring Program - Features',
+            'fr': 'Krvatox Monitoring Program - Fonctionnalités',
+            'de': 'Krvatox Monitoring Program - Features',
+            'es': 'Krvatox Monitoring Program - Características',
+            'zh': 'Krvatox Monitoring Program - 软件功能',
+            'ko': 'Krvatox Monitoring Program - 기능',
+            'ja': 'Krvatox Monitoring Program - 機能特徴'
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Определение языка: сначала проверяем GET-параметр ?lang= (нужно для краулеров), затем язык браузера
+            const urlParams = new URLSearchParams(window.location.search);
+            let userLang = urlParams.get('lang') || navigator.language || navigator.userLanguage;
+            userLang = userLang.toLowerCase().split('-')[0];
+
+            const supported = ['ru', 'en', 'fr', 'de', 'es', 'zh', 'ko', 'ja'];
+            const activeLang = supported.includes(userLang) ? userLang : 'en'; 
+
+            // Динамическое обновление атрибута lang тега html (Важно для SEO и экранных дикторов)
+            document.documentElement.setAttribute('lang', activeLang);
+            document.title = pageTitles[activeLang] || pageTitles['en'];
+
+            // Отображение нужного языка (все языки остаются в DOM для поисковых ботов)
+            const style = document.createElement('style');
+            style.innerHTML = `body .ln.${activeLang} { display: inline !important; } 
+                               body div.ln.${activeLang}, body p.ln.${activeLang}, body h1.ln.${activeLang}, body h2.ln.${activeLang} { display: block !important; }`;
+            document.head.appendChild(style);
+        });
+    </script>
+
+</body>
+</html>
