@@ -2,20 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://voltshred-dev.github.io/index.html</loc>
-        <lastmod>2026-07-12</lastmod>
+        <lastmod>2026-07-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://voltshred-dev.github.io/browser/voltshred.html</loc>
-        <lastmod>2026-07-12</lastmod>
+        <loc>https://voltshred-dev.github.io/browser/index.html</loc>
+        <lastmod>2026-07-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://voltshred-dev.github.io/krvatox/index.html</loc>
-        <lastmod>2026-07-12</lastmod>
+        <lastmod>2026-07-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://voltshred-dev.github.io/license.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://voltshred-dev.github.io/ts/voltshred-binary-translator.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://voltshred-dev.github.io/weather/index.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://voltshred-dev.github.io/currency/index.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
 </urlset>

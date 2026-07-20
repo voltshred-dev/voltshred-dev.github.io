@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лицензия — Voltshred Systems</title>
+
+    <meta name="description" content="Условия использования и лицензия Voltshred Systems: программное обеспечение Voltshred Browser, Krvatox, ZR и веб-инструменты (переводчик, погода, курс валют).">
+    <meta name="keywords" content="Voltshred, лицензия, условия использования, license, Krvatox, ZR, Voltshred Browser">
+    <meta name="author" content="Vladimir Kredo">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="canonical" href="https://voltshred-dev.github.io/license.html">
+
+    <meta property="og:title" content="Лицензия — Voltshred Systems">
+    <meta property="og:description" content="Условия использования программ и веб-инструментов Voltshred.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://voltshred-dev.github.io/license.html">
+    <meta name="theme-color" content="#1a73e8">
+
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #202124;
+                --bg-card: #292a2d;
+                --bg-surface: #303134;
+                --text-primary: #e8eaed;
+                --text-secondary: #9aa0a6;
+                --google-blue: #8ab4f8;
+                --google-blue-hover: #1a73e8;
+                --border-color: #3c4043;
+                --tag-bg: #3c4043;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-page: #ffffff;
+                --bg-card: #ffffff;
+                --bg-surface: #f8f9fa;
+                --text-primary: #202124;
+                --text-secondary: #5f6368;
+                --google-blue: #1a73e8;
+                --google-blue-hover: #e8f0fe;
+                --border-color: #dadce0;
+                --tag-bg: #f1f3f4;
+            }
+        }
+
+        :root {
+            --bg-page: #ffffff;
+            --bg-card: #ffffff;
+            --bg-surface: #f8f9fa;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --google-blue: #1a73e8;
+            --google-blue-hover: #e8f0fe;
+            --border-color: #dadce0;
+            --tag-bg: #f1f3f4;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        html { scroll-behavior: smooth; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Google Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-page);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .brand span { font-weight: 500; color: var(--google-blue); }
+
+        .back-link {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover { color: var(--google-blue); }
+
+        .page-hero {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 56px 24px 32px 24px;
+            text-align: center;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .page-hero h1 {
+            font-size: 34px;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p { font-size: 15px; color: var(--text-secondary); }
+
+        .updated-tag {
+            display: inline-block;
+            margin-top: 16px;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background-color: var(--tag-bg);
+            color: var(--text-secondary);
+        }
+
+        .main-content {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 24px 80px 24px;
+            width: 100%;
+        }
+
+        .license-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 0;
+            margin-bottom: 32px;
+        }
+
+        article {
+            padding: 28px 32px;
+            border-top: 1px solid var(--border-color);
+            opacity: 0;
+            animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        article:first-of-type { border-top: none; }
+
+        article h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        article p {
+            font-size: 14px;
+            line-height: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        article p:last-child { margin-bottom: 0; }
+
+        article ul {
+            margin: 10px 0 10px 0;
+            padding-left: 20px;
+        }
+
+        article li {
+            font-size: 14px;
+            line-height: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .scope-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .scope-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+            background-color: var(--bg-surface);
+        }
+
+        .scope-item .tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--google-blue);
+            background-color: var(--tag-bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .scope-item .name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+            padding: 32px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            background-color: var(--bg-surface);
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--google-blue);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .page-hero h1 { font-size: 28px; }
+            article { padding: 22px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a class="brand" href="https://voltshred-dev.github.io/index.html">Voltshred<span>.</span></a>
+            <a class="back-link" href="https://voltshred-dev.github.io/index.html" id="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                </svg>
+                <span id="back-text">На главную</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <h1 id="hero-title">Лицензия и условия использования</h1>
+        <p id="hero-desc">Единый документ, распространяющийся на все программы и веб-инструменты Voltshred Systems.</p>
+        <span class="updated-tag" id="updated-tag">Обновлено: 20 июля 2026</span>
+    </section>
+
+    <main class="main-content">
+        <div class="license-card">
+
+            <article style="animation-delay: 0.05s;">
+                <h2 id="h-scope">1. Область действия</h2>
+                <p id="p-scope">Данная лицензия распространяется на все программное обеспечение и онлайн-инструменты, разработанные и распространяемые под брендом Voltshred Systems, включая, но не ограничиваясь следующим:</p>
+                <div class="scope-grid">
+                    <div class="scope-item"><span class="tag" id="tag-app">Программа</span><div class="name">Voltshred Browser</div></div>
+                    <div class="scope-item"><span class="tag" id="tag-app2">Программа</span><div class="name">Krvatox</div></div>
+                    <div class="scope-item"><span class="tag" id="tag-app3">Программа</span><div class="name">ZR</div></div>
+                    <div class="scope-item"><span class="tag" id="tag-web1">Веб-инструмент</span><div class="name">Binary Translator</div></div>
+                    <div class="scope-item"><span class="tag" id="tag-web2">Веб-инструмент</span><div class="name">Voltshred Weather</div></div>
+                    <div class="scope-item"><span class="tag" id="tag-web3">Веб-инструмент</span><div class="name">Voltshred Exchange</div></div>
+                </div>
+            </article>
+
+            <article style="animation-delay: 0.1s;">
+                <h2 id="h-grant">2. Предоставляемые права</h2>
+                <p id="p-grant1">Voltshred Systems предоставляет каждому пользователю бесплатное, неисключительное и непередаваемое право на использование указанных программ и веб-инструментов в личных и коммерческих целях, без ограничения по числу установок.</p>
+                <p id="p-grant2">Исполняемые файлы (EXE) могут свободно копироваться и распространяться в неизменном виде при условии сохранения оригинальных названий, значков и указания источника — Voltshred Systems.</p>
+            </article>
+
+            <article style="animation-delay: 0.15s;">
+                <h2 id="h-restrict">3. Ограничения</h2>
+                <ul id="list-restrict">
+                    <li id="r1">Запрещается декомпиляция, дизассемблирование или иная попытка получить исходный код бинарных файлов, за исключением случаев, прямо разрешённых применимым законодательством.</li>
+                    <li id="r2">Запрещается удаление, изменение или сокрытие уведомлений об авторских правах и брендинга Voltshred.</li>
+                    <li id="r3">Запрещается использование названия, логотипа или кода Voltshred для создания продуктов, вводящих пользователей в заблуждение относительно их происхождения.</li>
+                    <li id="r4">Запрещается встраивание программ или их компонентов во вредоносное либо шпионское ПО.</li>
+                </ul>
+            </article>
+
+            <article style="animation-delay: 0.2s;">
+                <h2 id="h-privacy">4. Приватность и данные</h2>
+                <p id="p-privacy1">Программы (Voltshred Browser, Krvatox, ZR) работают в режиме Zero Telemetry: не собирают, не хранят и не передают персональные данные пользователя на удалённые серверы.</p>
+                <p id="p-privacy2">Веб-инструменты (Binary Translator) выполняют все вычисления локально в браузере пользователя. Инструменты, зависящие от внешних данных (Weather, Exchange), обращаются только к сторонним API, необходимым для получения актуальных показателей, без сохранения истории запросов на стороне Voltshred.</p>
+            </article>
+
+            <article style="animation-delay: 0.25s;">
+                <h2 id="h-warranty">5. Отказ от гарантий</h2>
+                <p id="p-warranty">Все программы и инструменты предоставляются «как есть» (AS IS), без каких-либо гарантий, явных или подразумеваемых, включая гарантии товарной пригодности, соответствия конкретным целям и отсутствия ошибок. Voltshred Systems не несёт ответственности за любой прямой или косвенный ущерб, возникший в результате использования или невозможности использования данного программного обеспечения.</p>
+            </article>
+
+            <article style="animation-delay: 0.3s;">
+                <h2 id="h-dev">6. Продукты в разработке</h2>
+                <p id="p-dev">Продукты со статусом «В разработке» (например, ZR) могут содержать неполный функционал, изменяться без предварительного уведомления или быть отозваны на любом этапе до официального релиза.</p>
+            </article>
+
+            <article style="animation-delay: 0.35s;">
+                <h2 id="h-changes">7. Изменения условий</h2>
+                <p id="p-changes">Voltshred Systems оставляет за собой право обновлять данную лицензию в любое время. Актуальная версия всегда доступна по адресу этой страницы. Продолжение использования программ и инструментов после публикации изменений означает согласие с обновлёнными условиями.</p>
+            </article>
+
+            <article style="animation-delay: 0.4s;">
+                <h2 id="h-contact">8. Контакты</h2>
+                <p id="p-contact">По вопросам лицензирования и использования: <a href="mailto:voltshred@gmail.com" id="contact-email">voltshred@gmail.com</a></p>
+            </article>
+
+        </div>
+    </main>
+
+    <footer>
+        <span id="footer-text">&copy; 2026 Voltshred Systems. Все права защищены.</span>
+    </footer>
+
+    <script>
+        const dict = {
+            ru: {
+                backText: "На главную",
+                heroTitle: "Лицензия и условия использования",
+                heroDesc: "Единый документ, распространяющийся на все программы и веб-инструменты Voltshred Systems.",
+                updatedTag: "Обновлено: 20 июля 2026",
+                hScope: "1. Область действия",
+                pScope: "Данная лицензия распространяется на все программное обеспечение и онлайн-инструменты, разработанные и распространяемые под брендом Voltshred Systems, включая, но не ограничиваясь следующим:",
+                tagApp: "Программа",
+                tagWeb: "Веб-инструмент",
+                hGrant: "2. Предоставляемые права",
+                pGrant1: "Voltshred Systems предоставляет каждому пользователю бесплатное, неисключительное и непередаваемое право на использование указанных программ и веб-инструментов в личных и коммерческих целях, без ограничения по числу установок.",
+                pGrant2: "Исполняемые файлы (EXE) могут свободно копироваться и распространяться в неизменном виде при условии сохранения оригинальных названий, значков и указания источника — Voltshred Systems.",
+                hRestrict: "3. Ограничения",
+                r1: "Запрещается декомпиляция, дизассемблирование или иная попытка получить исходный код бинарных файлов, за исключением случаев, прямо разрешённых применимым законодательством.",
+                r2: "Запрещается удаление, изменение или сокрытие уведомлений об авторских правах и брендинга Voltshred.",
+                r3: "Запрещается использование названия, логотипа или кода Voltshred для создания продуктов, вводящих пользователей в заблуждение относительно их происхождения.",
+                r4: "Запрещается встраивание программ или их компонентов во вредоносное либо шпионское ПО.",
+                hPrivacy: "4. Приватность и данные",
+                pPrivacy1: "Программы (Voltshred Browser, Krvatox, ZR) работают в режиме Zero Telemetry: не собирают, не хранят и не передают персональные данные пользователя на удалённые серверы.",
+                pPrivacy2: "Веб-инструменты (Binary Translator) выполняют все вычисления локально в браузере пользователя. Инструменты, зависящие от внешних данных (Weather, Exchange), обращаются только к сторонним API, необходимым для получения актуальных показателей, без сохранения истории запросов на стороне Voltshred.",
+                hWarranty: "5. Отказ от гарантий",
+                pWarranty: "Все программы и инструменты предоставляются «как есть» (AS IS), без каких-либо гарантий, явных или подразумеваемых, включая гарантии товарной пригодности, соответствия конкретным целям и отсутствия ошибок. Voltshred Systems не несёт ответственности за любой прямой или косвенный ущерб, возникший в результате использования или невозможности использования данного программного обеспечения.",
+                hDev: "6. Продукты в разработке",
+                pDev: "Продукты со статусом «В разработке» (например, ZR) могут содержать неполный функционал, изменяться без предварительного уведомления или быть отозваны на любом этапе до официального релиза.",
+                hChanges: "7. Изменения условий",
+                pChanges: "Voltshred Systems оставляет за собой право обновлять данную лицензию в любое время. Актуальная версия всегда доступна по адресу этой страницы. Продолжение использования программ и инструментов после публикации изменений означает согласие с обновлёнными условиями.",
+                hContact: "8. Контакты",
+                pContact: "По вопросам лицензирования и использования: ",
+                footerText: "© 2026 Voltshred Systems. Все права защищены."
+            },
+            en: {
+                backText: "Back home",
+                heroTitle: "License & Terms of Use",
+                heroDesc: "A single document covering all software and web tools published under Voltshred Systems.",
+                updatedTag: "Updated: July 20, 2026",
+                hScope: "1. Scope",
+                pScope: "This license applies to all software and online tools developed and distributed under the Voltshred Systems brand, including but not limited to:",
+                tagApp: "Software",
+                tagWeb: "Web Tool",
+                hGrant: "2. Grant of Rights",
+                pGrant1: "Voltshred Systems grants every user a free, non-exclusive, non-transferable right to use the listed programs and web tools for personal and commercial purposes, with no limit on the number of installations.",
+                pGrant2: "Executable files (EXE) may be freely copied and redistributed unmodified, provided the original names, icons, and attribution to Voltshred Systems are preserved.",
+                hRestrict: "3. Restrictions",
+                r1: "Decompiling, disassembling, or otherwise attempting to derive the source code of the binaries is prohibited, except where expressly permitted by applicable law.",
+                r2: "Removing, altering, or obscuring copyright notices and Voltshred branding is prohibited.",
+                r3: "Using the Voltshred name, logo, or code to create products that mislead users about their origin is prohibited.",
+                r4: "Bundling the software or its components with malware or spyware is prohibited.",
+                hPrivacy: "4. Privacy & Data",
+                pPrivacy1: "The applications (Voltshred Browser, Krvatox, ZR) run in Zero Telemetry mode: they do not collect, store, or transmit personal user data to remote servers.",
+                pPrivacy2: "The web tools (Binary Translator) perform all computation locally in the user's browser. Tools that depend on external data (Weather, Exchange) only contact the third-party APIs required to fetch current figures, without retaining request history on Voltshred's side.",
+                hWarranty: "5. Disclaimer of Warranty",
+                pWarranty: "All programs and tools are provided \"AS IS\", without warranties of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, and non-infringement. Voltshred Systems is not liable for any direct or indirect damages arising from the use or inability to use this software.",
+                hDev: "6. Products in Development",
+                pDev: "Products marked \"In Development\" (e.g. ZR) may have incomplete functionality, change without prior notice, or be withdrawn at any stage before official release.",
+                hChanges: "7. Changes to Terms",
+                pChanges: "Voltshred Systems reserves the right to update this license at any time. The current version is always available at this page's address. Continued use of the programs and tools after changes are published constitutes acceptance of the updated terms.",
+                hContact: "8. Contact",
+                pContact: "For licensing and usage questions: ",
+                footerText: "© 2026 Voltshred Systems. All rights reserved."
+            }
+        };
+
+        const userLang = navigator.language || navigator.userLanguage;
+        const lang = userLang.toLowerCase().includes('ru') ? 'ru' : 'en';
+        document.documentElement.lang = lang;
+        const t = dict[lang];
+
+        document.getElementById('back-text').textContent = t.backText;
+        document.getElementById('hero-title').textContent = t.heroTitle;
+        document.getElementById('hero-desc').textContent = t.heroDesc;
+        document.getElementById('updated-tag').textContent = t.updatedTag;
+
+        document.getElementById('h-scope').textContent = t.hScope;
+        document.getElementById('p-scope').textContent = t.pScope;
+        document.getElementById('tag-app').textContent = t.tagApp;
+        document.getElementById('tag-app2').textContent = t.tagApp;
+        document.getElementById('tag-app3').textContent = t.tagApp;
+        document.getElementById('tag-web1').textContent = t.tagWeb;
+        document.getElementById('tag-web2').textContent = t.tagWeb;
+        document.getElementById('tag-web3').textContent = t.tagWeb;
+
+        document.getElementById('h-grant').textContent = t.hGrant;
+        document.getElementById('p-grant1').textContent = t.pGrant1;
+        document.getElementById('p-grant2').textContent = t.pGrant2;
+
+        document.getElementById('h-restrict').textContent = t.hRestrict;
+        document.getElementById('r1').textContent = t.r1;
+        document.getElementById('r2').textContent = t.r2;
+        document.getElementById('r3').textContent = t.r3;
+        document.getElementById('r4').textContent = t.r4;
+
+        document.getElementById('h-privacy').textContent = t.hPrivacy;
+        document.getElementById('p-privacy1').textContent = t.pPrivacy1;
+        document.getElementById('p-privacy2').textContent = t.pPrivacy2;
+
+        document.getElementById('h-warranty').textContent = t.hWarranty;
+        document.getElementById('p-warranty').textContent = t.pWarranty;
+
+        document.getElementById('h-dev').textContent = t.hDev;
+        document.getElementById('p-dev').textContent = t.pDev;
+
+        document.getElementById('h-changes').textContent = t.hChanges;
+        document.getElementById('p-changes').textContent = t.pChanges;
+
+        document.getElementById('h-contact').textContent = t.hContact;
+        document.getElementById('p-contact').childNodes[0].textContent = t.pContact;
+
+        document.getElementById('footer-text').textContent = t.footerText;
+    </script>
+</body>
+</html>
