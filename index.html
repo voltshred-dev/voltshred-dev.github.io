@@ -154,6 +154,65 @@
             color: var(--google-blue);
         }
 
+        .nav-link-pill {
+            padding: 6px 14px;
+            border-radius: 16px;
+            background-color: var(--tag-bg);
+            color: var(--google-blue) !important;
+            font-weight: 500;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-link-pill:hover {
+            background-color: var(--google-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .nav-link-pill:hover { background-color: rgba(138, 180, 248, 0.15); }
+        }
+
+        /* Быстрые инструменты под hero */
+        .tools-strip {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px 48px 24px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .tool-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tool-chip:hover {
+            border-color: var(--google-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px 0 rgba(60,64,67,0.15);
+        }
+
+        .tool-chip .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--google-blue);
+            flex-shrink: 0;
+        }
+
         /* Главный блок (Hero) */
         .hero {
             max-width: 840px;
@@ -423,7 +482,7 @@
             margin: 0 auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 2fr repeat(2, 1fr);
+            grid-template-columns: 2fr repeat(3, 1fr);
             gap: 32px;
         }
 
@@ -489,6 +548,9 @@
                 <a href="#products" id="nav-p">Приложения</a>
                 <a href="#capabilities" id="nav-c">Характеристики</a>
                 <a href="#architecture" id="nav-a">Архитектура</a>
+                <a href="https://voltshred-dev.github.io/ts/voltshred-binary-translator.html" id="nav-translator" class="nav-link-pill">Бинарный переводчик</a>
+                <a href="https://voltshred-dev.github.io/weather/index.html" id="nav-weather" class="nav-link-pill">Погода</a>
+                <a href="https://voltshred-dev.github.io/currency/index.html" id="nav-currency" class="nav-link-pill">Валюта</a>
             </div>
         </div>
     </header>
@@ -497,6 +559,12 @@
         <h1 id="hero-title">Разработка системного программного обеспечения.</h1>
         <p id="hero-desc">Проектирование и сборка специализированных утилит под Windows x64. Программы функционируют автономно, не содержат модулей телеметрии и внешних зависимостей. Приоритет: минимальный размер исполняемых файлов и низкое потребление ресурсов.</p>
     </section>
+
+    <div class="tools-strip">
+        <a href="https://voltshred-dev.github.io/ts/voltshred-binary-translator.html" class="tool-chip"><span class="dot"></span><span id="chip-translator">Бинарный переводчик</span></a>
+        <a href="https://voltshred-dev.github.io/weather/index.html" class="tool-chip"><span class="dot"></span><span id="chip-weather">Погода</span></a>
+        <a href="https://voltshred-dev.github.io/currency/index.html" class="tool-chip"><span class="dot"></span><span id="chip-currency">Курс валют</span></a>
+    </div>
 
     <main class="main-content">
         
@@ -643,6 +711,14 @@
                     <li><a href="#capabilities">Telemetry: Disabled</a></li>
                 </ul>
             </div>
+            <div class="footer-links">
+                <h4 id="f-h3">Инструменты</h4>
+                <ul>
+                    <li><a href="https://voltshred-dev.github.io/ts/voltshred-binary-translator.html" id="f-tool-translator">Бинарный переводчик</a></li>
+                    <li><a href="https://voltshred-dev.github.io/weather/index.html" id="f-tool-weather">Погода</a></li>
+                    <li><a href="https://voltshred-dev.github.io/currency/index.html" id="f-tool-currency">Курс валют</a></li>
+                </ul>
+            </div>
         </div>
     </footer>
 
@@ -650,6 +726,9 @@
         const locale = {
             ru: {
                 navP: "Приложения", navC: "Характеристики", navA: "Архитектура",
+                navTranslator: "Бинарный переводчик", navWeather: "Погода", navCurrency: "Валюта",
+                chipTranslator: "Бинарный переводчик", chipWeather: "Погода", chipCurrency: "Курс валют",
+                fH3: "Инструменты",
                 heroTitle: "Сверхлегкое системное ПО и веб-рендеринг под Windows x64.",
                 heroDesc: "Проектирование высокоэффективного софта и утилит без скрытой телеметрии, трекеров и внешних зависимостей. Полная автономия runtime-окружения, минимальный размер исполняемых файлов и жесткий контроль ресурсов вашего ПК.",
                 tProd: "Перечень программ",
@@ -687,6 +766,9 @@
             },
             en: {
                 navP: "Applications", navC: "Specs", navA: "Architecture",
+                navTranslator: "Binary Translator", navWeather: "Weather", navCurrency: "Currency",
+                chipTranslator: "Binary Translator", chipWeather: "Weather", chipCurrency: "Exchange Rates",
+                fH3: "Tools",
                 heroTitle: "Lightweight Systems Software & Web Rendering for Windows x64.",
                 heroDesc: "Development of specialized high-performance software operating with zero telemetry, zero tracking, and zero bloated dependencies. Complete runtime autonomy, minimal executable footprint, and strict resource control.",
                 tProd: "Software Registry",
@@ -729,6 +811,16 @@
         document.getElementById('nav-p').innerText = locale[currentLang].navP;
         document.getElementById('nav-c').innerText = locale[currentLang].navC;
         document.getElementById('nav-a').innerText = locale[currentLang].navA;
+        document.getElementById('nav-translator').innerText = locale[currentLang].navTranslator;
+        document.getElementById('nav-weather').innerText = locale[currentLang].navWeather;
+        document.getElementById('nav-currency').innerText = locale[currentLang].navCurrency;
+        document.getElementById('chip-translator').innerText = locale[currentLang].chipTranslator;
+        document.getElementById('chip-weather').innerText = locale[currentLang].chipWeather;
+        document.getElementById('chip-currency').innerText = locale[currentLang].chipCurrency;
+        document.getElementById('f-h3').innerText = locale[currentLang].fH3;
+        document.getElementById('f-tool-translator').innerText = locale[currentLang].chipTranslator;
+        document.getElementById('f-tool-weather').innerText = locale[currentLang].chipWeather;
+        document.getElementById('f-tool-currency').innerText = locale[currentLang].chipCurrency;
 
         document.getElementById('hero-title').innerText = locale[currentLang].heroTitle;
         document.getElementById('hero-desc').innerText = locale[currentLang].heroDesc;
