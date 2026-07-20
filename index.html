@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltshred Systems — Сверхлегкие решения под Windows x64</title>
+    
+    <!-- SEO и Метатеги -->
+    <meta name="description" content="Voltshred Systems — Проектирование и сборка специализированных утилит и сред веб-рендеринга под Windows x64. Полная автономия, отсутствие телеметрии и минимальный размер файлов.">
+    <meta name="keywords" content="Voltshred, Krvatox, ZR, системное ПО, утилиты windows, без телеметрии, Bare Chromium, C++20, аудит процессов, мониторинг дисков">
+    <meta name="author" content="Vladimir Kredo">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Open Graph (Социальные сети) -->
+    <meta property="og:title" content="Voltshred Systems — Сверхлегкие решения">
+    <meta property="og:description" content="Автономные исполняемые файлы (EXE) без скрытой фоновой активности, трекеров и внешних зависимостей.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://voltshred.github.io">
+
+    <style>
+        /* Системная палитра Google Material Design */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #202124;
+                --bg-card: #292a2d;
+                --bg-surface: #303134;
+                --text-primary: #e8eaed;
+                --text-secondary: #9aa0a6;
+                --google-blue: #8ab4f8;
+                --google-blue-hover: #1a73e8;
+                --border-color: #3c4043;
+                --btn-primary-bg: #8ab4f8;
+                --btn-primary-text: #202124;
+                --tag-bg: #3c4043;
+                --table-header-bg: #303134;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-page: #ffffff;
+                --bg-card: #ffffff;
+                --bg-surface: #f8f9fa;
+                --text-primary: #202124;
+                --text-secondary: #5f6368;
+                --google-blue: #1a73e8;
+                --google-blue-hover: #e8f0fe;
+                --border-color: #dadce0;
+                --btn-primary-bg: #1a73e8;
+                --btn-primary-text: #ffffff;
+                --tag-bg: #f1f3f4;
+                --table-header-bg: #f8f9fa;
+            }
+        }
+
+        :root {
+            --bg-page: #ffffff;
+            --bg-card: #ffffff;
+            --bg-surface: #f8f9fa;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --google-blue: #1a73e8;
+            --google-blue-hover: #e8f0fe;
+            --border-color: #dadce0;
+            --btn-primary-bg: #1a73e8;
+            --btn-primary-text: #ffffff;
+            --tag-bg: #f1f3f4;
+            --table-header-bg: #f8f9fa;
+        }
+
+        /* Анимация плавного появления контента */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Google Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Навигационная панель */
+        header {
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-page);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .brand:hover {
+            opacity: 0.85;
+        }
+
+        .brand span {
+            font-weight: 500;
+            color: var(--google-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--google-blue);
+        }
+
+        /* Главный блок (Hero) */
+        .hero {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 80px 24px 56px 24px;
+            text-align: center;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 52px;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 26px;
+            color: var(--text-secondary);
+        }
+
+        /* Основной контейнер */
+        .main-content {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px 80px 24px;
+            width: 100%;
+        }
+
+        /* Блоки секций */
+        section {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            opacity: 0; /* Для анимации fadeInUp */
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        section:first-of-type {
+            border-top: none;
+            padding-top: 20px;
+        }
+
+        .section-header {
+            margin-bottom: 32px;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* Сетка карточек продуктов */
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px 0 rgba(60,64,67,0.15);
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .card-tag {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 8px;
+            background-color: var(--tag-bg);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 22px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        /* Сетка технических характеристик */
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-item {
+            transition: transform 0.2s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateX(4px);
+        }
+
+        .feature-item h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            line-height: 22px;
+            color: var(--text-secondary);
+        }
+
+        /* Адаптивная таблица */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--table-header-bg);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        td {
+            color: var(--text-secondary);
+            vertical-align: top;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        /* Исправление читаемости при ховере */
+        tr:hover td {
+            background-color: var(--google-blue-hover);
+            color: var(--text-primary);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            tr:hover td.td-bold {
+                color: #ffffff;
+            }
+        }
+        @media (prefers-color-scheme: light) {
+            tr:hover td {
+                color: #1a73e8;
+            }
+            tr:hover td.td-bold {
+                color: #1a73e8;
+            }
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .td-bold {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Кнопки и Ссылки */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 24px;
+            height: 40px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            box-shadow: 0 2px 6px 1px rgba(60,64,67,0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border-color: var(--border-color);
+            color: var(--google-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(26, 115, 232, 0.08);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .btn-secondary:hover {
+                background-color: rgba(138, 180, 248, 0.08);
+            }
+        }
+
+        /* Подвал */
+        footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+            padding: 48px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            background-color: var(--bg-surface);
+        }
+
+        .footer-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 2fr repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .footer-brand {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .footer-email {
+            display: inline-block;
+            margin-top: 8px;
+            color: var(--google-blue);
+            text-decoration: none;
+            font-size: 13px;
+            transition: opacity 0.15s ease;
+        }
+
+        .footer-email:hover {
+            text-decoration: underline;
+            opacity: 0.85;
+        }
+
+        .footer-links h4 {
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--google-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; line-height: 40px; }
+            .grid-products { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; gap: 24px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a class="brand" href="#">Voltshred<span>.</span></a>
+            <div class="nav-links">
+                <a href="#products" id="nav-p">Приложения</a>
+                <a href="#capabilities" id="nav-c">Характеристики</a>
+                <a href="#architecture" id="nav-a">Архитектура</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1 id="hero-title">Разработка системного программного обеспечения.</h1>
+        <p id="hero-desc">Проектирование и сборка специализированных утилит под Windows x64. Программы функционируют автономно, не содержат модулей телеметрии и внешних зависимостей. Приоритет: минимальный размер исполняемых файлов и низкое потребление ресурсов.</p>
+    </section>
+
+    <main class="main-content">
+        
+        <section id="products" style="animation-delay: 0.1s;">
+            <div class="section-header">
+                <h2 id="t-prod">Перечень программ</h2>
+                <p id="d-prod">Автономные исполняемые файлы (EXE). Работают без предварительной установки фреймворков и фоновых служб.</p>
+            </div>
+            
+            <div class="grid-products">
+                <div class="card">
+                    <div>
+                        <div class="card-meta">
+                            <span class="card-tag">Native C++</span>
+                            <span class="card-tag" style="color: #137333; background: rgba(19,115,51,0.08);" id="st-1">Релиз</span>
+                        </div>
+                        <h3>Voltshred Browser</h3>
+                        <p id="bp-1">Окружение для веб-рендеринга. Из исходного кода полностью исключены модули телеметрии и аналитики. Легковесный и честный инструмент, оптимизированный под выполнение целевых задач без скрытой фоновой активности.</p>
+                    </div>
+                    <div class="btn-group">
+                        <a href="browser/voltshred.html" class="btn btn-primary" id="b-dl1">Переход на сайт</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="card-meta">
+                            <span class="card-tag">C# / .NET</span>
+                            <span class="card-tag" style="color: #137333; background: rgba(19,115,51,0.08);" id="st-2">Релиз</span>
+                        </div>
+                        <h3>Krvatox Monitoring</h3>
+                        <p id="bp-2">Утилита для аудита активных процессов. Объем бинарника — 4 МБ. Выполняет непрерывный мониторинг дескрипторов, системных пулов и фрагментации памяти ядра без создания дополнительной нагрузки на CPU.</p>
+                    </div>
+                    <div class="btn-group">
+                        <a href="krvatox/index.html" class="btn btn-primary" id="b-dl2">Переход на сайт</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="card-meta">
+                            <span class="card-tag">Storage IO</span>
+                            <span class="card-tag" style="color: #b06000; background: rgba(176,96,0,0.08);" id="st-3">В разработке</span>
+                        </div>
+                        <h3 id="th-3">ZR</h3>
+                        <p id="bp-3">Приложение в разработке. Будет работать с диском.</p>
+                    </div>
+                    <div class="btn-group">
+                        <a href="#architecture" class="btn btn-secondary" id="b-spec">Спецификация</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="capabilities" style="animation-delay: 0.2s;">
+            <div class="section-header">
+                <h2 id="t-cap">Технические характеристики</h2>
+                <p id="d-cap">Базовые параметры и принципы, заложенные при проектировании архитектуры приложений.</p>
+            </div>
+            
+            <div class="grid-features">
+                <div class="feature-item">
+                    <h3 id="fh-1">Отсутствие телеметрии</h3>
+                    <p id="fb-1">Полная автономность. Программы не собирают аналитику, не отправляют фоновые отчеты об ошибках и не выполняют сетевые запросы к внешним серверам.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="fh-2">Минимальный объем</h3>
+                    <p id="fb-2">Исключено использование Electron, WebView2 и сторонних библиотек общего назначения. Компиляция производится напрямую под целевую архитектуру.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="fh-3">Оптимизация ресурсов</h3>
+                    <p id="fb-3">Контроль аллокаций памяти. Отказ от автоматического сборщика мусора (Garbage Collection) в пользу явного управления. Потоки не занимают такты CPU в режиме ожидания.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="fh-4">Прямое взаимодействие с ОС</h3>
+                    <p id="fb-4">Взаимодействие с подсистемами Windows реализуется через низкоуровневый Win32 API без промежуточных абстракций.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" style="animation-delay: 0.3s;">
+            <div class="section-header">
+                <h2 id="t-arch">Спецификация компонентов</h2>
+                <p id="d-arch">Технические показатели и стек runtime-окружения для каждого программного модуля.</p>
+            </div>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="th-l">Программа / Компонент</th>
+                            <th id="th-t">Стек / Особенности</th>
+                            <th id="th-z">Назначение</th>
+                            <th id="th-m">Размер / Ресурсы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="td-bold" id="l1-name">Voltshred Web Core</td>
+                            <td>C++20, Bare Chromium Engine modification</td>
+                            <td id="l1-zone">Разбор и отрисовка веб-страниц. Прямое управление потоками рендеринга без использования стандартного UI-интерфейса.</td>
+                            <td id="l1-opt">Размер бинарника &lt; 15 МБ. Выделение изолированного процесса ОС на каждую активную вкладку.</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold" id="l2-name">Krvatox Diagnostics</td>
+                            <td>C# / .NET, AOT Native Compilation</td>
+                            <td id="l2-zone">Перехват системных таблиц и пулов ядра через Win32 API. Безопасный аудит дескрипторов процессов.</td>
+                            <td id="l2-opt">Размер ~4.0 МБ. Потребление RAM строго ограничено в пределах 12–15 МБ под пиковой нагрузкой.</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold" id="l3-name">ZR</td>
+                            <td>Low-level Disk Driver API</td>
+                            <td id="l3-zone">Будет работать с диском.</td>
+                            <td id="l3-opt">В разработке.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div>
+                <div class="footer-brand">Voltshred Systems</div>
+                <p style="font-size: 12px; max-width: 400px; line-height: 18px;" id="f-desc">Разработка системного программного обеспечения. Фокус на минимальном размере исполняемых файлов, производительности и приватности данных.</p>
+                <a href="mailto:voltshred@gmail.com" class="footer-email">voltshred@gmail.com</a>
+                <p style="margin-top: 24px; font-size: 11px;">&copy; 2026 Voltshred Systems. Все права защищены.</p>
+            </div>
+            <div class="footer-links">
+                <h4 id="f-h1">Сборки</h4>
+                <ul>
+                    <li><a href="#products">Stable Executables</a></li>
+                    <li><a href="#products">Portable Containers</a></li>
+                    <li><a href="changelog.txt" target="_blank">Changelog.txt</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 id="f-h2">Среда</h4>
+                <ul>
+                    <li><a href="#capabilities">Leak Check: 0 issues</a></li>
+                    <li><a href="https://learn.microsoft.com/en-us/windows/win32/" target="_blank">Target: Windows x64 API</a></li>
+                    <li><a href="#capabilities">Telemetry: Disabled</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const locale = {
+            ru: {
+                navP: "Приложения", navC: "Характеристики", navA: "Архитектура",
+                heroTitle: "Сверхлегкое системное ПО и веб-рендеринг под Windows x64.",
+                heroDesc: "Проектирование высокоэффективного софта и утилит без скрытой телеметрии, трекеров и внешних зависимостей. Полная автономия runtime-окружения, минимальный размер исполняемых файлов и жесткий контроль ресурсов вашего ПК.",
+                tProd: "Перечень программ",
+                dProd: "Автономные исполняемые файлы (EXE). Работают без предварительной установки фреймворков и фоновых служб.",
+                stRelease: "Релиз", stDev: "В разработке",
+                bp1: "Окружение для веб-рендеринга на базе модифицированного ядра Bare Chromium (C++20). Полное отсутствие телеметрии (Zero Telemetry), встроенный умный голосовой поиск (Web Speech API) и продвинутая персонализация интерфейса. Поддерживает три стиля оформления: Dark Theme (индиго), Light и легендарный Frutiger Aero с эффектом стеклянного размытия Aero Glass.",
+                bp2: "Утилита для низкоуровневого аудита активных процессов. Объем автономного бинарника — всего 4 МБ. Выполняет непрерывный мониторинг дескрипторов, системных пулов ядра и фрагментации памяти через Native Win32 API без создания дополнительной нагрузки на CPU.",
+                th3: "ZR",
+                bp3: "Приложение в разработке. Специализированная утилита для низкоуровневого мониторинга, автоматического анализа состояния файловых систем и диагностики накопителей.",
+                bDl1: "Переход на сайт", bDl2: "Переход на сайт", bSpec: "Спецификация",
+                tCap: "Технические характеристики",
+                dCap: "Базовые параметры и принципы, заложенные при проектировании архитектуры приложений для устранения избыточного кода.",
+                fh1: "Абсолютная приватность",
+                fb1: "Режим полной автономии (Zero Telemetry). Из исходного кода полностью вырезаны модули аналитики, трекеры отслеживания и автоматические отчеты. Браузер и утилиты не делают скрытых запросов к серверам.",
+                fh2: "Минимальный объем",
+                fb2: "Размер бинарников сведен к минимуму (браузер < 15 МБ). Полный отказ от тяжеловесных фреймворков вроде Electron или WebView2. Весь код скомпилирован напрямую под архитектуру Windows x64.",
+                fh3: "Оптимизация ресурсов",
+                fb3: "Жесткий контроль аллокаций памяти и отказ от Garbage Collection в пользу явного управления. Когда процессы или вкладки неактивны, их потоки изолируются и не занимают такты CPU.",
+                fh4: "Прямой Win32 API",
+                fb4: "Взаимодействие со всеми ключевыми подсистемами Windows реализуется нативно, минуя тяжелые промежуточные абстракции и сторонние runtime-библиотеки.",
+                tArch: "Спецификация компонентов",
+                dArch: "Технические показатели и стек runtime-окружения для каждого программного продукта.",
+                thL: "Программа / Компонент", thT: "Стек / Особенности", thZ: "Назначение", thM: "Размер / Ресурсы",
+                l1Name: "Voltshred Web Core",
+                l1Zone: "Разбор и отрисовка веб-страниц. Прямое управление потоками рендеринга без стандартного UI Chromium. Поддержка кастомных стилей (Dark, Light, Frutiger Aero) и голосового ввода.",
+                l1Opt: "Размер бинарника < 15 МБ. Выделение изолированного, жестко ограниченного процесса ОС на каждую активную вкладку.",
+                l2Name: "Krvatox Diagnostics",
+                l2Zone: "Перехват системных таблиц и пулов ядра через Win32 API. Потокобезопасный и быстрый аудит дескрипторов процессов.",
+                l2Opt: "Размер ~4.0 МБ. Потребление RAM строго ограничено в пределах 12–15 МБ под пиковой нагрузкой.",
+                l3Name: "ZR",
+                l3Zone: "Низкоуровневый мониторинг, диагностика и контроль параметров подключенных дисковых накопителей.",
+                l3Opt: "В разработке. Техническая спецификация архитектуры верифицируется.",
+                fDesc: "Разработка системного программного обеспечения. Фокус на минимальном размере исполняемых файлов, экстремальной производительности и полной приватности данных.",
+                fH1: "Сборки", fH2: "Среда"
+            },
+            en: {
+                navP: "Applications", navC: "Specs", navA: "Architecture",
+                heroTitle: "Lightweight Systems Software & Web Rendering for Windows x64.",
+                heroDesc: "Development of specialized high-performance software operating with zero telemetry, zero tracking, and zero bloated dependencies. Complete runtime autonomy, minimal executable footprint, and strict resource control.",
+                tProd: "Software Registry",
+                dProd: "Standalone executable files (EXE). No runtime frameworks or background services required.",
+                stRelease: "Stable", stDev: "In Dev",
+                bp1: "Web rendering environment built on a heavily modified Bare Chromium core (C++20) with Zero Telemetry. Features an integrated voice search engine via Web Speech API and advanced visual personalization, supporting Dark Theme (indigo), Light, and the nostalgic Frutiger Aero layout with native Aero Glass blur.",
+                bp2: "Process auditing utility running at a standalone 4 MB. Traces kernel pools, active object handles, and fragmentation in real time via native Win32 API without introducing CPU thread latency.",
+                th3: "ZR",
+                bp3: "Application in development. A specialized independent utility designed for low-level drive diagnostics, physical array health monitoring, and live performance logging.",
+                bDl1: "Visit Website", bDl2: "Visit Website", bSpec: "Specification",
+                tCap: "Technical Specifications",
+                dCap: "Core architecture principles applied to eliminate software bloat and optimize execution stability.",
+                fh1: "Zero Telemetry",
+                fb1: "Complete autonomy. All tracking modules, telemetry pipelines, and background analytical queries have been entirely purged from the codebase. No connection to remote analytics servers.",
+                fh2: "Minimal Footprint",
+                fb2: "Core binary size is heavily optimized (browser < 15 MB). Zero Electron, zero WebView2, and zero generic third-party frameworks. Compiled cleanly into native binaries for target architectures.",
+                fh3: "Resource Discipline",
+                fb3: "Strict allocation budget. Bypasses automatic Garbage Collection pauses in favor of explicit memory management. Idle pipelines and tabs completely suspend threads to draw 0% CPU cycles.",
+                fh4: "Direct Win32 API",
+                fb4: "Interacting directly with Windows kernel sub-routines and internal subsystems, completely bypassing heavy runtime abstraction layers.",
+                tArch: "Component Architecture",
+                dArch: "Technical breakdown of runtime environments, stack characteristics, and memory allocation constraints.",
+                thL: "Application / Core", thT: "Stack / Characteristics", thZ: "Objective", thM: "Footprint / Metrics",
+                l1Name: "Voltshred Web Core",
+                l1Zone: "Low-level core web parsing. Interface layer removed. Direct execution of the rendering pipeline. Native support for localized voice capture and advanced custom layouts (Frutiger Aero).",
+                l1Opt: "Binary size < 15 MB. Allocation of discrete, highly sandboxed OS processes per active web layout.",
+                l2Name: "Krvatox Diagnostics",
+                l2Zone: "Direct interaction with kernel pools and system tables via native Win32 APIs. Thread-safe handle auditing.",
+                l2Opt: "Size ~4.0 MB. RAM utilization strictly bounded within 12–15 MB under peak execution load.",
+                l3Name: "ZR",
+                l3Zone: "Low-level diagnostic routines, drive health checking, and optimization parameters for physical storage units.",
+                l3Opt: "In development. Core target technical parameters are undergoing verification procedures.",
+                fDesc: "Systems software engineering. Focus on minimal file size, execution speed, and absolute data privacy.",
+                fH1: "Binaries", fH2: "Environment"
+            }
+        };
+
+        const currentLang = (navigator.language || navigator.userLanguage).startsWith('ru') ? 'ru' : 'en';
+
+        document.getElementById('nav-p').innerText = locale[currentLang].navP;
+        document.getElementById('nav-c').innerText = locale[currentLang].navC;
+        document.getElementById('nav-a').innerText = locale[currentLang].navA;
+
+        document.getElementById('hero-title').innerText = locale[currentLang].heroTitle;
+        document.getElementById('hero-desc').innerText = locale[currentLang].heroDesc;
+        document.getElementById('t-prod').innerText = locale[currentLang].tProd;
+        document.getElementById('d-prod').innerText = locale[currentLang].dProd;
+        document.getElementById('bp-1').innerText = locale[currentLang].bp1;
+        document.getElementById('bp-2').innerText = locale[currentLang].bp2;
+        document.getElementById('th-3').innerText = locale[currentLang].th3;
+        document.getElementById('bp-3').innerText = locale[currentLang].bp3;
+        
+        document.getElementById('st-1').innerText = locale[currentLang].stRelease;
+        document.getElementById('st-2').innerText = locale[currentLang].stRelease;
+        document.getElementById('st-3').innerText = locale[currentLang].stDev;
+        
+        document.getElementById('b-dl1').innerText = locale[currentLang].bDl1;
+        document.getElementById('b-dl2').innerText = locale[currentLang].bDl2;
+        document.getElementById('b-spec').innerText = locale[currentLang].bSpec;
+
+        document.getElementById('t-cap').innerText = locale[currentLang].tCap;
+        document.getElementById('d-cap').innerText = locale[currentLang].dCap;
+        document.getElementById('fh-1').innerText = locale[currentLang].fh1;
+        document.getElementById('fb-1').innerText = locale[currentLang].fb1;
+        document.getElementById('fh-2').innerText = locale[currentLang].fh2;
+        document.getElementById('fb-2').innerText = locale[currentLang].fb2;
+        document.getElementById('fh-3').innerText = locale[currentLang].fh3;
+        document.getElementById('fb-3').innerText = locale[currentLang].fb3;
+        document.getElementById('fh-4').innerText = locale[currentLang].fh4;
+        document.getElementById('fb-4').innerText = locale[currentLang].fb4;
+
+        document.getElementById('t-arch').innerText = locale[currentLang].tArch;
+        document.getElementById('d-arch').innerText = locale[currentLang].dArch;
+        document.getElementById('th-l').innerText = locale[currentLang].thL;
+        document.getElementById('th-t').innerText = locale[currentLang].thT;
+        document.getElementById('th-z').innerText = locale[currentLang].thZ;
+        document.getElementById('th-m').innerText = locale[currentLang].thM;
+
+        document.getElementById('l1-name').innerText = locale[currentLang].l1Name;
+        document.getElementById('l1-zone').innerText = locale[currentLang].l1Zone;
+        document.getElementById('l1-opt').innerText = locale[currentLang].l1Opt;
+        document.getElementById('l2-name').innerText = locale[currentLang].l2Name;
+        document.getElementById('l2-zone').innerText = locale[currentLang].l2Zone;
+        document.getElementById('l2-opt').innerText = locale[currentLang].l2Opt;
+        document.getElementById('l3-name').innerText = locale[currentLang].l3Name;
+        document.getElementById('l3-zone').innerText = locale[currentLang].l3Zone;
+        document.getElementById('l3-opt').innerText = locale[currentLang].l3Opt;
+
+        document.getElementById('f-desc').innerText = locale[currentLang].fDesc;
+        document.getElementById('f-h1').innerText = locale[currentLang].fH1;
+        document.getElementById('f-h2').innerText = locale[currentLang].fH2;
+    </script>
+</body>
+</html>
