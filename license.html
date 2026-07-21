@@ -8,7 +8,10 @@
     <meta name="description" content="Условия использования и лицензия Voltshred Systems: программное обеспечение Voltshred Browser, Krvatox, ZR и веб-инструменты (переводчик, погода, курс валют).">
     <meta name="keywords" content="Voltshred, лицензия, условия использования, license, Krvatox, ZR, Voltshred Browser">
     <meta name="author" content="Vladimir Kredo">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Фавикон в формате .ico (Base64 встроенный + fallback на внешний файл) -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="canonical" href="https://voltshred-dev.github.io/license.html">
 
     <meta property="og:title" content="Лицензия — Voltshred Systems">
@@ -18,34 +21,7 @@
     <meta name="theme-color" content="#1a73e8">
 
     <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-page: #202124;
-                --bg-card: #292a2d;
-                --bg-surface: #303134;
-                --text-primary: #e8eaed;
-                --text-secondary: #9aa0a6;
-                --google-blue: #8ab4f8;
-                --google-blue-hover: #1a73e8;
-                --border-color: #3c4043;
-                --tag-bg: #3c4043;
-            }
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-page: #ffffff;
-                --bg-card: #ffffff;
-                --bg-surface: #f8f9fa;
-                --text-primary: #202124;
-                --text-secondary: #5f6368;
-                --google-blue: #1a73e8;
-                --google-blue-hover: #e8f0fe;
-                --border-color: #dadce0;
-                --tag-bg: #f1f3f4;
-            }
-        }
-
+        /* Светлая тема по умолчанию */
         :root {
             --bg-page: #ffffff;
             --bg-card: #ffffff;
@@ -105,6 +81,15 @@
             color: var(--text-primary);
             letter-spacing: -0.5px;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--google-blue);
         }
 
         .brand span { font-weight: 500; color: var(--google-blue); }
@@ -261,7 +246,12 @@
 
     <header>
         <div class="nav-container">
-            <a class="brand" href="https://voltshred-dev.github.io/index.html">Voltshred<span>.</span></a>
+            <a class="brand" href="https://voltshred-dev.github.io/index.html">
+                <svg class="brand-icon" viewBox="0 0 24 24">
+                    <path d="M13 2L3 14h7v8l11-12h-8V2z"/>
+                </svg>
+                Voltshred<span>.</span>
+            </a>
             <a class="back-link" href="https://voltshred-dev.github.io/index.html" id="back-link">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
@@ -332,7 +322,7 @@
 
             <article style="animation-delay: 0.4s;">
                 <h2 id="h-contact">8. Контакты</h2>
-                <p id="p-contact">По вопросам лицензирования и использования: <a href="mailto:voltshred@gmail.com" id="contact-email">voltshred@gmail.com</a></p>
+                <p id="p-contact"><span id="contact-text">По вопросам лицензирования и использования: </span><a href="mailto:voltshred@gmail.com" id="contact-email">voltshred@gmail.com</a></p>
             </article>
 
         </div>
@@ -345,6 +335,7 @@
     <script>
         const dict = {
             ru: {
+                docTitle: "Лицензия — Voltshred Systems",
                 backText: "На главную",
                 heroTitle: "Лицензия и условия использования",
                 heroDesc: "Единый документ, распространяющийся на все программы и веб-инструменты Voltshred Systems.",
@@ -375,6 +366,7 @@
                 footerText: "© 2026 Voltshred Systems. Все права защищены."
             },
             en: {
+                docTitle: "License — Voltshred Systems",
                 backText: "Back home",
                 heroTitle: "License & Terms of Use",
                 heroDesc: "A single document covering all software and web tools published under Voltshred Systems.",
@@ -411,6 +403,7 @@
         document.documentElement.lang = lang;
         const t = dict[lang];
 
+        document.title = t.docTitle;
         document.getElementById('back-text').textContent = t.backText;
         document.getElementById('hero-title').textContent = t.heroTitle;
         document.getElementById('hero-desc').textContent = t.heroDesc;
@@ -449,7 +442,7 @@
         document.getElementById('p-changes').textContent = t.pChanges;
 
         document.getElementById('h-contact').textContent = t.hContact;
-        document.getElementById('p-contact').childNodes[0].textContent = t.pContact;
+        document.getElementById('contact-text').textContent = t.pContact;
 
         document.getElementById('footer-text').textContent = t.footerText;
     </script>

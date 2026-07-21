@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltshred Exchange — Актуальные курсы валют и онлайн-конвертер</title>
+
+    <!-- SEO и Базовые Метатеги -->
+    <meta name="description" content="Voltshred Exchange — мгновенный онлайн-конвертер и актуальные курсы валют (USD, EUR, RUB, KZT и др.) с учетом банковских спредов покупки и продажи. Работает автономно в браузере.">
+    <meta name="keywords" content="Voltshred, Exchange, курсы валют, конвертер валют, курс доллара, курс евро, покупка продажа валюты, обменный курс, валютный калькулятор">
+    <meta name="author" content="Voltshred Dev">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://voltshred.github.io/ts/exchange">
+
+    <!-- Open Graph (VK, Telegram, WhatsApp, Facebook) -->
+    <meta property="og:title" content="Voltshred Exchange — Актуальные курсы валют и онлайн-конвертер">
+    <meta property="og:description" content="Отслеживание курсов валют в реальном времени, банковские спреды покупки/продажи и удобный конвертер.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://voltshred.github.io/ts/exchange">
+    <meta property="og:site_name" content="Voltshred Exchange">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image" content="https://voltshred.github.io/ts/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Voltshred Exchange">
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Voltshred Exchange — Актуальные курсы валют и онлайн-конвертер">
+    <meta name="twitter:description" content="Отслеживание курсов валют в реальном времени, банковские спреды покупки/продажи и удобный конвертер.">
+    <meta name="twitter:image" content="https://voltshred.github.io/ts/og-image.png">
+
+    <!-- Иконки и PWA -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+    <!-- Оформление темы и мобильные браузеры -->
+    <meta name="theme-color" content="#4facfe" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f2027" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Voltshred Exchange">
+
+    <!-- Структурированные данные (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Voltshred Exchange",
+      "url": "https://voltshred.github.io/ts/exchange",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "Real-time currency exchange rates and online currency converter."
+    }
+    </script>
+
+    <style>
+        :root {
+            /* Новая Светлая тема (мягкие светло-голубые небесные переливы) */
+            --bg-gradient: linear-gradient(135deg, #f0f9ff, #e0f2fe, #bae6fd, #7dd3fc);
+            --text-color: #2c3e50;
+            --text-muted: rgba(44, 62, 80, 0.6);
+            --panel-bg: rgba(255, 255, 255, 0.55);
+            --panel-border: rgba(255, 255, 255, 0.8);
+            --panel-shadow: 0 10px 35px 0 rgba(31, 38, 135, 0.06);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --input-text: #2c3e50;
+            --btn-bg: #4facfe;
+            --btn-text: #ffffff;
+            --forecast-card-bg: rgba(255, 255, 255, 0.5);
+            --glass-blur: 15px;
+        }
+
+        body.theme-dark {
+            /* Темная тема (глубокий космос / ночное небо) */
+            --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #141e30);
+            --text-color: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --panel-bg: rgba(0, 0, 0, 0.25);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --panel-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.3);
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --input-text: #ffffff;
+            --btn-bg: #4facfe;
+            --btn-text: #ffffff;
+            --forecast-card-bg: rgba(0, 0, 0, 0.3);
+        }
+
+        body.theme-frutiger-aero {
+            /* Frutiger Aero (насыщенное небо, вода и зелень) */
+            --bg-gradient: linear-gradient(135deg, #00a2ff, #73c8a9, #a2d9ff, #2f80ed);
+            --text-color: #0d2b45;
+            --text-muted: rgba(13, 43, 69, 0.7);
+            --panel-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.5) 100%);
+            --panel-border: rgba(255, 255, 255, 1);
+            --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), inset 0 2px 6px rgba(255, 255, 255, 0.9);
+            --input-bg: rgba(255, 255, 255, 0.95);
+            --input-text: #0d2b45;
+            --btn-bg: linear-gradient(180deg, #99d25c, #5ba315);
+            --btn-text: #ffffff;
+            --forecast-card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
+            --glass-blur: 10px;
+        }
+
+        @keyframes shimmerBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: var(--text-muted) transparent;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-color); }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: shimmerBackground 15s ease infinite;
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: color 0.5s ease, background 0.5s ease;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px 40px; }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--panel-border);
+            border-radius: 30px;
+            box-shadow: var(--panel-shadow);
+            transition: all 0.5s ease;
+        }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 0; margin-bottom: 30px; flex-wrap: wrap; gap: 20px;
+        }
+
+        .logo { font-size: 28px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        
+        .search-container { display: flex; gap: 12px; align-items: center; }
+        .search-container input, .search-container select {
+            padding: 14px 24px; border-radius: 50px; border: none; outline: none;
+            background: var(--input-bg); color: var(--input-text); font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            transition: background 0.3s, color 0.3s, width 0.3s, box-shadow 0.3s;
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+        }
+        
+        .search-container select { 
+            cursor: pointer; font-weight: bold; padding-right: 35px;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat; background-position: right 16px center; background-size: 14px;
+        }
+        body.theme-dark .search-container select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        }
+        
+        .search-container input { width: 240px; }
+        .search-container input::placeholder { color: var(--text-muted); }
+        .search-container input:focus { width: 300px; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3); }
+        
+        .search-container button {
+            padding: 14px 28px; border-radius: 50px; border: none;
+            background: var(--btn-bg); color: var(--btn-text); font-weight: bold;
+            cursor: pointer; transition: opacity 0.3s, transform 0.1s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .search-container button:hover { opacity: 0.9; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .search-container button:active { transform: scale(0.96); }
+
+        .btn-icon {
+            width: 48px; height: 48px; border-radius: 50% !important; padding: 0 !important;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+
+        .disclaimer-panel {
+            padding: 15px 25px; margin-bottom: 25px; font-size: 14px;
+            display: flex; align-items: center; gap: 10px; font-weight: 500;
+        }
+        .disclaimer-icon { font-size: 18px; }
+
+        .main-content { display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
+
+        .current-weather {
+            flex: 1; min-width: 320px; padding: 40px; text-align: center;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .city-name { font-size: 42px; margin-bottom: 5px; min-height: 50px; }
+        .date-time { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+        .temperature { font-size: 80px; font-weight: bold; line-height: 1; margin: 10px 0; }
+        .feels-like { font-size: 18px; color: var(--text-muted); margin-bottom: 20px; }
+        .weather-desc { font-size: 20px; text-transform: capitalize; min-height: 30px; font-weight: 500; }
+
+        .weather-details {
+            flex: 2; min-width: 320px; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;
+        }
+
+        .detail-card { padding: 20px; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; }
+        .detail-title {
+            font-size: 14px; color: var(--text-muted);
+            margin-bottom: 8px; font-weight: bold; display: flex; align-items: center; gap: 6px;
+        }
+        .detail-value-group { display: flex; justify-content: space-between; margin-top: 5px; gap: 10px; }
+        .buy-side { color: #2ecc71; font-weight: bold; font-size: 18px; }
+        .sell-side { color: #e74c3c; font-weight: bold; font-size: 18px; }
+        .side-label { font-size: 11px; color: var(--text-muted); display: block; font-weight: normal; }
+
+        .forecast-sections-container { display: flex; flex-direction: column; gap: 30px; }
+        .forecast-section { padding: 35px; }
+        .section-title { margin-bottom: 22px; font-size: 20px; font-weight: bold; }
+        
+        .forecast-grid {
+            display: flex; justify-content: flex-start; gap: 15px;
+            overflow-x: auto; padding-bottom: 12px; scroll-behavior: smooth;
+        }
+        
+        .forecast-grid::-webkit-scrollbar { height: 6px; }
+        .forecast-grid::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
+
+        .forecast-card {
+            background: var(--forecast-card-bg); padding: 18px 22px;
+            border-radius: 22px; text-align: center; min-width: 150px;
+            border: 1px solid var(--panel-border); transition: background 0.5s ease;
+        }
+        
+        .forecast-card .time { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: var(--text-muted); }
+        .forecast-card .icon { font-size: 28px; margin: 5px 0; }
+        
+        .converter-wrapper { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        .converter-wrapper input, .converter-wrapper select { width: 160px; }
+
+        .trade-type-switcher {
+            display: flex; background: rgba(0,0,0,0.05); padding: 4px; border-radius: 50px; gap: 4px;
+        }
+        body.theme-dark .trade-type-switcher { background: rgba(255,255,255,0.08); }
+        .trade-btn {
+            padding: 10px 20px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer;
+            background: transparent; color: var(--text-color); font-size: 14px; transition: all 0.2s;
+        }
+        .trade-btn.active.buy-type { background: #2ecc71; color: white; }
+        .trade-btn.active.sell-type { background: #e74c3c; color: white; }
+
+        @media (max-width: 768px) {
+            .search-container { flex-direction: column; width: 100%; align-items: stretch;}
+            .search-container input, .search-container select, .search-container button { width: 100%; }
+            .container { padding: 15px; }
+            .temperature { font-size: 60px; }
+            .weather-details { grid-template-columns: repeat(2, 1fr); }
+            .converter-wrapper input, .converter-wrapper select { width: 100%; }
+            .btn-icon { width: 100%; border-radius: 50px !important; }
+            header { justify-content: center; text-align: center; }
+            .trade-type-switcher { width: 100%; justify-content: center; }
+            .trade-btn { flex: 1; text-align: center; }
+        }
+    </style>
+</head>
+<body class="">
+    <script>
+    (function(){
+        try{
+            var t = new URLSearchParams(location.search).get('theme');
+            if(t === 'dark') document.body.classList.add('theme-dark');
+            else if(t === 'frutiger-aero') document.body.classList.add('theme-frutiger-aero');
+        }catch(e){}
+    })();
+    </script>
+    <div class="container">
+        <header>
+            <div class="logo">💹 Voltshred Exchange</div>
+            
+            <div class="search-container">
+                <select id="baseSelect">
+                    <option value="USD">🇺🇸 USD</option>
+                    <option value="EUR">🇪🇺 EUR</option>
+                    <option value="RUB">🇷🇺 RUB</option>
+                    <option value="KZT">🇰🇿 KZT</option>
+                    <option value="GBP">🇬🇧 GBP</option>
+                    <option value="CNY">🇨🇳 CNY</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Код валюты (напр. TRY)">
+                <button id="searchBtn">Загрузить</button>
+            </div>
+        </header>
+
+        <div class="glass-panel disclaimer-panel">
+            <span class="disclaimer-icon">ℹ️</span>
+            <span>Внимание: Данные основаны на рыночных котировках. Курсы в коммерческих банках, обменных пунктах и на разных торговых площадках могут отличаться.</span>
+        </div>
+
+        <div id="ui-debug" style="font-size:12px; opacity:0.65; margin-top:-10px; margin-bottom:20px; min-height:16px;"></div>
+
+        <main>
+            <div class="main-content">
+                <div class="glass-panel current-weather">
+                    <h1 class="city-name" id="ui-base-code">--</h1>
+                    <div class="date-time" id="ui-date">--</div>
+                    <div class="temperature" id="ui-main-val">1.00</div>
+                    <div class="feels-like">Базовая валюта</div>
+                    <div class="weather-desc" id="ui-desc">Ожидание данных...</div>
+                </div>
+
+                <div class="weather-details" id="ui-top-rates">
+                    <!-- Заполняется через JS -->
+                </div>
+            </div>
+
+            <div class="forecast-sections-container">
+                <section class="glass-panel forecast-section">
+                    <h2 class="section-title">💱 Быстрый конвертер</h2>
+                    <div class="converter-wrapper search-container">
+                        
+                        <div class="trade-type-switcher">
+                            <button id="buyTypeBtn" class="trade-btn active buy-type">Купить</button>
+                            <button id="sellTypeBtn" class="trade-btn sell-type">Продать</button>
+                        </div>
+
+                        <input type="number" id="conv-amount" placeholder="Сумма" min="0">
+                        <span style="font-size: 24px; font-weight: bold;" id="conv-base-label">USD</span>
+                        
+                        <button id="swapBtn" class="btn-icon" title="Поменять местами">⇄</button>
+                        
+                        <span style="font-size: 32px; font-weight: bold; color: var(--btn-bg);" id="conv-result">0.00</span>
+                        <select id="conv-target">
+                            <!-- Заполняется через JS -->
+                        </select>
+                    </div>
+                </section>
+
+                <section class="glass-panel forecast-section">
+                    <h2 class="section-title">🌍 Остальные курсы (Покупка / Продажа)</h2>
+                    <div class="forecast-grid" id="ui-all-container">
+                        <!-- Заполняется через JS -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const ui = {
+            baseSelect: document.getElementById('baseSelect'),
+            input: document.getElementById('searchInput'),
+            btn: document.getElementById('searchBtn'),
+            baseCode: document.getElementById('ui-base-code'),
+            date: document.getElementById('ui-date'),
+            mainVal: document.getElementById('ui-main-val'),
+            desc: document.getElementById('ui-desc'),
+            topRates: document.getElementById('ui-top-rates'),
+            allContainer: document.getElementById('ui-all-container'),
+            debug: document.getElementById('ui-debug'),
+            
+            convAmount: document.getElementById('conv-amount'),
+            convBaseLabel: document.getElementById('conv-base-label'),
+            convResult: document.getElementById('conv-result'),
+            convTarget: document.getElementById('conv-target'),
+            swapBtn: document.getElementById('swapBtn'),
+            buyTypeBtn: document.getElementById('buyTypeBtn'),
+            sellTypeBtn: document.getElementById('sellTypeBtn')
+        };
+
+        const dateOptions = { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        
+        const CURRENCY_INFO = {
+            USD: { name: 'Доллар США', icon: '🇺🇸' },
+            EUR: { name: 'Евро', icon: '🇪🇺' },
+            RUB: { name: 'Российский рубль', icon: '🇷🇺' },
+            KZT: { name: 'Казахстанский тенге', icon: '🇰🇿' },
+            GBP: { name: 'Британский фунт', icon: '🇬🇧' },
+            CNY: { name: 'Китайский юань', icon: '🇨🇳' },
+            JPY: { name: 'Японская иена', icon: '🇯🇵' },
+            TRY: { name: 'Турецкая лира', icon: '🇹🇷' },
+            CHF: { name: 'Швейцарский франк', icon: '🇨🇭' },
+            AED: { name: 'Дирхам ОАЭ', icon: '🇦🇪' },
+            BYN: { name: 'Белорусский рубль', icon: '🇧🇾' },
+            KGS: { name: 'Кыргызский сом', icon: '🇰🇬' }
+        };
+
+        const TOP_CURRENCIES = ['USD', 'EUR', 'RUB', 'KZT', 'GBP', 'CNY', 'TRY', 'AED'];
+        let currentRates = {};
+        let currentBase = 'USD';
+        let currentTradeType = 'buy';
+
+        const BANK_SPREAD = 0.015;
+
+        function getCurrencyInfo(code) {
+            return CURRENCY_INFO[code] || { name: 'Валюта', icon: '💵' };
+        }
+
+        async function fetchRates(base) {
+            const url = `https://open.er-api.com/v6/latest/${base}`;
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Ошибка сети');
+            const data = await res.json();
+            if (data.result !== 'success') throw new Error('Не удалось получить данные');
+            return data;
+        }
+
+        function renderRates(data) {
+            currentRates = data.rates;
+            currentBase = data.base_code;
+            
+            const lastUpdate = new Date(data.time_last_update_utc);
+            ui.date.innerText = 'Обновлено: ' + lastUpdate.toLocaleDateString('ru-RU', dateOptions);
+            
+            const baseInfo = getCurrencyInfo(currentBase);
+            ui.baseCode.innerText = `${baseInfo.icon} ${currentBase}`;
+            ui.desc.innerText = baseInfo.name;
+            ui.convBaseLabel.innerText = currentBase;
+
+            if (Array.from(ui.baseSelect.options).some(opt => opt.value === currentBase)) {
+                ui.baseSelect.value = currentBase;
+            }
+
+            ui.topRates.innerHTML = '';
+            let topDisplay = TOP_CURRENCIES.filter(c => c !== currentBase);
+            const backups = ['CHF', 'JPY', 'CAD', 'AUD', 'GEL'];
+            while (topDisplay.length < 8 && backups.length > 0) {
+                const b = backups.shift();
+                if (b !== currentBase && !topDisplay.includes(b)) topDisplay.push(b);
+            }
+            topDisplay = topDisplay.slice(0, 8);
+
+            topDisplay.forEach(code => {
+                const info = getCurrencyInfo(code);
+                const rate = currentRates[code];
+                
+                const buyRate = rate ? (rate * (1 - BANK_SPREAD)) : 0;
+                const sellRate = rate ? (rate * (1 + BANK_SPREAD)) : 0;
+
+                const card = document.createElement('div');
+                card.className = 'glass-panel detail-card';
+                card.innerHTML = `
+                    <span class="detail-title">${info.icon} ${code}</span>
+                    <div class="detail-value-group">
+                        <div>
+                            <span class="side-label">ПОКУПКА</span>
+                            <span class="buy-side">${buyRate.toFixed(2)}</span>
+                        </div>
+                        <div>
+                            <span class="side-label">ПРОДАЖА</span>
+                            <span class="sell-side">${sellRate.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+                ui.topRates.appendChild(card);
+            });
+
+            const savedTarget = localStorage.getItem('exchangeTarget') || (currentBase === 'USD' ? 'EUR' : 'USD');
+            
+            ui.allContainer.innerHTML = '';
+            ui.convTarget.innerHTML = '';
+            
+            Object.keys(currentRates).forEach(code => {
+                if (code !== currentBase) {
+                    const option = document.createElement('option');
+                    option.value = code;
+                    option.text = `${code} - ${getCurrencyInfo(code).name}`;
+                    if (code === savedTarget) option.selected = true;
+                    ui.convTarget.appendChild(option);
+
+                    if (!topDisplay.includes(code)) {
+                        const info = getCurrencyInfo(code);
+                        const rate = currentRates[code];
+                        const buyRate = rate * (1 - BANK_SPREAD);
+                        const sellRate = rate * (1 + BANK_SPREAD);
+
+                        const card = document.createElement('div');
+                        card.className = 'forecast-card';
+                        card.innerHTML = `
+                            <div class="time">${code}</div>
+                            <div class="icon">${info.icon}</div>
+                            <div style="font-size: 13px; text-align: left; margin-bottom: 2px;">
+                                <span style="color:var(--text-muted)">Пок:</span> <span class="buy-side" style="font-size:14px">${buyRate.toFixed(2)}</span>
+                            </div>
+                            <div style="font-size: 13px; text-align: left;">
+                                <span style="color:var(--text-muted)">Прод:</span> <span class="sell-side" style="font-size:14px">${sellRate.toFixed(2)}</span>
+                            </div>
+                        `;
+                        ui.allContainer.appendChild(card);
+                    }
+                }
+            });
+
+            updateConverter();
+        }
+
+        function updateConverter() {
+            const amount = parseFloat(ui.convAmount.value) || 0;
+            const targetCode = ui.convTarget.value;
+            let rate = currentRates[targetCode];
+            
+            if (rate) {
+                if (currentTradeType === 'buy') {
+                    rate = rate * (1 - BANK_SPREAD);
+                } else {
+                    rate = rate * (1 + BANK_SPREAD);
+                }
+                
+                ui.convResult.innerText = (amount * rate).toFixed(2);
+                localStorage.setItem('exchangeAmount', ui.convAmount.value);
+                localStorage.setItem('exchangeTarget', targetCode);
+            }
+        }
+
+        async function loadCurrencyData(baseCode) {
+            try {
+                ui.desc.innerText = 'Загрузка курсов...';
+                const data = await fetchRates(baseCode.toUpperCase());
+                renderRates(data);
+                ui.input.value = '';
+                ui.debug.innerText = '';
+                localStorage.setItem('exchangeBase', baseCode.toUpperCase());
+            } catch (error) {
+                console.error('Ошибка:', error);
+                ui.desc.innerText = 'Ошибка: валюта не найдена';
+                ui.debug.innerText = 'Убедитесь, что введен корректный 3-буквенный код (например, TRY, CAD, JPY)';
+            }
+        }
+
+        ui.buyTypeBtn.addEventListener('click', () => {
+            ui.sellTypeBtn.classList.remove('active');
+            ui.buyTypeBtn.classList.add('active');
+            currentTradeType = 'buy';
+            updateConverter();
+        });
+
+        ui.sellTypeBtn.addEventListener('click', () => {
+            ui.buyTypeBtn.classList.remove('active');
+            ui.sellTypeBtn.classList.add('active');
+            currentTradeType = 'sell';
+            updateConverter();
+        });
+
+        ui.baseSelect.addEventListener('change', () => { loadCurrencyData(ui.baseSelect.value); });
+        ui.btn.addEventListener('click', () => { 
+            const val = ui.input.value.trim();
+            if(val) loadCurrencyData(val); 
+        });
+        ui.input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const val = ui.input.value.trim();
+                if(val) loadCurrencyData(val);
+            }
+        });
+
+        ui.convAmount.addEventListener('input', updateConverter);
+        ui.convTarget.addEventListener('change', updateConverter);
+
+        ui.swapBtn.addEventListener('click', () => {
+            const currentTarget = ui.convTarget.value;
+            if (currentTarget) {
+                localStorage.setItem('exchangeTarget', currentBase);
+                loadCurrencyData(currentTarget);
+            }
+        });
+
+        const savedBase = localStorage.getItem('exchangeBase') || 'USD';
+        const savedAmount = localStorage.getItem('exchangeAmount') || '100';
+        ui.convAmount.value = savedAmount;
+        
+        loadCurrencyData(savedBase);
+    </script>
+</body>
+</html>
